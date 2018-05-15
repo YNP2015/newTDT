@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>在线地图</title>
+    <link href="../public/images/favicon.ico" type=image/x-icon rel="Shortcut Icon">
+    <link rel="stylesheet" href="style/map.css">
+</head>
+
+<body onLoad="init()">
+    <!-- 地图 -->
+    <div id="map"></div>
+    <!-- 右下角地图组件 -->
+    <div class="mapBtn">
+        <div class="mapIcon" id="mapPos">
+            <i class="fa fa-dot-circle-o"></i>
+            <div class="tip">定位</div>
+        </div>
+        <div class="mapIcon" id="mapNum">*</div>
+        <div class="mapIcon" id="getOut" onclick="zoomOut()">
+            <i class="fa fa-minus"></i>
+        </div>
+        <div class="mapIcon" id="getIn" onclick="zoomIn()">
+            <i class="fa fa-plus"></i>
+        </div>
+    </div>
+    <!-- 地图类型选择 -->
+    <div class="mapStyle">
+        <div class="mapItem imgMap" onclick="showImg()">
+            <span>影像</span>
+        </div>
+        <div class="mapItem vecMap" onclick="showVec()">
+            <span>矢量</span>
+        </div>
+        <div class="mapItem steetMap">
+            <span>街景</span>
+        </div>
+    </div>
+    <!-- 底部资字 -->
+    <div class="bottomNum">
+        <img src="../public/images/logoed.png" alt=""> 测绘资质号:甲测资字4300185&nbsp;&nbsp;审图号:湘S（2017）136号
+    </div>
+    <!-- 搜索块 -->
+    <div class="searchPane">
+        <div class="searchLeft">
+            <i class="fa fa-bars"></i>
+            <div class="tip">菜单</div>
+        </div>
+        <div class="searchMain">
+            <input type="text" class="poiSearch" placeholder="搜索 天地图湖南">
+            <button id="s-poi">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+        <div class="searchRight">
+            <i class="fa fa-level-up"></i>
+            <div class="tip">路线</div>
+        </div>
+    </div>
+    <!-- 搜索块下方菜单块 -->
+    <div class="menuPane">
+        <ul>
+            <li>
+                <span>
+                    <img src="images/icon1.png" alt="餐饮美食">
+                </span>
+                <p>餐饮美食</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon2.png" alt="宾馆酒店">
+                </span>
+                <p>宾馆酒店</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon3.png" alt="购物">
+                </span>
+                <p>购物</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon4.png" alt="政府机构">
+                </span>
+                <p>政府机构</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon5.png" alt="文化教育">
+                </span>
+                <p>文化教育</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon6.png" alt="医疗服务">
+                </span>
+                <p>医疗服务</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon7.png" alt="景点">
+                </span>
+                <p>景点</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon8.png" alt="生活服务">
+                </span>
+                <p>生活服务</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon9.png" alt="交通设施">
+                </span>
+                <p>交通设施</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon10.png" alt="金融">
+                </span>
+                <p>金融</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon11.png" alt="地名">
+                </span>
+                <p>地名</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon12.png" alt="公司企业">
+                </span>
+                <p>公司企业</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon13.png" alt="运动休闲">
+                </span>
+                <p>运动休闲</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon14.png" alt="地产小区">
+                </span>
+                <p>地产小区</p>
+            </li>
+            <li>
+                <span>
+                    <img src="images/icon15.png" alt="汽车服务">
+                </span>
+                <p>汽车服务</p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 结果面板 -->
+    <div class="resultPane">
+        <div class="topTitle">
+            结果面板
+            <i class="close fa fa-trash-o" onclick="clearElements()"></i>
+        </div>
+        <div class="resultCont">
+        </div>
+        <div id="Pagination" class="pagination">
+            <!-- 这里显示分页 -->
+        </div>
+    </div>
+
+    <!-- 地图范围 -->
+    <div class="mapPot">
+        <span>湖南省</span>
+        <i class="fa fa-angle-down"></i>
+        <div class="tip">选择城市</div>
+    </div>
+    <!-- 地图范围详细内容 选择市区 -->
+    <div class="citySel">
+        <ul class="downtown">
+            <!-- 该方法写在  main.js 中 以下城市顺序不要改变-->
+            <li onclick="zoomToProvincesCities(112.877818, 28.016027, 113.077818, 28.216027,'长沙市')">长沙市</li>
+            <li onclick="zoomToProvincesCities(112.5834, 27.6203, 113.737, 28.0844,'株洲市')">株洲市</li>
+            <li onclick="zoomToProvincesCities(112.3229, 27.6604, 113.4764, 28.1246,'湘潭市')">湘潭市</li>
+            <li onclick="zoomToProvincesCities(111.4766, 26.4656, 113.7837, 27.3939,'衡阳市')">衡阳市</li>
+            <li onclick="zoomToProvincesCities(110.2432, 26.8416, 112.5503, 27.7699,'邵阳市')">邵阳市</li>
+            <li onclick="zoomToProvincesCities(112.5817, 29.1734, 113.7353, 29.6376,'岳阳市')">岳阳市</li>
+            <li onclick="zoomToProvincesCities(110.5908, 28.6051, 112.8979, 29.5334,'常德市')">常德市</li>
+            <li onclick="zoomToProvincesCities(109.413, 28.6875, 111.7202, 29.6159,'张家界市')">张家界市</li>
+            <li onclick="zoomToProvincesCities(111.2554, 28.1958, 113.5625, 29.1241,'益阳市')">益阳市</li>
+            <li onclick="zoomToProvincesCities(111.8281, 25.3805, 114.1352, 26.3088,'郴州市')">郴州市</li>
+            <li onclick="zoomToProvincesCities(110.4266, 26.0336, 112.7337, 26.962,'永州市')">永州市</li>
+            <li onclick="zoomToProvincesCities(108.8101, 27.1385, 111.1172, 28.0669,'怀化市')">怀化市</li>
+            <li onclick="zoomToProvincesCities(110.8694, 27.324, 113.1765, 28.2523,'娄底市')">娄底市</li>
+            <li onclick="zoomToProvincesCities(108.7566, 27.7801, 111.0637, 28.7084,'湘西州')">湘西州</li>
+        </ul>
+        <!-- 县 -->
+        <ul class="county">
+
+        </ul>
+    </div>
+
+
+
+    <!-- 工具条 -->
+    <div class="toolsBar">
+        <div class="tools">
+            <i class="fa fa-plane"></i>
+            <div class="tip">空地一体</div>
+        </div>
+        <div class="tools">
+            <i class="fa fa-dot-circle-o"></i>
+            <div class="tip">商圈查看</div>
+        </div>
+        <div class="tools">
+            <i class="fa fa-eye"></i>
+            <div class="tip">视野内搜索</div>
+        </div>
+        <div class="tools">
+            <i class="fa fa-power-off"></i>
+            <div class="tip">查看卷帘</div>
+        </div>
+        <div class="tools">
+            <i class="fa fa-clock-o"></i>
+            <div class="tip">多时相</div>
+        </div>
+        <div class="tools">
+            <i class="fa fa-pencil-square-o"></i>
+            <div class="tip">量 算</div>
+        </div>
+        <div class="tools" onclick="allMap()">
+            <i class="fa fa-picture-o"></i>
+            <div class="tip">全 图</div>
+        </div>
+        <div class="tools" onclick="clearElements()">
+            <i class="fa fa-trash-o"></i>
+            <div class="tip">清 空</div>
+        </div>
+    </div>
+
+    <!-- 测量弹出框 -->
+    <div class="tool_measure">
+        
+    </div>
+
+
+    <!-- 鼠标右键后菜单组件 -->
+    <div id="rKey" style="cursor: pointer;">
+        <ul>
+            <li id="setStart" onClick="chooseStart('start')">
+                <img src="../public/images/mark/mark5.png">
+                <span>设置为起点</span>
+            </li>
+            <li id="setEnd">
+                <img src="../public/images/mark/mark6.png">
+                <span>设置为途经点</span>
+            </li>
+            <li onClick="chooseStart('end')">
+                <img src="../public/images/mark/mark9.png">
+                <span>设置为终点</span>
+            </li>
+            <li onclick="zoomIn()">
+                <img src="../public/images/mark/zoom-in.png">
+                <span>放 大</span>
+            </li>
+            <li onclick="zoomOut()">
+                <img src="../public/images/mark/zoom-out.png">
+                <span>缩 小</span>
+            </li>
+            <li onclick="allMap()">
+                <img src="../public/images/map-icon.png">
+                <span>全 图</span>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- 错误提示框 -->
+    <div class="errorPane">
+        <div class="errorCont">
+            <div class="top">
+                提示
+                <i class="fa fa-remove"></i>
+            </div>
+            <div class="bottom">
+                
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="js/globalVar.js"></script>
+    <script src="../public/lib/jquery.js"></script>
+    <!-- 滚动条插件 -->
+    <script src="../public/lib/jquery-ui-1.10.4.min.js"></script>
+    <script src="../public/lib/jquery.mousewheel-3.0.6.min.js"></script>
+    <script src="../public/lib/jquery.mCustomScrollbar.min.js"></script>
+    <script>
+        (function ($) {
+            $(window).load(function () {
+                $(".resultCont").mCustomScrollbar();
+            });
+        })(jQuery);
+    </script>
+    <!-- 分页插件 -->
+    <script src="../public/lib/jquery.pagination.js"></script>
+    <script src="../public/superJs/libs/SuperMap.Include.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/main.js"></script>
+    <script src="JS/tools.js"></script>
+    <script src="js/findPathByClick.js"></script>
+    <script src="js/queryPoi.js"></script>
+    <script src="js/searchResultClickEvents.js"></script>
+</body>
+
+</html>
