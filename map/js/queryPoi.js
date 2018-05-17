@@ -189,6 +189,7 @@ function pageselectCallback(page_index, jq) { //点击分页按钮之后执行�
 function clickSearchResultPanel(smx, smy, num) {
     map.setCenter(new SuperMap.LonLat(smx, smy), 7);
     onVectorLayerFeatureSelect(tenFeatursList[num]);
+    console.log(tenFeatursList[num]);
 }
 
 function onVectorLayerFeatureSelect(selectFeature) {

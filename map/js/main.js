@@ -1,14 +1,18 @@
 //点击矢量按钮切换
 function showVec() {
     layerImg.setVisibility(false);
+    layerCia.setVisibility(false);
     layerVec.setVisibility(true);
+    layerCva.setVisibility(true);
     map.setBaseLayer(layerVec);
 }
 
 //点击影像按钮切换
 function showImg() {
     layerVec.setVisibility(false);
+    layerCva.setVisibility(false);
     layerImg.setVisibility(true);
+    layerCia.setVisibility(true);
     map.setBaseLayer(layerImg);
 }
 

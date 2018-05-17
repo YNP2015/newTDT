@@ -47,6 +47,12 @@ function init() {
     }, {
         resolutions: restLayerResolutions
     });
+    layerCia = new SuperMap.Layer.TiledDynamicRESTLayer("天地图影像注记", urlCia, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    });
     layerImg = new SuperMap.Layer.TiledDynamicRESTLayer("天地图影像", urlImg, {
         transparent: true,
         cacheEnabled: true
@@ -61,7 +67,7 @@ function init() {
 
 
 function addLayerVec() {
-    map.addLayers([layerVec]);
+    map.addLayers([layerVec, layerCva]);
     layerImg.events.on({
         "layerInitialized": addLayer
     });
@@ -69,7 +75,7 @@ function addLayerVec() {
 
 //添加图层函数
 function addLayer() {
-    map.addLayers([layerImg, layerCva, vectorLayer, markerLayer]);
+    map.addLayers([layerImg, layerCia, vectorLayer, markerLayer]);
     layerImg.setVisibility(false);
     map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 3);
     /* 初始化获取地图级别 */

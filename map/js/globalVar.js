@@ -8,7 +8,8 @@
 var map,
     urlVec = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/vec", //矢量服务
     urlImg = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/img", //影像服务
-    urlCva = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/cva", //注记服务
+    urlCva = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/cva", //矢量注记服务
+    urlCia = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/cia", //影像注记服务
     urlRoudNet = "http://222.247.40.204:8091/iserver/services/transportationAnalyst-HNNET/rest/networkanalyst/HNNET@HNNET", //路网
     urlHNPOI = "http://222.247.40.204:8091/iserver/services/map-HNPOI/rest/maps/HNPOI", //poi
     restLayerResolutions = [
