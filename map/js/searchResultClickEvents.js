@@ -14,3 +14,7 @@ function poiPointSelect(selectFeature) {
 
     }
 }
+
+function onVectorLayerFeatureUnselect() {
+    map.removeAllPopup();
+}

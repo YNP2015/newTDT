@@ -99,7 +99,7 @@ function processCompletedPOI(queryEventArgs) {
         return;
     }
     var selectFeature = new SuperMap.Control.SelectFeature(vectorLayer, {
-        onSelect: onVectorLayerFeatureSelect, //该方法在 searchResultClickEvebts.js中
+        onSelect: clickSearchResultPanel, //该方法在 searchResultClickEvebts.js中
         onUnselect: onVectorLayerFeatureUnselect,
         repeat: true
     });
