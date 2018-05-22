@@ -68,6 +68,7 @@ function queryPOI(sql, start) {
 }
 
 function processCompletedPOI(queryEventArgs) {
+    currentPage = 0,
     markerLayer.clearMarkers();
     $(".resultPane").fadeIn();
     $(".resultPane .resultCont").css("bottom", "30px"); //显示分页按钮后，将结果面板距离底部的距离调大
