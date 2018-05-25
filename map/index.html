@@ -224,7 +224,7 @@
             <i class="fa fa-clock-o"></i>
             <div class="tip">多时相</div>
         </div>
-        <div class="tools">
+        <div class="tools" onclick="measuresAll()">
             <i class="fa fa-pencil-square-o"></i>
             <div class="tip">量 算</div>
         </div>
@@ -240,7 +240,30 @@
 
     <!-- 测量弹出框 -->
     <div class="tool_measure">
-        
+        <div class="top">
+            <ul>
+                <li>线</li>
+                <li>多边形</li>
+                <li>圆</li>
+                <li>
+                    <i class="fa fa-times"></i>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <ul>
+                <li class="selC">
+                    <p>测量地面上多个点的距离</p>
+                    <p>总长度：<i id="getM">100000</i>米/<i id="getKm">10</i>公里</p>
+                </li>
+                <li>
+                    <p>测量地面上几何形状的周长或面积</p>
+                </li>
+                <li>
+                    <p>测量地面上圆的周长或面积</p>
+                </li>
+            </ul>
+        </div>
     </div>
 
 
@@ -283,7 +306,7 @@
                 <i class="fa fa-remove"></i>
             </div>
             <div class="bottom">
-                
+
             </div>
         </div>
     </div>

@@ -23,3 +23,9 @@ function clearElements() {
         chooseStart("end");
     }
 }
+
+
+/* 量算 */
+function measuresAll(){
+    
+}

@@ -634,6 +634,76 @@ body {
     }
 }
 
+.tool_measure {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    z-index: 2;
+    width: 238px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    box-sizing: border-box;
+    .top {
+        width: 100%;
+        height: 30px;
+        position: relative;
+        ul {
+            box-sizing: border-box;
+            padding: 5px 3px 5px 10px;
+            margin: 0;
+            overflow: hidden;
+            li {
+                padding: 0 8px;
+                margin: 0;
+                list-style: none;
+                float: left;
+                line-height: 30px;
+                font-size: 12px;
+                color: #424242;
+                cursor: pointer;
+                user-select: none;
+                &:last-child {
+                    float: right;
+                }
+            }
+            .selT {
+                background-color: #ef8200;
+                color: #fff;
+                border-radius: 5px;
+            }
+        }
+    }
+    .content {
+        ul {
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box;
+            li {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                display:none;
+                p {
+                    padding: 0;
+                    margin: 0;
+                    line-height: 25px;
+                    font-size: 12px;
+                    i{
+                        font-style: normal;
+                        margin:0 2px;
+                        color: #ef8200;font-size: 14px;
+                    }
+                }
+            }
+            .selC{
+                display: block;
+            }
+        }
+    }
+}
+
 #rKey {
     position: absolute;
     top: 400px;
