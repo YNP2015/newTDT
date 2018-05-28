@@ -21,9 +21,6 @@ function init() {
             }), drawPoint
         ],
         allOverlays: true,
-        maxResolution: 0.010986328125, //天地图湖南规则第一级
-        minResolution: 0.0000107288360595703125,
-        numZoomLevels: 11,
         //监听，隐藏右键菜单
         eventListeners: {
             "movestart": function () {
@@ -94,7 +91,7 @@ function mapClick() {
 
 //获取地图级别
 function getZoomNum() {
-    var startExtent = map.getZoom() + 8;
+    var startExtent = map.getZoom() + 7;
     $("#mapNum").text(startExtent);
 }
 
