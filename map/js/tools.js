@@ -27,5 +27,34 @@ function clearElements() {
 
 /* 量算 */
 function measuresAll(){
-    
+    $(".tool_measure").fadeIn();
+}
+/* 量算种类切换 */
+$(".tool_measure .top ul li").click(function(){
+    var index = $(this).index();
+    $(this).addClass("selT").siblings().removeClass("selT");
+    $(".tool_measure .content ul li").eq(index).addClass("selC").siblings().removeClass("selC");
+    if(index == 0){
+        lineMeasure();  //线
+    }else if(index == 1){
+        polygonMeasure(); //多边形
+    }else if(index == 2){
+        circleMeasure();   //圆
+    }else{          //关闭量算框
+        $(".tool_measure").hide(); 
+        $(".tool_measure .top ul li").removeClass("selT");
+        $(".tool_measure .content ul li").removeClass("selC"); 
+    }
+});
+
+function lineMeasure(){
+    alert("现在测线");
+}
+
+function polygonMeasure() {
+    alert("现在测线多边形");
+}
+
+function circleMeasure() {
+    alert("现在测圆");
 }
