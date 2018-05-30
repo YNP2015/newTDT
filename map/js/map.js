@@ -75,7 +75,7 @@ function addLayerVec() {
 function addLayer() {
     map.addLayers([layerImg, layerCia, vectorLayer, markerLayer, measureVL]);
     layerImg.setVisibility(false);
-    map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 3);
+    map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 10);
     /* 初始化获取地图级别 */
     getZoomNum();
     /* 当地图级别变化时 */
@@ -92,7 +92,7 @@ function mapClick() {
 
 //获取地图级别
 function getZoomNum() {
-    var startExtent = map.getZoom() + 7;
+    var startExtent = map.getZoom() + 1;
     $("#mapNum").text(startExtent);
 }
 

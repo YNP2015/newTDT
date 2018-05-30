@@ -38,11 +38,11 @@ $(".tool_measure .top ul li").click(function(){
     $(this).addClass("selT").siblings().removeClass("selT");
     $(".tool_measure .content ul li").eq(index).addClass("selC").siblings().removeClass("selC");
     if(index == 0){
-        lineMeasure();  //线
+        lineMeasure();  //线  该方法在文件measure.js中
     }else if(index == 1){
-        polygonMeasure(); //多边形
+        polygonMeasure(); //多边形 该方法在文件measure.js中
     }else if(index == 2){
-        circleMeasure();   //圆
+        circleMeasure(); //圆 该方法在文件measure.js中
     }else{          //关闭量算框
         $(".tool_measure").hide(); 
         $(".tool_measure .top ul li").removeClass("selT");
