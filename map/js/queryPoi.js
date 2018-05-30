@@ -17,6 +17,7 @@ function poiClick() {
         return;
     } else {
         isAllSearching = true; //标识为全局搜索
+        currentPage = 0;
         var keyword = $(".poiSearch").val();
         var sql = "RNAME like '%" + keyword + "%'";
         queryPOI(sql, 0);
@@ -78,8 +79,7 @@ function queryPOI(sql, start) {
 }
 
 function processCompletedPOI(queryEventArgs) {
-    currentPage = 0,
-        markerLayer.clearMarkers();
+    markerLayer.clearMarkers();
     $(".resultPane").fadeIn();
     $(".resultPane .resultCont").css("bottom", "30px"); //显示分页按钮后，将结果面板距离底部的距离调大
     $("#Pagination").show(); //显示分页按钮
@@ -88,9 +88,6 @@ function processCompletedPOI(queryEventArgs) {
         features = [];
         featuresAll = [];
         totalNumb = queryEventArgs.result.totalCount; //查询结果总数
-        /* 这段代码将查询结果总数显示出来（还没写） */
-
-
         var recordsets = result.recordsets;
         if (recordsets[0].features) {
             featuresAll = recordsets[0].features;
