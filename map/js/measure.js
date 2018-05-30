@@ -587,6 +587,57 @@ function handleMeasureCirclePartial(event) {
     //获取传入参数 event 的 geometry 信息
     var geometry = event.geometry;
     var measureCircle = new SuperMap.Geometry.Polygon(geometry.components);
+    //获取实时量算结果
+    var mousePositionGeo = geometry.components[0].components[geometry.components[0].components.length - 2]; //显示临时量算结果的DIV 
+    var mousePositionPix = map.getPixelFromLonLat(new SuperMap.LonLat(mousePositionGeo.x, mousePositionGeo.y));
+    if (!$("#measureTipDiv")[0]) {
+        var tipDiv = $('<div>');
+        tipDiv.attr('id', 'measureTipDiv');
+        tipDiv.css({
+            'font-size': '13px',
+            'background-color': '#FFFFFF',
+            'border': '1px solid rgb(247,85,100)',
+            'padding': '2px',
+            'white-space': 'nowrap',
+            'font-family': 'Arial',
+            'position': 'absolute',
+            'z-index': '2000',
+            'left': mousePositionPix.x + '24px',
+            'top': mousePositionPix.y - '10px'
+        });
+        $("#measureTipDiv").html('总面积: <strong>' + event.measure.toFixed(2) + '</strong>' + ' ' + event.units + '<br>左键单击增加点，双击结束');
+        $('#map').children(".smMapViewport").append(tipDiv);
+    } else {
+        $("#measureTipDiv").css({
+            display: 'block',
+            left: mousePositionPix.x + 24,
+            top: mousePositionPix.y - 20
+        });
+    }
+    $("#measureTipDiv").html('总面积: <strong>' + event.measure.toFixed(2) + '</strong>' + ' ' + event.units + '<sup>2</sup><br>左键单击增加点，双击结束');
+    if (preGeoLen > 1 && preGeoLen < geometry.components.area) {
+        //添加量算过程中的点
+        measureFeature = new SuperMap.Feature.Vector(measurePoint, null, stylePoint);
+        //将添加的点要素的id保存起来，用于后面的清除
+        featuresCircleId.push(measureFeature.id);
+        measureVL.addFeatures(measureFeature);
+        popup.backgroundColor = 'none';
+        map.addPopup(popup);
+        //将popup保存起来，用于后面清除popup
+        popups.push(popup);
+    }
+    preGeoLen = geometry.components.area; // length;
+}
+
+
+function handleMeasureAreaPartial(event) {
+    //移除鼠标监听移动事件
+    map.events.un({
+        "mousemove": tipMeasure
+    });
+    //获取传入参数 event 的 geometry 信息
+    var geometry = event.geometry;
+    var measureArea = new SuperMap.Geometry.Polygon(geometry.components);
 
     //获取实时量算结果
     var mousePositionGeo = geometry.components[0].components[geometry.components[0].components.length - 2]; //显示临时量算结果的DIV 
@@ -616,65 +667,7 @@ function handleMeasureCirclePartial(event) {
             top: mousePositionPix.y - 20
         });
     }
-
-
     $("#measureTipDiv").html('总面积: <strong>' + event.measure.toFixed(2) + '</strong>' + ' ' + event.units + '<sup>2</sup><br>左键单击增加点，双击结束');
-
-    if (preGeoLen > 1 && preGeoLen < geometry.components.area) {
-        //添加量算过程中的点
-        measureFeature = new SuperMap.Feature.Vector(measurePoint, null, stylePoint);
-        //将添加的点要素的id保存起来，用于后面的清除
-        featuresCircleId.push(measureFeature.id);
-        measureVL.addFeatures(measureFeature);
-        popup.backgroundColor = 'none';
-        map.addPopup(popup);
-        //将popup保存起来，用于后面清除popup
-        popups.push(popup);
-    }
-    preGeoLen = geometry.components.area; // length;
-}
-
-
-function handleMeasureAreaPartial(event) {
-    //移除鼠标监听移动事件
-    map.events.un({
-        "mousemove": tipMeasure
-    });
-    //获取传入参数 event 的 geometry 信息
-    var geometry = event.geometry;
-    var measureArea = new SuperMap.Geometry.Polygon(geometry.components);
-
-    //获取实时量算结果
-    var mousePositionGeo = geometry.components[0].components[geometry.components[0].components.length - 2]; //显示临时量算结果的DIV yaocs
-    var mousePositionPix = map.getPixelFromLonLat(new SuperMap.LonLat(mousePositionGeo.x, mousePositionGeo.y));
-
-    if (!$("#measureTipDiv")[0]) {
-        var tipDiv = $('<div>');
-        tipDiv.attr('id', 'measureTipDiv');
-        tipDiv.css({
-            'font-size': '13px',
-            'background-color': '#FFFFFF',
-            'border': '1px solid rgb(247,85,100)',
-            'padding': '2px',
-            'white-space': 'nowrap',
-            'font-family': 'Arial',
-            'position': 'absolute',
-            'z-index': '2000',
-            'left': mousePositionPix.x + '24px',
-            'top': mousePositionPix.y - '10px'
-        });
-        $("#measureTipDiv").html('总面积: <strong>' + event.measure.toFixed(2) + '</strong>' + ' ' + event.units + '<br>左键单击增加点，双击结束');
-        $('#map').children(".smMapViewport").append(tipDiv);
-    } else {
-        $("#measureTipDiv").css({
-            display: 'block',
-            left: mousePositionPix.x + 24,
-            top: mousePositionPix.y - 20
-        });
-    }
-
-    $("#measureTipDiv").html('总面积: <strong>' + event.measure.toFixed(2) + '</strong>' + ' ' + event.units + '<sup>2</sup><br>左键单击增加点，双击结束');
-
     if (preGeoLen > 1 && preGeoLen < geometry.components.area) {
         //添加量算过程中的点
         measureFeature = new SuperMap.Feature.Vector(measurePoint, null, stylePoint);
@@ -686,8 +679,12 @@ function handleMeasureAreaPartial(event) {
         //将popup保存起来，用于后面清除popup
         popups.push(popup);
     }
-    preGeoLen = geometry.components.area; // length; // yaocs
+    preGeoLen = geometry.components.area; // length; 
 }
+
+
+
+
 
 //清除量算结果
 function clearMeasureDistanceResult(event) {
@@ -704,41 +701,45 @@ function clearMeasureDistanceResult(event) {
         map.removePopup(popupDistanceMap.get(clearIndex)[i]);
     }
 }
-
-function clearAllMeasureDistanceResult() {
-    for (var k = 0; k < measureDistanceCounts; k++) {
-        var measurefeatures = [];
-        for (var i = 0; i < measureMapDistance.get(k).length; i++) {
-            if (measureVL.getFeatureById(measureMapDistance.get(k)[i])) {
-                measurefeatures.push(measureVL.getFeatureById(measureMapDistance.get(k)[i]));
-            }
-        }
-        for (var i = 0; i < popupDistanceMap.get(k).length; i++) {
-            map.removePopup(popupDistanceMap.get(k)[i]);
-        }
-        measureVL.removeFeatures(measurefeatures);
-    }
-    measureDistanceCounts = 0;
-}
 //清除量算结果
 function clearMeasureCircleResult(event) {
     //获取要清除的是哪次量算结果
     var clearIndex = event.target.id.substring(19);
-
     //根据feature的id获取该次量算绘制的点和线
     var measurefeatures = [];
     for (var i = 0; i < measureMapCircle.get(clearIndex).length; i++) {
         measurefeatures.push(measureVL.getFeatureById(measureMapCircle.get(clearIndex)[i]));
     }
-
     measureVL.removeFeatures(measurefeatures);
-
     //清除该次量算添加的popup
     for (var i = 0; i < popupCircleMap.get(clearIndex).length; i++) {
         map.removePopup(popupCircleMap.get(clearIndex)[i]);
     }
 }
+//清除量算结果
+function clearMeasureAreaResult(event) {
+    //获取要清除的是哪次量算结果
+    var clearIndex = event.target.id.substring(19);
+    //根据feature的id获取该次量算绘制的点和线
+    var measurefeatures = [];
+    for (var i = 0; i < measureMapArea.get(clearIndex).length; i++) {
+        measurefeatures.push(measureVL.getFeatureById(measureMapArea.get(clearIndex)[i]));
+    }
+    measureVL.removeFeatures(measurefeatures);
+    //清除该次量算添加的popup
+    for (var i = 0; i < popupAreaMap.get(clearIndex).length; i++) {
+        map.removePopup(popupAreaMap.get(clearIndex)[i]);
+    }
+}
 
+
+
+
+
+
+
+
+/* 清除全部结果 */
 function clearAllMeasureCircleResult() {
     for (var k = 0; k < measureCircleCounts; k++) {
         var measurefeatures = [];
@@ -754,7 +755,6 @@ function clearAllMeasureCircleResult() {
     }
     measureCircleCounts = 0;
 }
-//清除量算结果
 function clearAllMeasureDistanceResult() {
     for (var k = 0; k < measureDistanceCounts; k++) {
         var measurefeatures = [];
@@ -770,7 +770,6 @@ function clearAllMeasureDistanceResult() {
     }
     measureDistanceCounts = 0;
 }
-
 function clearAllMeasureAreaResult() {
     for (var k = 0; k < measureAreaCounts; k++) {
         var measurefeatures = [];
