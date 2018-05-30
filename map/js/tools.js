@@ -23,7 +23,7 @@ function clearElements() {
         chooseStart("end");
     }
     clearAllMeasureAreaResult();
-    clearMeasureAreaResult(event);
+    clearAllMeasureDistanceResult();
     clearAllMeasureCircleResult();
 }
 

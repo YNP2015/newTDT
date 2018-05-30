@@ -388,8 +388,7 @@ function handleMeasureCircle(event) {
     var popup = new SuperMap.Popup(
         'measureResultPopup',
         new SuperMap.LonLat(endPointGeo.x, endPointGeo.y),
-        //new SuperMap.Size(150,24),
-        new SuperMap.Size(230, 24), //好囧，把值设大一点就可以了，2016年8月5日14:04:53 yaocs
+        new SuperMap.Size(230, 24), 
         startDiv,
         false
     );
@@ -756,22 +755,20 @@ function clearAllMeasureCircleResult() {
     measureCircleCounts = 0;
 }
 //清除量算结果
-function clearMeasureAreaResult(event) {
-    //获取要清除的是哪次量算结果
-    var clearIndex = event.target.id.substring(19);
-
-    //根据feature的id获取该次量算绘制的点和线
-    var measurefeatures = [];
-    for (var i = 0; i < measureMapArea.get(clearIndex).length; i++) {
-        measurefeatures.push(measureVL.getFeatureById(measureMapArea.get(clearIndex)[i]));
+function clearAllMeasureDistanceResult() {
+    for (var k = 0; k < measureDistanceCounts; k++) {
+        var measurefeatures = [];
+        for (var i = 0; i < measureMapDistance.get(k).length; i++) {
+            if (measureVL.getFeatureById(measureMapDistance.get(k)[i])) {
+                measurefeatures.push(measureVL.getFeatureById(measureMapDistance.get(k)[i]));
+            }
+        }
+        for (var i = 0; i < popupDistanceMap.get(k).length; i++) {
+            map.removePopup(popupDistanceMap.get(k)[i]);
+        }
+        measureVL.removeFeatures(measurefeatures);
     }
-
-    measureVL.removeFeatures(measurefeatures);
-
-    //清除该次量算添加的popup
-    for (var i = 0; i < popupAreaMap.get(clearIndex).length; i++) {
-        map.removePopup(popupAreaMap.get(clearIndex)[i]);
-    }
+    measureDistanceCounts = 0;
 }
 
 function clearAllMeasureAreaResult() {
