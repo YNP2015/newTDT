@@ -23,6 +23,16 @@ function poiClick() {
     }
 }
 
+/* 点击地名分类直接查询 */
+function queryByCategories(typename1) {
+    $(".menuPane").hide();
+    isAllSearching = true;
+    var sql = "TYPENAME1='" + typename1 + "'";
+    currentPage = 0;
+    isQueryByCatagoriesNotByES = true;
+    queryPOI(sql, 0);
+}
+
 
 function queryPOI(sql, start) {
     currentSQl = sql;
@@ -69,7 +79,7 @@ function queryPOI(sql, start) {
 
 function processCompletedPOI(queryEventArgs) {
     currentPage = 0,
-    markerLayer.clearMarkers();
+        markerLayer.clearMarkers();
     $(".resultPane").fadeIn();
     $(".resultPane .resultCont").css("bottom", "30px"); //显示分页按钮后，将结果面板距离底部的距离调大
     $("#Pagination").show(); //显示分页按钮
@@ -186,4 +196,3 @@ function pageselectCallback(page_index, jq) { //点击分页按钮之后执行�
         queryPOI(currentSQl, recordNum);
     }
 }
-
