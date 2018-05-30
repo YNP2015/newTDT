@@ -47,5 +47,8 @@ $(".tool_measure .top ul li").click(function(){
         $(".tool_measure").hide(); 
         $(".tool_measure .top ul li").removeClass("selT");
         $(".tool_measure .content ul li").removeClass("selC"); 
+        clearAllMeasureAreaResult();
+        clearAllMeasureDistanceResult();
+        clearAllMeasureCircleResult();
     }
 });

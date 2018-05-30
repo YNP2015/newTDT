@@ -635,6 +635,7 @@ body {
 }
 
 .tool_measure {
+    display: none;
     position: absolute;
     top: 60px;
     right: 15px;
@@ -690,12 +691,6 @@ body {
                     margin: 0;
                     line-height: 25px;
                     font-size: 12px;
-                    i {
-                        font-style: normal;
-                        margin: 0 2px;
-                        color: #ef8200;
-                        font-size: 14px;
-                    }
                 }
             }
             .selC {
