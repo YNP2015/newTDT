@@ -13,22 +13,22 @@ var map,
     urlRoudNet = "http://222.247.40.204:8091/iserver/services/transportationAnalyst-HNNET/rest/networkanalyst/HNNET@HNNET", //路网
     urlHNPOI = "http://222.247.40.204:8091/iserver/services/map-HNPOI/rest/maps/HNPOI", //poi
     restLayerResolutions = [
-         0.010986328125,
-         0.0054931640625,
-         0.00274658203125,
-         0.001373291015625,
-         0.0006866455078125,
-         0.00034332275390625,
-         0.000171661376953125,
-         0.0000858306884765625,
-         0.00004291534423828125,
-         0.000021457672119140625,
-         0.0000107288360595703125,
-         0.00000536441802978515625,
-         0.000002682209014892578125 
-         // 0.0000013411045074462890625
+        0.010986328125,
+        0.0054931640625,
+        0.00274658203125,
+        0.001373291015625,
+        0.0006866455078125,
+        0.00034332275390625,
+        0.000171661376953125,
+        0.0000858306884765625,
+        0.00004291534423828125,
+        0.000021457672119140625,
+        0.0000107288360595703125,
+        0.00000536441802978515625,
+        0.000002682209014892578125
+        // 0.0000013411045074462890625
     ],
-    vectorLayer, drawPoint, markerLayer,
+    vectorLayer, drawPoint, markerLayer, measureVL,
     cityName = "湖南省", //当前城市名
     currentSQl, currentPage = 0,
     totalNumb, //poi查询结果总数
@@ -39,6 +39,28 @@ var map,
     isAroudSearchOpen = false, //周边POI查询是否开启
     tenFeatursList = [],
     expectCount = 100;
+//保存量算结果，方便换单位是显示数据
+var distanceMeasureValueArray = {
+    centimeter: 0.0,
+    meter: 0.0,
+    kilometer: 0.0
+};
+var areaMeasureValueArray = {
+    centimeter: 0.0,
+    meter: 0.0,
+    kilometer: 0.0,
+    squarecentimeter: 0.0,
+    squaremeter: 0.0,
+    squarekilometer: 0.0
+};
+var circleMeasureValueArray = {
+    centimeter: 0.0,
+    meter: 0.0,
+    kilometer: 0.0,
+    squarecentimeter: 0.0,
+    squaremeter: 0.0,
+    squarekilometer: 0.0
+}
 
 /* 这部分变量是关于路径分析的 */
 var startChooise, endChooise, imgIcon, markerStart, markerEnd, markerMid, pathTime, startPointSM, destPointSM, nodeArray = [],

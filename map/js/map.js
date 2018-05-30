@@ -6,6 +6,7 @@ function init() {
         return;
     }
     vectorLayer = new SuperMap.Layer.Vector("Vector Layer");
+    measureVL = new SuperMap.Layer.Vector("measureVectorlayer");//量算图层
     markerLayer = new SuperMap.Layer.Markers("Markers");
     drawPoint = new SuperMap.Control.DrawFeature(vectorLayer, SuperMap.Handler.Point);
     drawPoint.events.on({
@@ -72,7 +73,7 @@ function addLayerVec() {
 
 //添加图层函数
 function addLayer() {
-    map.addLayers([layerImg, layerCia, vectorLayer, markerLayer]);
+    map.addLayers([layerImg, layerCia, vectorLayer, markerLayer, measureVL]);
     layerImg.setVisibility(false);
     map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 3);
     /* 初始化获取地图级别 */

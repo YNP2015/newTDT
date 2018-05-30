@@ -22,6 +22,9 @@ function clearElements() {
     end.onclick = function () { //恢复终点被再次点击的功能
         chooseStart("end");
     }
+    clearAllMeasureAreaResult();
+    clearMeasureAreaResult(event);
+    clearAllMeasureCircleResult();
 }
 
 
@@ -46,15 +49,3 @@ $(".tool_measure .top ul li").click(function(){
         $(".tool_measure .content ul li").removeClass("selC"); 
     }
 });
-
-function lineMeasure(){
-    alert("现在测线");
-}
-
-function polygonMeasure() {
-    alert("现在测线多边形");
-}
-
-function circleMeasure() {
-    alert("现在测圆");
-}
