@@ -9,7 +9,6 @@ function showImg() {
     curType = "img";
     getZoomNum();
 }
-
 //放大按钮
 function zoomIn() {
     $("#rKey").css("visibility", "hidden");

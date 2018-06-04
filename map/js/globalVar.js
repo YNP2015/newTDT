@@ -4,36 +4,26 @@
  */
 
 
-var layer1 = new SuperMap.Layer.AllTDTLayer18({
+var layerGJVec = new SuperMap.Layer.AllTDTLayer18({
         name: "矢量图",
         layerType: "vec",
         useCanvas: true
     }),
-    layer2 = new SuperMap.Layer.AllTDTLayer18({
+    layerGJCva = new SuperMap.Layer.AllTDTLayer18({
         name: "矢量标签图",
         layerType: "vec",
         isLabel: true,
         useCanvas: true
     }),
-    layer3 = new SuperMap.Layer.AllTDTLayer18({
+    layerGJImg = new SuperMap.Layer.AllTDTLayer18({
         name: "影像图",
         layerType: "img",
         useCanvas: true
     }),
-    layer4 = new SuperMap.Layer.AllTDTLayer18({
+    layerGJCia = new SuperMap.Layer.AllTDTLayer18({
         name: "影像标签图",
         layerType: "img",
         isLabel: true,
-        useCanvas: true
-    }),
-    assistLayer20 = new SuperMap.Layer.AllTDTLayer20({
-        name: "辅助层",
-        layerType: "vec",
-        useCanvas: true
-    }),
-    hnimgLayer = new SuperMap.Layer.AllTDTLayer({
-        name: "信息中心影像图",
-        layerType: "img",
         useCanvas: true
     });
 var map,
