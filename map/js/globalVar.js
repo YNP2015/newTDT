@@ -4,7 +4,38 @@
  */
 
 
-
+var layer1 = new SuperMap.Layer.AllTDTLayer18({
+        name: "矢量图",
+        layerType: "vec",
+        useCanvas: true
+    }),
+    layer2 = new SuperMap.Layer.AllTDTLayer18({
+        name: "矢量标签图",
+        layerType: "vec",
+        isLabel: true,
+        useCanvas: true
+    }),
+    layer3 = new SuperMap.Layer.AllTDTLayer18({
+        name: "影像图",
+        layerType: "img",
+        useCanvas: true
+    }),
+    layer4 = new SuperMap.Layer.AllTDTLayer18({
+        name: "影像标签图",
+        layerType: "img",
+        isLabel: true,
+        useCanvas: true
+    }),
+    assistLayer20 = new SuperMap.Layer.AllTDTLayer20({
+        name: "辅助层",
+        layerType: "vec",
+        useCanvas: true
+    }),
+    hnimgLayer = new SuperMap.Layer.AllTDTLayer({
+        name: "信息中心影像图",
+        layerType: "img",
+        useCanvas: true
+    });
 var map,
     urlVec = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/vec", //矢量服务
     urlImg = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/img", //影像服务
@@ -35,6 +66,7 @@ var map,
         //0.0000013411045074462890625
     ],
     vectorLayer, drawPoint, markerLayer, measureVL,
+    curType = "vec", //当前地图类型
     cityName = "湖南省", //当前城市名
     currentSQl, currentPage = 0,
     totalNumb, //poi查询结果总数
@@ -42,6 +74,7 @@ var map,
     pageSize = 10, //分页插件每页显示数量
     startRecord = 0,
     isAllSearching, //是否为全局搜索
+    isRollingScreenOpen = false; //卷帘是否开启
     isAroudSearchOpen = false, //周边POI查询是否开启
     tenFeatursList = [],
     expectCount = 100;

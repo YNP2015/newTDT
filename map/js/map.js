@@ -6,7 +6,7 @@ function init() {
         return;
     }
     vectorLayer = new SuperMap.Layer.Vector("Vector Layer");
-    measureVL = new SuperMap.Layer.Vector("measureVectorlayer");//量算图层
+    measureVL = new SuperMap.Layer.Vector("measureVectorlayer"); //量算图层
     markerLayer = new SuperMap.Layer.Markers("Markers");
     drawPoint = new SuperMap.Control.DrawFeature(vectorLayer, SuperMap.Handler.Point);
     drawPoint.events.on({
@@ -65,7 +65,7 @@ function init() {
 
 
 function addLayerVec() {
-    map.addLayers([layerVec, layerCva]);
+    map.addLayers([layer1, layer2, layer3, layer4, assistLayer20, layerVec, layerCva]);
     layerImg.events.on({
         "layerInitialized": addLayer
     });
@@ -90,10 +90,78 @@ function mapClick() {
     $(".menuPane").fadeOut(); //菜单块消失
 }
 
-//获取地图级别
+//获取地图级别以及切换底图
 function getZoomNum() {
-    var startExtent = map.getZoom() + 1;
+    var startExtent = map.getZoom() + 1,
+        zoom = map.getZoom();
     $("#mapNum").text(startExtent);
+    /* 底图控制 */
+    if (!isRollingScreenOpen) { //卷帘关闭
+        map.setLayerIndex(layerVec, 5);
+        map.setLayerIndex(layerCva, 6);
+        map.setLayerIndex(layerImg, 7);
+        map.setLayerIndex(layerCia, 8);
+        if (curType == "vec") { //当底图为矢量时候
+            layer1.setVisibility(1);
+            layer2.setVisibility(1);
+            layer3.setVisibility(0);
+            layer4.setVisibility(0);
+            layerImg.setVisibility(0);
+            layerCia.setVisibility(0);
+            if (zoom <= 6) {
+                layerVec.setVisibility(0);
+                layerCva.setVisibility(0);
+            } else {
+                layer1.setVisibility(0);
+                layer2.setVisibility(0);
+                layerVec.setVisibility(1);
+                layerCva.setVisibility(1);
+            }
+        } else { //当底图不是矢量的时候
+            layer1.setVisibility(0);
+            layer2.setVisibility(0);
+            layer3.setVisibility(1);
+            layer4.setVisibility(1);
+            layerVec.setVisibility(0);
+            layerCva.setVisibility(0);
+            if (zoom <= 6) {
+                layerImg.setVisibility(0);
+                layerCia.setVisibility(0);
+            } else {
+                layer3.setVisibility(0);
+                layer4.setVisibility(0);
+                layerImg.setVisibility(1);
+                layerCia.setVisibility(1);
+            }
+        }
+    } else { //卷帘开启
+        if (zoom <= 6) {
+            layer1.setVisibility(1);
+            layer2.setVisibility(1);
+            layer3.setVisibility(1);
+            layer4.setVisibility(1);
+            if (zoom >= 5 && zoom <= 6) {
+                layerVec.setVisibility(1);
+                layerCva.setVisibility(1);
+                layerImg.setVisibility(1);
+                layerCia.setVisibility(1);
+            } else {
+                layerVec.setVisibility(0);
+                layerCva.setVisibility(0);
+                layerImg.setVisibility(0);
+                layerCia.setVisibility(0);
+            }
+        } else {
+            layer1.setVisibility(0);
+            layer2.setVisibility(0);
+            layer3.setVisibility(0);
+            layer4.setVisibility(0);
+            layerVec.setVisibility(1);
+            layerCva.setVisibility(1);
+            layerImg.setVisibility(1);
+            layerCia.setVisibility(1);
+        }
+    }
 }
 
 /* 鼠标右键 */
