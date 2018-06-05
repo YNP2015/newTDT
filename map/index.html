@@ -219,7 +219,7 @@
             <div class="tip">查看卷帘</div>
         </div>
         <div class="tools">
-            <i class="fa fa-clock-o"></i>
+            <i class="fa fa-clock-o" onclick="gotoMultidate()"></i>
             <div class="tip">多时相</div>
         </div>
         <div class="tools" onclick="measuresAll()">
@@ -260,6 +260,48 @@
                     <p>测量地面上圆的周长或面积</p>
                 </li>
             </ul>
+        </div>
+    </div>
+
+    <!-- 视野内搜索弹出框 -->
+    <div class="seeSearch">
+        <h6>在屏幕范围内搜索
+            <i class="fa fa-close"></i>
+        </h6>
+        <div class="content">
+            <p>
+                <i class="fa fa-star"></i>
+                <a href="#">星级宾馆</a>
+                <a href="#">旅店</a>
+            </p>
+            <p>
+                <i class="fa fa-star"></i>
+                <a href="#">中餐</a>
+                <a href="#">西餐</a>
+                <a href="#">茶艺馆</a>
+                <a href="#">快餐</a>
+                <a href="#">自助餐厅</a>
+                <a href="#">咖啡厅</a>
+            </p>
+            <p>
+                <i class="fa fa-star"></i>
+                <a href="#">银行</a>
+                <a href="#">医院</a>
+                <a href="#">超市</a>
+                <a href="#">ATM</a>
+                <a href="#">停车场</a>
+            </p>
+            <p>
+                <i class="fa fa-star"></i>
+                <a href="#">影剧院</a>
+                <a href="#">娱乐场所</a>
+            </p>
+            <div class="search">
+                <input type="text" id="seeInput" placeholder="湖南省国土资源厅">
+                <button id="seePoi">
+                    搜索
+                </button>
+            </div>
         </div>
     </div>
 

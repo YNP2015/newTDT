@@ -52,3 +52,8 @@ $(".tool_measure .top ul li").click(function(){
         clearAllMeasureCircleResult();
     }
 });
+
+/* 多时相跳转 */
+function gotoMultidate(){
+    window.open('http://222.247.40.204:8081/TDTHN/portal/map/multidatefilter.html');
+}

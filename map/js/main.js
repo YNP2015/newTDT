@@ -1,7 +1,7 @@
 //点击矢量按钮切换
 function showVec() {
     curType = "vec";
-    getZoomNum();
+    getZoomNum();  //该方法写在 map.js  中
 }
 
 //点击影像按钮切换
