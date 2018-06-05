@@ -15,7 +15,7 @@ function init() {
     map = new SuperMap.Map("map", {
         controls: [
             new SuperMap.Control.ScaleLine(),
-            new SuperMap.Control.LayerSwitcher(),
+            //new SuperMap.Control.LayerSwitcher(),  //图层控制器
             new SuperMap.Control.Navigation({
                 dragPanOptions: {
                     enableKinetic: true
@@ -110,8 +110,13 @@ function getZoomNum() {
             layerImg.setVisibility(0);
             layerCia.setVisibility(0);
             if (zoom <= 6) {
-                layerVec.setVisibility(0);
-                layerCva.setVisibility(0);
+                if (zoom >= 5 && zoom <= 6) {
+                    layerVec.setVisibility(1);
+                    layerCva.setVisibility(1);
+                } else {
+                    layerVec.setVisibility(0);
+                    layerCva.setVisibility(0);
+                }
             } else {
                 layerGJVec.setVisibility(0);
                 layerGJCva.setVisibility(0);
@@ -126,8 +131,13 @@ function getZoomNum() {
             layerGJImg.setVisibility(1);
             layerGJCia.setVisibility(1);
             if (zoom <= 6) {
-                layerImg.setVisibility(0);
-                layerCia.setVisibility(0);
+                if (zoom >= 5 && zoom <= 6) {
+                    layerImg.setVisibility(1);
+                    layerCia.setVisibility(1);
+                } else {
+                    layerImg.setVisibility(0);
+                    layerCia.setVisibility(0);
+                }
             } else {
                 layerGJImg.setVisibility(0);
                 layerGJCia.setVisibility(0);
