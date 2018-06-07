@@ -82,8 +82,6 @@ function drawCompleted(drawGeometryArgs) {
 }
 
 
-
-var startPointNameAndDestPointNameFromPopup = false;
 /* 获取路径信息 */
 function findPath() {
     drawPoint.deactivate();
@@ -158,8 +156,8 @@ function addPath(result) {
     }
     var roadAjax = ""; //存放路径文字信息的字符串（带html样式）
     if (startPointNameAndDestPointNameFromPopup) {
-        startPointName = $(".q-input").eq(0).val();
-        destPointName = $(".q-input").eq(1).val();
+        startPointName = $(".searchRoadPane .startP").val();
+        destPointName = $(".searchRoadPane .endP").val();
     } else {
         startPointName = "自定义点";
         destPointName = "自定义点";

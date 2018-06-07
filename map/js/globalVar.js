@@ -65,7 +65,7 @@ var map,
     startRecord = 0,
     isAllSearching, //是否为全局搜索
     isRollingScreenOpen = false; //卷帘是否开启
-    isAroudSearchOpen = false, //周边POI查询是否开启
+isAroudSearchOpen = false, //周边POI查询是否开启
     tenFeatursList = [],
     measureShow = false, //量算框是否显示
     seeSearchShow = false, //视野内搜索框是否显示
@@ -94,6 +94,7 @@ var circleMeasureValueArray = {
 }
 
 /* 这部分变量是关于路径分析的 */
+var startPointNameAndDestPointNameFromPopup = false; //默认不是气泡中的路径查询
 var startChooise, endChooise, imgIcon, markerStart, markerEnd, markerMid, pathTime, startPointSM, destPointSM, nodeArray = [],
     pathListIndex = 0,
     routeCompsIndex = 0,
@@ -111,3 +112,6 @@ var startChooise, endChooise, imgIcon, markerStart, markerEnd, markerMid, pathTi
     },
     start = document.getElementById("setStart"),
     end = document.getElementById("setEnd");
+
+
+var poiDatasetAtDatasource = "湖南省POI@HNPOI";

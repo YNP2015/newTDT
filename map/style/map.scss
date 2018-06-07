@@ -1,7 +1,6 @@
 @import '../../public/style/normalize.css';
 @import '../../public/style/font-awesome.min.css';
 @import '../../public/style/jquery.mCustomScrollbar.min.css';
-
 $tipC:#ef8200;
 $mainC:#0182cb;
 @mixin tip {
@@ -79,6 +78,7 @@ body {
 }
 
 .searchPane {
+    display: none;
     width: 375px;
     height: 50px;
     position: absolute;
@@ -151,6 +151,70 @@ body {
         .tip {
             right: 0;
         }
+    }
+}
+
+.searchRoadPane {
+    width: 490px;
+    height: 50px;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    z-index: 4;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
+    background: #fff;
+    border-radius: 5px;
+    .return {
+        width: 40px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 16px;
+        color: $mainC;
+        float: left;
+        cursor: pointer;
+        &:hover {
+            .tip {
+                display: block;
+            }
+        }
+        .tip {
+            @include tip;
+        }
+    }
+    input {
+        display: block;
+        margin-top: 7px;
+        width: 180px;
+        height: 36px;
+        float: left;
+        border: none;
+        outline: none;
+        background: #EBEEF5;
+        font-size: 14px;
+        color: #424242;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 0 5px;
+        border-radius:5px;
+    }
+    .middle {
+        width: 40px;
+        height: 50px;
+        float: left;
+        line-height: 50px;
+        text-align: center;
+        color: $mainC;
+    }
+    #s-road {
+        width: 50px;
+        height: 40px;
+        border: none;
+        background: none;
+        float: left;
+        margin-top: 5px;
+        color: $mainC;
+        outline:none;
     }
 }
 
@@ -800,7 +864,7 @@ body {
         margin: 0;
         line-height: 30px;
         color: $c;
-        i{
+        i {
             color: $tipC;
         }
         a {
@@ -816,7 +880,8 @@ body {
         }
     }
     .search {
-        margin-top: 5px;overflow: hidden;
+        margin-top: 5px;
+        overflow: hidden;
         input {
             width: 82%;
             height: 30px;
@@ -828,7 +893,7 @@ body {
             font-size: 12px;
             background-color: #DCDFE6;
             border-radius: 5px 0 0 5px;
-            outline:none;
+            outline: none;
         }
         button {
             width: 18%;
@@ -837,7 +902,7 @@ body {
             border: none;
             background: none;
             background-color: $tipC;
-            border-radius:0 5px 5px 0;
+            border-radius: 0 5px 5px 0;
             display: block;
             cursor: pointer;
             font-size: 12px;

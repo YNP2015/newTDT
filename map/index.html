@@ -60,6 +60,21 @@
             <div class="tip">路线</div>
         </div>
     </div>
+    <!-- 路径搜索 -->
+    <div class="searchRoadPane">
+        <div class="return">
+            <i class="fa fa-chevron-left"></i>
+            <div class="tip">返回</div>
+        </div>
+        <input class="startP" type="text" placeholder="请输入起点">
+        <div class="middle">
+            <i class="fa fa-exchange"></i>
+        </div>
+        <input class="endP" type="text" placeholder="请输入终点">
+        <button id="s-road">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
     <!-- 搜索块下方菜单块 -->
     <div class="menuPane">
         <ul>
@@ -373,6 +388,7 @@
     <script src="js/main.js"></script>
     <script src="js/tools.js"></script>
     <script src="js/findPathByClick.js"></script>
+    <script src="js/findPathByInput.js"></script>
     <script src="js/queryPoi.js"></script>
     <script src="js/searchResultClickEvents.js"></script>
     <!-- 关于量算的函数 -->
