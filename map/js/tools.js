@@ -29,31 +29,62 @@ function clearElements() {
 
 
 /* 量算 */
-function measuresAll(){
+function measuresAll() {
+    if (seeSearchShow) { //根据实际情况调整具体位置
+        $(".tool_measure").css("top", "340px");
+    } else {
+        $(".tool_measure").css("top", "60px");
+    }
     $(".tool_measure").fadeIn();
+    measureShow = true;
 }
 /* 量算种类切换 */
-$(".tool_measure .top ul li").click(function(){
+$(".tool_measure .top ul li").click(function () {
     var index = $(this).index();
     $(this).addClass("selT").siblings().removeClass("selT");
     $(".tool_measure .content ul li").eq(index).addClass("selC").siblings().removeClass("selC");
-    if(index == 0){
-        lineMeasure();  //线  该方法在文件measure.js中
-    }else if(index == 1){
+    if (index == 0) {
+        lineMeasure(); //线  该方法在文件measure.js中
+    } else if (index == 1) {
         polygonMeasure(); //多边形 该方法在文件measure.js中
-    }else if(index == 2){
+    } else if (index == 2) {
         circleMeasure(); //圆 该方法在文件measure.js中
-    }else{          //关闭量算框
-        $(".tool_measure").hide(); 
+    } else { //关闭量算框
+        $(".tool_measure").hide();
         $(".tool_measure .top ul li").removeClass("selT");
-        $(".tool_measure .content ul li").removeClass("selC"); 
+        $(".tool_measure .content ul li").removeClass("selC");
         clearAllMeasureAreaResult();
         clearAllMeasureDistanceResult();
         clearAllMeasureCircleResult();
+        $(".tool_measure").css("top", "60px");
+        if (seeSearchShow) {
+            $(".seeSearch").css("top", "60px");
+        }
+        measureShow = false;
     }
 });
 
 /* 多时相跳转 */
-function gotoMultidate(){
+function gotoMultidate() {
     window.open('http://222.247.40.204:8081/TDTHN/portal/map/multidatefilter.html');
 }
+
+
+/* 视野内查询显示和隐藏 */
+function showSeeSearch() {
+    if (measureShow) { //根据实际情况调整具体位置
+        $(".seeSearch").css("top", "160px");
+    } else {
+        $(".seeSearch").css("top", "60px");
+    }
+    $(".seeSearch").fadeIn();
+    seeSearchShow = true;
+}
+$(".seeSearch .close").click(function () {
+    $(".seeSearch").hide();
+    $(".seeSearch").css("top", "60px");
+    if (measureShow) {
+        $(".tool_measure").css("top", "60px");
+    }
+    seeSearchShow = false;
+});
