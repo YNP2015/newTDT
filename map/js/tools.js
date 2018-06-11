@@ -25,6 +25,9 @@ function clearElements() {
     clearAllMeasureAreaResult();
     clearAllMeasureDistanceResult();
     clearAllMeasureCircleResult();
+    $(".poiSearch").val("");
+    $(".startP").val("");
+    $(".endP").val("");
 }
 
 

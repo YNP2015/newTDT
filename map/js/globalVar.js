@@ -64,8 +64,8 @@ var map,
     pageSize = 10, //分页插件每页显示数量
     startRecord = 0,
     isAllSearching, //是否为全局搜索
-    isRollingScreenOpen = false; //卷帘是否开启
-isAroudSearchOpen = false, //周边POI查询是否开启
+    isRollingScreenOpen = false, //卷帘是否开启
+    isAroudSearchOpen = false, //周边POI查询是否开启
     tenFeatursList = [],
     measureShow = false, //量算框是否显示
     seeSearchShow = false, //视野内搜索框是否显示

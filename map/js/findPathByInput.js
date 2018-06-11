@@ -29,7 +29,6 @@ function roadClick() {
         $(".errorPane .bottom").text("请输入终点！");
         return;
     } else {
-        clearElements();
         startPointNameAndDestPointNameFromPopup = true;
         queryRoad();
     }
