@@ -1,7 +1,7 @@
 //点击矢量按钮切换
 function showVec() {
     curType = "vec";
-    getZoomNum();  //该方法写在 map.js  中
+    getZoomNum(); //该方法写在 map.js  中
 }
 
 //点击影像按钮切换
@@ -49,6 +49,21 @@ $(".downtown li").click(function () {
     });
 });
 
+
+/* 显示路径查询框 */
+function showRoadSearch() {
+    clearElements();
+    $(".searchPane").fadeOut(300, function () {
+        $(".searchRoadPane").fadeIn();
+    });
+}
+/* 关闭历经查询框后显示搜索框 */
+function showPoiSearch() {
+    clearElements();
+    $(".searchRoadPane").fadeOut(300, function () {
+        $(".searchPane").fadeIn();
+    });
+}
 
 /* 與地圖無關的功能 */
 $(function () {

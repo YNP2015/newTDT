@@ -2,11 +2,16 @@ var startPointName, destPointName;
 $("#s-road").click(function () {
     roadClick();
 });
-$("#s-road").keydown(function (event) {
+$(".startP").keydown(function (event) {
     if (event.keyCode == 13) {
         roadClick();
     }
-})
+});
+$(".endP").keydown(function (event) {
+    if (event.keyCode == 13) {
+        roadClick();
+    }
+});
 
 function roadClick() {
     startPointName = $(".searchRoadPane .startP").val();

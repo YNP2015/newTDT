@@ -78,7 +78,6 @@ body {
 }
 
 .searchPane {
-    display: none;
     width: 375px;
     height: 50px;
     position: absolute;
@@ -155,6 +154,7 @@ body {
 }
 
 .searchRoadPane {
+    display: none;
     width: 490px;
     height: 50px;
     position: absolute;

@@ -135,6 +135,12 @@ function allScheme(result) {
 }
 /* 以动画效果显示分析结果 */
 function addPath(result) {
+    var style = {
+        strokeColor: "#304DBE",
+        strokeWidth: 3,
+        pointerEvents: "visiblePainted",
+        fill: false
+    };
     if (routeCompsIndex < result.pathList[pathListIndex].route.components.length) {
         var pathFeature = new SuperMap.Feature.Vector();
         var points = [];
@@ -186,4 +192,10 @@ function addPath(result) {
     roadAjax += "<dl><dt><i class='btn-orange'>终</i>" + destPointName + "</dt></dl>";
     $(".resultPane").fadeIn();
     $("#mCSB_1_container").html(roadAjax);
+    var bounds = vectorLayer.getDataExtent();
+    if (bounds.bottom == bounds.top && bounds.left == bounds.right) {
+        map.setCenter(new SuperMap.LonLat(bounds.left, bounds.bottom), 14);
+    } else {
+        map.zoomToExtent(bounds);
+    }
 }

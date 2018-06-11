@@ -98,20 +98,8 @@ var startPointNameAndDestPointNameFromPopup = false; //默认不是气泡中的�
 var startChooise, endChooise, imgIcon, markerStart, markerEnd, markerMid, pathTime, startPointSM, destPointSM, nodeArray = [],
     pathListIndex = 0,
     routeCompsIndex = 0,
-    style = {
-        strokeColor: "#304DBE",
-        strokeWidth: 3,
-        pointerEvents: "visiblePainted",
-        fill: false
-    },
-    roadStyle = {
-        strokeDashstyle: "solid",
-        strokeWidth: 3,
-        strokeColor: "#f75564",
-        strokeOpacity: 1
-    },
     start = document.getElementById("setStart"),
     end = document.getElementById("setEnd");
 
 
-var poiDatasetAtDatasource = "湖南省POI@HNPOI";
+var poiDatasetAtDatasource = "长沙市POI@HNPOI";
