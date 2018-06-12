@@ -107,7 +107,7 @@ function processCompletedPOI(queryEventArgs) {
         return;
     }
     var selectFeature = new SuperMap.Control.SelectFeature(vectorLayer, {
-        onSelect: clickSearchResultPanel, //该方法在 searchResultClickEvebts.js中
+        onSelect: poiPointSelect,
         onUnselect: onVectorLayerFeatureUnselect,
         repeat: true
     });
@@ -192,4 +192,67 @@ function pageselectCallback(page_index, jq) { //点击分页按钮之后执行�
         var recordNum = parseInt(startNum / expectCount) * expectCount;
         queryPOI(currentSQl, recordNum);
     }
+}
+
+
+
+/* poi查询之后地图上poi列表的点击事件 */
+
+function clickSearchResultPanel(smx, smy, num) {
+    map.setCenter(new SuperMap.LonLat(smx, smy), 15);
+    poiPointSelect(tenFeatursList[num]);
+}
+
+function poiPointSelect(selectFeature) {
+    closeInfoPoi();
+    var poiName, poiAddress, poiNum, poiContent;
+    if ((selectFeature.attributes["TYPENAME1"] || selectFeature.attributes["TYPENAME1"] == "") && selectFeature.attributes["SkyPanoID"] == undefined) {
+        poiName = selectFeature.attributes["RNAME"];
+        poiAddress = selectFeature.attributes["ADDRESS"];
+        poiNum = selectFeature.attributes["TELEPHONE"];
+        if (poiAddress == ' ') {
+            poiAddress = "暂缺";
+        }
+        if (poiNum == ' ') {
+            poiNum = "暂缺";
+        }
+        poiContent = '<h3 class="poiName">' + poiName + '<i class="fa fa-close"></i></h3>';
+        var x = selectFeature.geometry.getBounds().getCenterLonLat().lon;
+        var y = selectFeature.geometry.getBounds().getCenterLonLat().lat;
+        selectFearturePopup = new SuperMap.Popup.FramedCloud(
+            "poiSelected",
+            new SuperMap.LonLat(x, y),
+            null,
+            poiContent,
+            null,
+            false,
+            null,
+            true
+        );
+        infowinPoi = selectFearturePopup;
+        map.addPopup(selectFearturePopup);
+        $(".resultPane").fadeOut(300, function () { //隐藏结果面板的同时显示POI点的详细信息
+            $(".poiMsg").fadeIn();
+            $(".poiMsg .name span").text(poiName);
+            $(".poiMsg .addr span").text(poiAddress);
+            $(".poiMsg .phone span").text(poiNum);
+        });
+    } else {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("查无资料！");
+    }
+}
+
+
+function closeInfoPoi() {
+    if (infowinPoi) {
+        try {
+            infowinPoi.hide();
+            infowinPoi.destroy();
+        } catch (e) {}
+    }
+}
+
+function onVectorLayerFeatureUnselect() {
+    map.removeAllPopup();
 }

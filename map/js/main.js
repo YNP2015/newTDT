@@ -98,4 +98,11 @@ $(function () {
     $(".downtown>li").click(function () {
         $(".citySel .county").fadeIn();
     });
+
+    /* 关闭poi详细信息弹出框显示poi搜索列表 */
+    $(".poiMsg .return").click(function(){
+        $(".poiMsg").fadeOut(300,function(){
+            $(".resultPane").fadeIn();
+        });
+    });
 })

@@ -60,6 +60,7 @@ var map,
     cityName = "湖南省", //当前城市名
     currentSQl, currentPage = 0,
     totalNumb, //poi查询结果总数
+    infowinPoi = null, //poi详细信息弹出框
     globalCurBounds, //当前地图可视范围
     pageSize = 10, //分页插件每页显示数量
     startRecord = 0,

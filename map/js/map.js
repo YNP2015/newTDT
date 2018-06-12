@@ -74,7 +74,7 @@ function addLayerVec() {
 
 //添加图层函数
 function addLayer() {
-    map.addLayers([layerImg, layerCia, vectorLayer, markerLayer, measureVL]);
+    map.addLayers([layerImg, layerCia, markerLayer, measureVL, vectorLayer]);
     layerImg.setVisibility(false);
     map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 10);
     /* 初始化获取地图级别 */
