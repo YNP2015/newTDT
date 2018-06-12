@@ -100,10 +100,27 @@ $(function () {
     });
 
     /* 关闭poi详细信息弹出框显示poi搜索列表 */
-    $(".poiMsg .return").click(function(){
-        $(".poiMsg").fadeOut(300,function(){
+    $(".poiMsg .return").click(function () {
+        $(".poiMsg").fadeOut(300, function () {
             closeInfoPoi();
             $(".resultPane").fadeIn();
+        });
+    });
+    /* 点击从这里出发&到这里去执行的功能 */
+    $(".routeCont .go").click(function () {
+        closeInfoPoi();
+        var place = $(".poiMsg .name span").html();
+        $(".poiMsg").fadeOut(300, function () {
+            showRoadSearch();
+            $(".searchRoadPane .startP").val(place);
+        });
+    });
+    $(".routeCont .come").click(function () {
+        closeInfoPoi();
+        var place = $(".poiMsg .name span").html();
+        $(".poiMsg").fadeOut(300, function () {
+            showRoadSearch();
+            $(".searchRoadPane .endP").val(place);
         });
     });
 })
