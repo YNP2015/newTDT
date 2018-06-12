@@ -102,6 +102,7 @@ $(function () {
     /* 关闭poi详细信息弹出框显示poi搜索列表 */
     $(".poiMsg .return").click(function(){
         $(".poiMsg").fadeOut(300,function(){
+            closeInfoPoi();
             $(".resultPane").fadeIn();
         });
     });

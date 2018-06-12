@@ -326,6 +326,7 @@ body {
                 vertical-align: middle;
                 font-size: 16px;
                 margin-bottom: 5px;
+                margin-left: 5px;
             }
         }
     }
@@ -963,15 +964,10 @@ body {
     line-height: 40px;
     height: 30px;
     font-weight: normal;
-    i {
-        float: right;
-        margin-top: 10px;
-        margin-right: 3px;
-    }
 }
 
 #poiSelected_contentDiv {
-    padding: 0 15px;
+    padding: 0 10px 0 15px;
     margin: 0;
     right: 0;
 }

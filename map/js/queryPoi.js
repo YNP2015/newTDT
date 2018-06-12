@@ -216,7 +216,7 @@ function poiPointSelect(selectFeature) {
         if (poiNum == ' ') {
             poiNum = "暂缺";
         }
-        poiContent = '<h3 class="poiName">' + poiName + '<i class="fa fa-close"></i></h3>';
+        poiContent = '<h3 class="poiName">' + poiName + '</h3>';
         var x = selectFeature.geometry.getBounds().getCenterLonLat().lon;
         var y = selectFeature.geometry.getBounds().getCenterLonLat().lat;
         selectFearturePopup = new SuperMap.Popup.FramedCloud(
