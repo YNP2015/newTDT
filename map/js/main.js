@@ -1,13 +1,21 @@
 //点击矢量按钮切换
 function showVec() {
-    curType = "vec";
-    getZoomNum(); //该方法写在 map.js  中
+    if (isRollingScreenOpen) { //当卷帘打开的时候，点击切换底图功能失效
+        return;
+    } else {
+        curType = "vec";
+        getZoomNum(); //该方法写在 map.js  中
+    }
 }
 
 //点击影像按钮切换
 function showImg() {
-    curType = "img";
-    getZoomNum();
+    if (isRollingScreenOpen) {
+        return;
+    } else {
+        curType = "img";
+        getZoomNum();
+    }
 }
 //放大按钮
 function zoomIn() {

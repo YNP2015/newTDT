@@ -136,11 +136,6 @@ function queryByDistance(X, Y, typename1, queryDis, keyword) {
 
 function queryAroundPOI(sql, start) {
     startRecord = start;
-    var cityname = $("#chooseCountyName").html() + "POI";
-    if (($("#chooseCountyName").html()) == "湖南省") {
-        cityname = "长沙市POI";
-    }
-    //hint: isPOIQueryTrueAroudSearchFalse = true;
     var queryByDistanceParams;
     if (queryAroundUseDistanceFalseUseTypename1True) {
         /*类型查询*/
@@ -148,7 +143,7 @@ function queryAroundPOI(sql, start) {
             queryParams: new Array(new SuperMap.REST.FilterParameter({
                 name: poiDatasetAtDatasource,
                 orderBy: "IMPORTANCE DESC",
-                attributeFilter: sql //注意“==”与“=”的区别
+                attributeFilter: sql 
 
             })),
             returnContent: true,

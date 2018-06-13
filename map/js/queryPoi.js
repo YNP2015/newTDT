@@ -18,6 +18,7 @@ function poiClick() {
         return;
     } else {
         isAllSearching = true; //标识为全局搜索
+        currentPage = 0;
         var keyword = $(".poiSearch").val();
         var sql = "RNAME like '%" + keyword + "%'";
         queryPOI(sql, 0);
@@ -28,6 +29,7 @@ function poiClick() {
 function queryByCategories(typename1) {
     $(".menuPane").hide();
     isAllSearching = true;
+    currentPage = 0;
     var sql = "TYPENAME1='" + typename1 + "'";
     isQueryByCatagoriesNotByES = true;
     queryPOI(sql, 0);

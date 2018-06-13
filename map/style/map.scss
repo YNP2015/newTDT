@@ -6,10 +6,10 @@ $mainC:#0182cb;
 @mixin tip {
     background-color: $tipC;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
-    height: 35px;
-    line-height: 35px;
+    height: 30px;
+    line-height: 30px;
     border-radius: 4px;
     position: absolute;
     top: 55px;
@@ -60,6 +60,30 @@ body {
     top: 0;
     z-index: 1;
     border: none;
+    #handle {
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        left: 50%;
+        background: rgb(205, 205, 205);
+        border: 1px solid rgb(112, 107, 107);
+        z-index: 2000;
+        cursor: col-resize;
+        #handleCenter {
+            position: absolute;
+            height: 32px;
+            width: 24px;
+            top: 46%;
+            /* top: 50%; */
+            left: -10px;
+            background: rgb(205, 205, 205);
+            border: 1px solid rgb(112, 107, 107);
+            z-index: 2000;
+            background-image: url(../images/drag.png);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
 }
 
 .bottomNum {
@@ -338,17 +362,17 @@ body {
         a {
             text-decoration: none;
             font-size: 14px;
-            border:1px solid $tipC;
+            border: 1px solid $tipC;
             color: $tipC;
             display: block;
             float: left;
             line-height: 25px;
             width: 110px;
             text-align: center;
-            border-radius:30px;
+            border-radius: 30px;
             margin-right: 10px;
             box-sizing: border-box;
-            i{
+            i {
                 margin-right: 3px;
             }
         }
@@ -658,7 +682,7 @@ body {
         .tip {
             @include tip;
             right: 40px;
-            top: 0px;
+            top: 5px;
             &:after {
                 top: 50%;
                 left: 100%;
@@ -724,6 +748,7 @@ body {
     }
 }
 
+$mapPotR:315px;
 .mapPot {
     line-height: 30px;
     background: #fff;
@@ -732,7 +757,7 @@ body {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
     position: absolute;
     top: 10px;
-    right: 300px;
+    right: $mapPotR;
     z-index: 3;
     font-size: 12px;
     padding: 0 8px;
@@ -757,7 +782,7 @@ body {
 .citySel {
     position: absolute;
     top: 50px;
-    right: 300px;
+    right: $mapPotR;
     z-index: 2;
     overflow: hidden;
     .downtown,
@@ -809,9 +834,9 @@ body {
         position: relative;
         color: #666666;
         cursor: pointer;
+        border-radius: 5px;
         &:hover {
             background-color: #0182cb;
-            border-radius: 5px;
             color: #fff;
             .tip {
                 display: block;
@@ -1046,7 +1071,7 @@ body {
     line-height: 40px;
     height: 30px;
     font-weight: normal;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 #poiSelected_contentDiv {

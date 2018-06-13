@@ -12,7 +12,12 @@
 
 <body onLoad="init()">
     <!-- 地图 -->
-    <div id="map"></div>
+    <div id="map">
+        <!--卷帘-->
+        <div id="handle" title="通过拖动查看图层" onMouseDown="drag(event)" style="display:none;">
+            <div id="handleCenter"></div>
+        </div>
+    </div>
     <!-- 右下角地图组件 -->
     <div class="mapBtn">
         <div class="mapIcon" id="mapPos">
@@ -260,6 +265,10 @@
             <div class="tip">空地一体</div>
         </div>
         <div class="tools">
+            <i class="fa fa-envira"></i>
+            <div class="tip">书签</div>
+        </div>
+        <div class="tools">
             <i class="fa fa-dot-circle-o"></i>
             <div class="tip">商圈查看</div>
         </div>
@@ -267,7 +276,7 @@
             <i class="fa fa-eye"></i>
             <div class="tip">视野内搜索</div>
         </div>
-        <div class="tools">
+        <div class="tools juanlian" onclick="showRollingScreen()">
             <i class="fa fa-power-off"></i>
             <div class="tip">查看卷帘</div>
         </div>
