@@ -70,7 +70,9 @@ $(function () {
     /* 点击菜单按钮显示菜单块 */
     $(".searchLeft").click(function () {
         $(".resultPane").fadeOut(300, function () {
+            $(".poiMsg").hide();
             clearElements();
+            closeInfoPoi();
             $(".menuPane").fadeIn();
         });
     });

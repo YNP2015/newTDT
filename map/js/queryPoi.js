@@ -11,13 +11,13 @@ $(".poiSearch").keydown(function (event) {
 
 /* 点击搜索按钮之后的功能 */
 function poiClick() {
+    $(".poiMsg").hide();
     if ($(".poiSearch").val() == "") {
         $(".errorPane").fadeIn();
         $(".errorPane .bottom").text("请输入搜索内容！");
         return;
     } else {
         isAllSearching = true; //标识为全局搜索
-        currentPage = 0;
         var keyword = $(".poiSearch").val();
         var sql = "RNAME like '%" + keyword + "%'";
         queryPOI(sql, 0);
@@ -29,13 +29,14 @@ function queryByCategories(typename1) {
     $(".menuPane").hide();
     isAllSearching = true;
     var sql = "TYPENAME1='" + typename1 + "'";
-    currentPage = 0;
     isQueryByCatagoriesNotByES = true;
     queryPOI(sql, 0);
 }
 
 
 function queryPOI(sql, start) {
+    infowinPoi = null;
+    tenFeatursList = [];
     currentSQl = sql;
     startRecord = start;
     var queryParam, queryParams, queryService, queryDatasetName = "湖南省POI@HNPOI";
@@ -200,11 +201,10 @@ function pageselectCallback(page_index, jq) { //点击分页按钮之后执行�
 
 function clickSearchResultPanel(smx, smy, num) {
     map.setCenter(new SuperMap.LonLat(smx, smy), 15);
-    poiPointSelect(tenFeatursList[num]);
+    poiPointSelect(tenFeatursList[currentPage * 10 + num]);
 }
 
 function poiPointSelect(selectFeature) {
-    closeInfoPoi();
     var poiName, poiAddress, poiNum, poiContent;
     if ((selectFeature.attributes["TYPENAME1"] || selectFeature.attributes["TYPENAME1"] == "") && selectFeature.attributes["SkyPanoID"] == undefined) {
         poiName = selectFeature.attributes["RNAME"];
@@ -256,3 +256,16 @@ function closeInfoPoi() {
 function onVectorLayerFeatureUnselect() {
     map.removeAllPopup();
 }
+
+
+var keyword = "";
+/* poi搜索结果中的周边搜索 */
+$(".poiMsg .areaCont .jiudian").click(function () {
+    queryAround(x, y, "08", keyword); //该方法在文件 queryAround.js 中
+});
+$(".poiMsg .areaCont .canyin").click(function () {
+    queryAround(x, y, "01", keyword);
+});
+$(".poiMsg .areaCont .yinhang").click(function () {
+    queryAround(x, y, "13", keyword);
+});
