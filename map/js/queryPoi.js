@@ -16,6 +16,9 @@ function poiClick() {
         $(".errorPane").fadeIn();
         $(".errorPane .bottom").text("请输入搜索内容！");
         return;
+    } else if ($(".poiSearch").val() == "天地图湖南") {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("欢迎使用新版湖南天地图在线地图！");
     } else {
         isAllSearching = true; //标识为全局搜索
         currentPage = 0;
@@ -83,14 +86,16 @@ function queryPOI(sql, start) {
 
 function processCompletedPOI(queryEventArgs) {
     markerLayer.clearMarkers();
-    $(".resultPane").fadeIn();
-    $(".resultPane .resultCont").css("bottom", "30px"); //显示分页按钮后，将结果面板距离底部的距离调大
-    $("#Pagination").show(); //显示分页按钮
     var result = queryEventArgs.result;
     if (result && result.recordsets) {
         features = [];
         featuresAll = [];
         totalNumb = queryEventArgs.result.totalCount; //查询结果总数
+        if (totalNumb > 5000) {
+            $(".errorPane").fadeIn();
+            $(".errorPane .bottom").text("当前搜索相关信息" + totalNumb + "条，请精确搜索内容重新搜索！");
+            return;
+        }
         var recordsets = result.recordsets;
         if (recordsets[0].features) {
             featuresAll = recordsets[0].features;
@@ -109,6 +114,9 @@ function processCompletedPOI(queryEventArgs) {
         $(".errorPane .bottom").text("无查询结果！");
         return;
     }
+    $(".resultPane").fadeIn();
+    $(".resultPane .resultCont").css("bottom", "30px"); //显示分页按钮后，将结果面板距离底部的距离调大
+    $("#Pagination").show(); //显示分页按钮
     var selectFeature = new SuperMap.Control.SelectFeature(vectorLayer, {
         onSelect: poiPointSelect,
         onUnselect: onVectorLayerFeatureUnselect,
