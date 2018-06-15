@@ -12,6 +12,7 @@ $(".poiSearch").keydown(function (event) {
 /* 点击搜索按钮之后的功能 */
 function poiClick() {
     $(".poiMsg").hide();
+    $(".resultPane").hide();
     if ($(".poiSearch").val() == "") {
         $(".errorPane").fadeIn();
         $(".errorPane .bottom").text("请输入搜索内容！");
@@ -39,12 +40,19 @@ function queryByCategories(typename1) {
 }
 
 
+
 function queryPOI(sql, start) {
     infowinPoi = null;
     tenFeatursList = [];
     currentSQl = sql;
     startRecord = start;
-    var queryParam, queryParams, queryService, queryDatasetName = "湖南省POI@HNPOI";
+    cityName = $(".mapPot span").text();
+    if (cityName == "湖南省" || cityName == "长沙市" || cityName == "株洲市" || cityName == "湘潭市" || cityName == "衡阳市" || cityName == "邵阳市" || cityName == "岳阳市" || cityName == "常德市" || cityName == "张家界市" || cityName == "益阳市" || cityName == "郴州市" || cityName == "永州市" || cityName == "怀化市" || cityName == "娄底市" || cityName == "湘西州") {
+        queryDatasetName = cityName + "POI@HNPOI";
+    } else {
+        queryDatasetName = cityName + "@HNPOI";
+    }
+    var queryParam, queryParams, queryService;
     queryParam = new SuperMap.REST.FilterParameter({
         name: queryDatasetName,
         fields: ["SmID", "SmX", "SmY", "RNAME", "ADDRESS", "TYPENAME1", "TELEPHONE"],
@@ -91,11 +99,6 @@ function processCompletedPOI(queryEventArgs) {
         features = [];
         featuresAll = [];
         totalNumb = queryEventArgs.result.totalCount; //查询结果总数
-        if (totalNumb > 5000) {
-            $(".errorPane").fadeIn();
-            $(".errorPane .bottom").text("当前搜索相关信息" + totalNumb + "条，请精确搜索内容重新搜索！");
-            return;
-        }
         var recordsets = result.recordsets;
         if (recordsets[0].features) {
             featuresAll = recordsets[0].features;
@@ -241,6 +244,7 @@ function poiPointSelect(selectFeature) {
         );
         infowinPoi = selectFearturePopup;
         map.addPopup(selectFearturePopup);
+        bindqueryAroundSearch(x, y, selectFeature);
         $(".resultPane").fadeOut(300, function () { //隐藏结果面板的同时显示POI点的详细信息
             $(".poiMsg").fadeIn();
             $(".poiMsg .name span").text(poiName);
@@ -268,14 +272,22 @@ function onVectorLayerFeatureUnselect() {
 }
 
 
-var keyword = "";
-/* poi搜索结果中的周边搜索 */
-$(".poiMsg .areaCont .jiudian").click(function () {
-    queryAround(x, y, "08", keyword); //该方法在文件 queryAround.js 中
-});
-$(".poiMsg .areaCont .canyin").click(function () {
-    queryAround(x, y, "01", keyword);
-});
-$(".poiMsg .areaCont .yinhang").click(function () {
-    queryAround(x, y, "13", keyword);
-});
+function bindqueryAroundSearch(x, y, feature) {
+    var keyword = "";
+    /* poi搜索结果中的周边搜索 */
+    $(".poiMsg .areaCont .jiudian").click(function () {
+        queryAroundByClick = true;
+        queryAround(x, y, "08", keyword); //该方法在文件 queryAround.js 中
+        $(".poiMsg").fadeOut();
+    });
+    $(".poiMsg .areaCont .canyin").click(function () {
+        queryAroundByClick = true;
+        queryAround(x, y, "01", keyword);
+        $(".poiMsg").fadeOut();
+    });
+    $(".poiMsg .areaCont .yinhang").click(function () {
+        queryAroundByClick = true;
+        queryAround(x, y, "13", keyword);
+        $(".poiMsg").fadeOut();
+    });
+}

@@ -64,9 +64,10 @@ var map,
     globalCurBounds, //当前地图可视范围
     pageSize = 10, //分页插件每页显示数量
     startRecord = 0,
-    isAllSearching, //是否为全局搜索
+    isAllSearching = true, //是否为全局搜索
     isRollingScreenOpen = false, //卷帘是否开启
     isAroudSearchOpen = false, //周边POI查询是否开启
+    isCommercialDistrictSearchOpen = false, //商圈查询是否开启
     tenFeatursList = [],
     measureShow = false, //量算框是否显示
     seeSearchShow = false, //视野内搜索框是否显示
@@ -102,5 +103,9 @@ var startChooise, endChooise, imgIcon, markerStart, markerEnd, markerMid, pathTi
     start = document.getElementById("setStart"),
     end = document.getElementById("setEnd");
 
-
-var poiDatasetAtDatasource = "长沙市POI@HNPOI";
+//拖动查询圆所在的矢量图层
+var dragCircleLayer = new SuperMap.Layer.Vector("dragCircle");
+//周边查询-模糊查询的关键字
+var keywordSearchAround;
+//周边查询是否点选方式
+var queryAroundByClick = false;

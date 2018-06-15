@@ -21,6 +21,34 @@ function queryAround(x, y, xmlx, keyword) {
     setDrag(x, y, xmlx, keyword); //拖动选择半径
 }
 
+
+/* 距离查询 */
+function queryByDistance(X, Y, Xmlx, queryDis, keyword) {
+    $(".poiMsg").hide();
+    searchAroundGlobalCenterX = X;
+    searchAroundGlobalCenterY = Y;
+    searchAroundGlobalQueryDis = queryDis;
+    currentPage = 0;
+    tenFeatursList = [];
+    isAroudSearchOpen = true;
+    //直接清除掉地图上的popup
+    map.removeAllPopup();
+    //地图定位至当前查询范围
+    var centerPoint = new SuperMap.Geometry.Point(X, Y);
+    var polygon = SuperMap.Geometry.Polygon.createRegularPolygon(centerPoint, queryDis, 50, 270);
+    map.zoomToExtent(polygon.getBounds());
+    var sql;
+    if (queryAroundByClick) {
+        sql = "TYPENAME1='" + Xmlx + "'";
+    } else {
+        sql = "NAME like '%" + keyword + "%'";
+    }
+    currentSQl = sql;
+    queryAroundPOI(sql, 0);
+}
+
+
+/* 拖动选择半径 */
 function setDrag(X, Y, xmlx, keyword) {
     globalx = X, globaly = Y;
     vectorLayer.removeAllFeatures();
@@ -36,7 +64,7 @@ function setDrag(X, Y, xmlx, keyword) {
     $("#dragButton").css({
         top: (pixe.y + 20) + "px",
         left: (pixe.x - 13) + "px"
-    }); // -8 -13  改为+20 -13
+    });
     $("#distance").val(dis.toFixed(5) * 100000 + "米");
     $("#dragButton").show();
 
@@ -47,12 +75,12 @@ function setDrag(X, Y, xmlx, keyword) {
             var centerPixelY = map.getPixelFromLonLat(new SuperMap.LonLat(X, Y)).y;
             circle_resizing = true;
 
-            $('#mapDiv').mousemove(
+            $('#map').mousemove(
                 function (event) {
                     //取消浏览器的默认拖动事件
                     event.preventDefault();
                     event.stopPropagation();
-                    var oX = event.pageX - 345; //345
+                    var oX = event.pageX;
                     var eventPixel = new SuperMap.Pixel(oX, centerPixelY); //拖动时的鼠标屏幕坐标
                     dis = map.getLonLatFromPixel(eventPixel).lon - X; //拖动时的半径
                     /*start*/
@@ -74,7 +102,7 @@ function setDrag(X, Y, xmlx, keyword) {
                         obj.css({
                             'left': oX - 12,
                             'top': centerPixelY + 18
-                        }); //拖动按钮的位置随鼠标移动改变  // -13 -8改为
+                        }); //拖动按钮的位置随鼠标移动改变  
                         $("#distance").val(dis.toFixed(5) * 100000 + "米"); //显示半径文本框中的半径值
                         //实时画圆
                         globalPolygon = SuperMap.Geometry.Polygon.createRegularPolygon(centerPoint, dis, 50, 270);
@@ -86,7 +114,7 @@ function setDrag(X, Y, xmlx, keyword) {
             ).mouseup(
                 function (event) {
                     //移除鼠标拖动方法
-                    $('#mapDiv').unbind("mousemove");
+                    $('#map').unbind("mousemove");
                     /*start*/
                     circle_resizing = false;
                     if (dis < min_radius) dis = min_radius;
@@ -96,54 +124,31 @@ function setDrag(X, Y, xmlx, keyword) {
                     var pixcel = map.getPixelFromLonLat(new SuperMap.LonLat(X + dis, Y));
                     //根据当前半径进行距离查询
                     keyword = keywordSearchAround;
-                    queryByDistance11(X, Y, xmlx, dis, keyword);
+                    queryByDistance(X, Y, xmlx, dis, keyword);
                     //移除鼠标抬起方法
-                    $('#mapDiv').unbind("mouseup");
+                    $('#map').unbind("mouseup");
                 }
             );
         }
     );
 }
 
-//距离查询
-
-function queryByDistance(X, Y, typename1, queryDis, keyword) {
-    searchAroundGlobalCenterX = X;
-    searchAroundGlobalCenterY = Y;
-    searchAroundGlobalQueryDis = queryDis;
-
-    currentPage = 0;
-    isAroudSearchOpen = true;
-    //直接清除掉地图上的popup
-    map.removeAllPopup();
-    //设置分页点击调用的函数
-    var useTourismPaginationOrUseDragCirclePagination = true;
-    //地图定位至当前查询范围
-    var centerPoint = new SuperMap.Geometry.Point(X, Y);
-    var polygon = SuperMap.Geometry.Polygon.createRegularPolygon(centerPoint, queryDis, 50, 270);
-    map.zoomToExtent(polygon.getBounds());
-
-    var sql;
-    if (queryAroundUseDistanceFalseUseTypename1True) {
-        sql = "TYPENAME1='" + typename1 + "'";
-    } else {
-        sql = "NAME like '%" + keyword + "%'";
-    }
-    currentSQl = sql;
-    isCommercialDistrictSearchOpen = false;
-    queryAroundPOI(sql, 0);
-}
-
 function queryAroundPOI(sql, start) {
+    cityName = $(".mapPot span").text();
+    if (cityName == "湖南省" || cityName == "长沙市" || cityName == "株洲市" || cityName == "湘潭市" || cityName == "衡阳市" || cityName == "邵阳市" || cityName == "岳阳市" || cityName == "常德市" || cityName == "张家界市" || cityName == "益阳市" || cityName == "郴州市" || cityName == "永州市" || cityName == "怀化市" || cityName == "娄底市" || cityName == "湘西州") {
+        queryDatasetName = cityName + "POI@HNPOI";
+    } else {
+        queryDatasetName = cityName + "@HNPOI";
+    }
     startRecord = start;
     var queryByDistanceParams;
-    if (queryAroundUseDistanceFalseUseTypename1True) {
+    if (queryAroundByClick) {
         /*类型查询*/
         queryByDistanceParams = new SuperMap.REST.QueryByDistanceParameters({
             queryParams: new Array(new SuperMap.REST.FilterParameter({
-                name: poiDatasetAtDatasource,
+                name: queryDatasetName,
                 orderBy: "IMPORTANCE DESC",
-                attributeFilter: sql 
+                attributeFilter: sql
 
             })),
             returnContent: true,
@@ -154,7 +159,7 @@ function queryAroundPOI(sql, start) {
         /*SQL查询*/
         queryByDistanceParams = new SuperMap.REST.QueryByDistanceParameters({
             queryParams: new Array(new SuperMap.REST.FilterParameter({
-                name: poiDatasetAtDatasource,
+                name: queryDatasetName,
                 attributeFilter: sql
             })),
             returnContent: true,
@@ -164,7 +169,7 @@ function queryAroundPOI(sql, start) {
     }
     queryByDistanceParams.startRecord = startRecord;
     queryByDistanceParams.expectCount = expectCount;
-    var queryByDistanceService = new SuperMap.REST.QueryByDistanceService(hnpoiUrl);
+    var queryByDistanceService = new SuperMap.REST.QueryByDistanceService(urlHNPOI);
     queryByDistanceService.events.on({
         "processCompleted": processCompletedPOI,
         "processFailed": processFailedPOI

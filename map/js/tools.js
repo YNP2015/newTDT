@@ -15,6 +15,7 @@ function clearElements() {
     $(".resultPane").fadeOut();
     vectorLayer.removeAllFeatures();
     markerLayer.clearMarkers();
+    dragCircleLayer.removeAllFeatures();
     startChooise = -1, endChooise = -1;
     start.onclick = function () { //恢复起点被再次点击的功能
         chooseStart("start");
@@ -28,6 +29,7 @@ function clearElements() {
     $(".poiSearch").val("");
     $(".startP").val("");
     $(".endP").val("");
+    $("#dragButton").hide();
 }
 
 
