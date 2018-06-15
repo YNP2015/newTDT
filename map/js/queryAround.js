@@ -4,7 +4,6 @@ var globalPolygon;
 var dis;
 var min_radius = 0.005; //500m
 var max_radius = 0.05; //5000m
-var circle_resizing = false; //移动标记
 var searchAroundGlobalCenterX, searchAroundGlobalCenterY, searchAroundGlobalQueryDis;
 var circleStyle = {
     strokeColor: "#316fba",
@@ -62,10 +61,10 @@ function setDrag(X, Y, xmlx, keyword) {
     var dragButtonLonlat = new SuperMap.LonLat(X + dis, Y);
     var pixe = map.getPixelFromLonLat(dragButtonLonlat);
     $("#dragButton").css({
-        top: (pixe.y + 20) + "px",
+        top: pixe.y + "px",
         left: (pixe.x - 13) + "px"
     });
-    $("#distance").val(dis.toFixed(5) * 100000 + "米");
+    $("#distance").val(dis.toFixed(4) * 100000 + "米");
     $("#dragButton").show();
 
     $('#dragButton').mousedown(
@@ -73,7 +72,6 @@ function setDrag(X, Y, xmlx, keyword) {
             //鼠标按下时，获取圆心的屏幕坐标
             var centerPixelX = event.pageX - map.getPixelFromLonLat(new SuperMap.LonLat(X, Y)).x;
             var centerPixelY = map.getPixelFromLonLat(new SuperMap.LonLat(X, Y)).y;
-            circle_resizing = true;
 
             $('#map').mousemove(
                 function (event) {
@@ -86,24 +84,23 @@ function setDrag(X, Y, xmlx, keyword) {
                     /*start*/
                     if (dis < min_radius) {
                         dis = min_radius;
-                        $("#distance").val(dis.toFixed(5) * 100000 + "米");
+                        $("#distance").val(dis.toFixed(4) * 100000 + "米");
                         return;
                     }
 
                     if (dis > max_radius) {
                         dis = max_radius;
-                        $("#distance").val(dis.toFixed(5) * 100000 + "米");
+                        $("#distance").val(dis.toFixed(4) * 100000 + "米");
                         return;
                     }
                     /*end*/
-                    var obj = $('#dragButton');
                     //控制拖动按钮向左不能超过圆心
                     if (event.pageX > map.getPixelFromLonLat(new SuperMap.LonLat(X, Y)).x) {
-                        obj.css({
+                        $('#dragButton').css({
                             'left': oX - 12,
                             'top': centerPixelY + 18
                         }); //拖动按钮的位置随鼠标移动改变  
-                        $("#distance").val(dis.toFixed(5) * 100000 + "米"); //显示半径文本框中的半径值
+                        $("#distance").val(dis.toFixed(4) * 100000 + "米"); //显示半径文本框中的半径值
                         //实时画圆
                         globalPolygon = SuperMap.Geometry.Polygon.createRegularPolygon(centerPoint, dis, 50, 270);
                         vectorLayer.removeAllFeatures();
@@ -116,14 +113,12 @@ function setDrag(X, Y, xmlx, keyword) {
                     //移除鼠标拖动方法
                     $('#map').unbind("mousemove");
                     /*start*/
-                    circle_resizing = false;
                     if (dis < min_radius) dis = min_radius;
                     if (dis > max_radius) dis = max_radius;
                     /*end*/
                     //鼠标释放后dragbutton位置bug修改
                     var pixcel = map.getPixelFromLonLat(new SuperMap.LonLat(X + dis, Y));
                     //根据当前半径进行距离查询
-                    keyword = keywordSearchAround;
                     queryByDistance(X, Y, xmlx, dis, keyword);
                     //移除鼠标抬起方法
                     $('#map').unbind("mouseup");
