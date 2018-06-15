@@ -83,6 +83,10 @@ function addLayer() {
     map.events.register("zoomend", null, getZoomNum);
     /* 点击地图 */
     map.events.register("click", null, mapClick);
+    /* 地图移动的时候 */
+    map.events.on({
+        "move": mapMove
+    });
 }
 
 
@@ -214,3 +218,15 @@ EventUtil.addHandler(window, "load", function (event) {
         $("#rKey").css("visibility", "visible");
     });
 });
+
+
+function mapMove() {
+    //在拖动地图的过程中，使拖动按钮随着地图移动
+    if ($('#dragButton').is(":visible")) {
+        var pixcel = map.getPixelFromLonLat(new SuperMap.LonLat(globalx + dis, globaly));
+        $("#dragButton").css({
+            top: pixcel.y + "px",
+            left: (pixcel.x - 13) + "px"
+        });
+    }
+}
