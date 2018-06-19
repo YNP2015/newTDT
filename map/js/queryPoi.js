@@ -11,6 +11,7 @@ $(".poiSearch").keydown(function (event) {
 
 /* 点击搜索按钮之后的功能 */
 function poiClick() {
+    isSkyPanoQuery = false;
     $(".poiMsg").hide();
     $(".resultPane").hide();
     if ($(".poiSearch").val() == "") {
@@ -31,6 +32,7 @@ function poiClick() {
 
 /* 点击地名分类直接查询 */
 function queryByCategories(typename1) {
+    isSkyPanoQuery = false;
     $(".menuPane").hide();
     isAllSearching = true;
     currentPage = 0;
@@ -163,16 +165,20 @@ function showQueryResult(features) { //显示搜索结果
         currentTabCount++;
         var smx = featureTemp.geometry.x;
         var smy = featureTemp.geometry.y;
-
-        var poiname = featureTemp.attributes['RNAME'];
+        var poiname;
+        if (isSkyPanoQuery) {
+            poiname = featureTemp.attributes['NAME'];
+        } else {
+            poiname = featureTemp.attributes['RNAME'];
+        }
         var addr = "";
-        if (featureTemp.attributes["ADDRESS"] == ' ') {
+        if (featureTemp.attributes["ADDRESS"] == ' ' || featureTemp.attributes["ADDRESS"] == undefined) {
             addr = "地址：" + "暂缺";
         } else {
             addr = "地址：" + featureTemp.attributes['ADDRESS'];
         }
         var tel = "";
-        if (featureTemp.attributes["TELEPHONE"] == ' ') {
+        if (featureTemp.attributes["TELEPHONE"] == ' ' || featureTemp.attributes["TELEPHONE"] == undefined) {
             tel = "电话：" + "暂缺";
         } else {
             tel = "电话：" + featureTemp.attributes['TELEPHONE'];

@@ -33,6 +33,8 @@ var map,
     urlCia = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/cia", //影像注记服务
     urlRoudNet = "http://222.247.40.204:8091/iserver/services/transportationAnalyst-HNNET/rest/networkanalyst/HNNET@HNNET", //路网
     urlHNPOI = "http://222.247.40.204:8091/iserver/services/map-HNPOI/rest/maps/HNPOI", //poi
+    skyPanoUrl = "http://222.247.40.204:8091/iserver/services/map-pano/rest/maps/CloudPano", //全景
+    skyPanoDatasetAtDatasource = "CloudPano@pano",
     restLayerResolutions = [
         0.703125, //0    
         0.3515625, //1
@@ -67,6 +69,7 @@ var map,
     isAllSearching = true, //是否为全局搜索
     isRollingScreenOpen = false, //卷帘是否开启
     isAroudSearchOpen = false, //周边POI查询是否开启
+    isSkyPanoQuery = false, // 空地一体查询是否开启
     isCommercialDistrictSearchOpen = false, //商圈查询是否开启
     tenFeatursList = [],
     measureShow = false, //量算框是否显示

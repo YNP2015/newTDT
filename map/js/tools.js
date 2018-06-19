@@ -77,6 +77,7 @@ function gotoMultidate() {
 
 /* 视野内查询显示和隐藏 */
 function showSeeSearch() {
+    isSkyPanoQuery = false;
     if (measureShow) { //根据实际情况调整具体位置
         $(".seeSearch").css("top", "160px");
     } else {
@@ -99,8 +100,7 @@ $(".seeSearch .close").click(function () {
 function showRollingScreen() {
     if (!isRollingScreenOpen) {
         isRollingScreenOpen = true;
-        $(".toolsBar .juanlian").css("background-color", "#0182cb");
-        $(".toolsBar .juanlian").css("color", "#fff");
+        $(".toolsBar .juanlian").addClass("juanlianed");
         $(".toolsBar .juanlian .tip").text("关闭卷帘");
         $("#handle").css("display", "block");
         if (curType == "vec") { //如果当前图层是矢量，则需要把矢量图层放在影像图层的上面
@@ -138,8 +138,7 @@ function showRollingScreen() {
         handleLeft = mapwidth * 0.5;
     } else {
         isRollingScreenOpen = false;
-        $(".toolsBar .juanlian").css("background-color", "#ffffff");
-        $(".toolsBar .juanlian").css("color", "#666");
+        $(".toolsBar .juanlian").removeClass("juanlianed");
         $(".toolsBar .juanlian .tip").text("查看卷帘");
         $("#handle").css("display", "none");
         //相当于卷帘拖动到最左边
@@ -169,10 +168,6 @@ function showRollingScreen() {
         }
     }
 }
-
-
-
-
 
 function clip(left) {
     var mapTop = "0px",
@@ -227,4 +222,29 @@ function drag(e) {
         }
         objectDiv = null;
     };
+}
+
+
+
+/* 空地一体 */
+function showSkyPano() {
+        currentPage = 0;
+    startRecord = 0;
+    isSkyPanoQuery = true;
+    var queryParam, queryParams, queryService;
+    queryParam = new SuperMap.REST.FilterParameter({
+        name: skyPanoDatasetAtDatasource,
+        attributeFilter: "SMID > -1"
+    });
+    queryParams = new SuperMap.REST.QueryBySQLParameters({
+        queryParams: [queryParam]
+    });
+    queryService = new SuperMap.REST.QueryBySQLService(skyPanoUrl, {
+        eventListeners: {
+            "processCompleted": processCompletedPOI,
+            "processFailed": processFailedPOI
+        }
+    });
+
+    queryService.processAsync(queryParams);
 }
