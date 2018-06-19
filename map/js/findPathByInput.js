@@ -34,6 +34,7 @@ function roadClick() {
     }
 }
 
+var poiDatasetAtDatasource = "湖南省POI@HNPOI";
 function queryRoad() {
     var queryParamStartPoint, queryParamDestPoint, queryBySQLParams, queryBySQLService;
     queryParamStartPoint = new SuperMap.REST.FilterParameter({

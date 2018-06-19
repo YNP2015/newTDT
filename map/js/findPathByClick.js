@@ -8,7 +8,8 @@ function chooseStart(startOrEnd) {
         imgIcon = "../public/images/mark/start.png";
         startChooise = 0;
         drawCompleted();
-    } else {
+    }
+    if (startOrEnd == "end") {
         imgIcon = "../public/images/mark/end.png";
         endChooise = 0;
         drawCompleted();
@@ -16,6 +17,13 @@ function chooseStart(startOrEnd) {
 }
 /* 标记起始点 */
 function drawCompleted(drawGeometryArgs) {
+    /*移除掉起点和终点的marker*/
+    if (markerStart) {
+        markerLayer.removeMarker(markerStart);
+    }
+    if (markerEnd) {
+        markerLayer.removeMarker(markerEnd);
+    }
     var pixelX = parseInt($('#rKey').css("left"));
     var pixelY = parseInt($('#rKey').css("top"));
     var px = new SuperMap.Pixel(pixelX, pixelY);
@@ -43,27 +51,14 @@ function drawCompleted(drawGeometryArgs) {
     if (startChooise == 0) { //如果设置的是起点
         startChooise = 1;
         map.removeAllPopup();
-        /*移除掉起点和终点的marker*/
-        if (markerStart) {
-            markerLayer.removeMarker(markerStart);
-        }
-        if (markerEnd) {
-            markerLayer.removeMarker(markerEnd);
-        }
         start.onclick = function () { //禁止起点被再次点击
             return false;
         }
-    } else if (endChooise == 0) {
+    }
+    if (endChooise == 0) {
         endChooise = 1;
         map.removeAllPopup();
-        /*移除掉起点和终点的marker*/
-        if (markerStart) {
-            markerLayer.removeMarker(markerStart);
-        }
-        if (markerEnd) {
-            markerLayer.removeMarker(markerEnd);
-        }
-        end.onclick = function () { //禁止终点被再次点击
+        Pend.onclick = function () { //禁止终点被再次点击
             return false;
         }
     }
@@ -74,7 +69,7 @@ function drawCompleted(drawGeometryArgs) {
         start.onclick = function () { //恢复起点被再次点击的功能
             chooseStart("start");
         }
-        end.onclick = function () { //恢复终点被再次点击的功能
+        Pend.onclick = function () { //恢复终点被再次点击的功能
             chooseStart("end");
         }
     }

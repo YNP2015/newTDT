@@ -20,7 +20,7 @@ function clearElements() {
     start.onclick = function () { //恢复起点被再次点击的功能
         chooseStart("start");
     }
-    end.onclick = function () { //恢复终点被再次点击的功能
+    Pend.onclick = function () { //恢复终点被再次点击的功能
         chooseStart("end");
     }
     clearAllMeasureAreaResult();

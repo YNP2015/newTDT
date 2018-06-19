@@ -97,11 +97,13 @@ var circleMeasureValueArray = {
 
 /* 这部分变量是关于路径分析的 */
 var startPointNameAndDestPointNameFromPopup = false; //默认不是气泡中的路径查询
-var startChooise, endChooise, imgIcon, markerStart, markerEnd, markerMid, pathTime, startPointSM, destPointSM, nodeArray = [],
+var startChooise = -1,
+    endChooise = -1,
+    imgIcon, markerStart, markerEnd, markerMid, pathTime, startPointSM, destPointSM, nodeArray = [],
     pathListIndex = 0,
     routeCompsIndex = 0,
     start = document.getElementById("setStart"),
-    end = document.getElementById("setEnd");
+    Pend = document.getElementById("setEnd");
 
 //拖动查询圆所在的矢量图层
 var dragCircleLayer = new SuperMap.Layer.Vector("dragCircle");
