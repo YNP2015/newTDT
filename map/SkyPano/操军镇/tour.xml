@@ -1,0 +1,304 @@
+﻿<krpano version="1.19" title="华容县">
+
+	<include url="skin/vtourskin.xml" />
+
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="false"
+	               maps_type="bing"
+	               maps_bing_api_key="Al3rJAPnIOax93itYnjquoD9N64NjZv5nXGQ_xnAdgkJ1jePMV6DLgjgzRsqP3X8"
+	               maps_google_api_key="AIzaSyDMmf4loTlAI6AKXA_-u-fWxi_-fybtcA8"
+	               maps_zoombuttons="false"
+	               gyro="true"
+	               webvr="true"
+	               webvr_gyro_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="false"
+	               littleplanetintro="true"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="true"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext="loading..."
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="1"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<include url="skin/vtourskin_design_ultra_light.xml" />
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> -->
+	<!-- 点赞浏览量头文件 -->
+	
+
+	<!-- 自动旋转和跳转 -->
+	<autorotate enabled="true"
+		waittime="5.0"
+		speed="-3.0"
+		horizon="0.0"
+		tofov="120.0"
+		/>
+
+	<!-- startup action - load the first scene -->
+	<action name="startup" autorun="onstart">
+		<!-- if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
+		loadscene(get(startscene), null, MERGE);
+		if(startactions !== null, startactions() ); -->
+		if(startscene === null, copy(startscene,scene[0].name));
+		loadscene(get(startscene), null, MERGE);
+		if(autorotate.enabled,bombtimer(0));
+	</action>
+
+	<events onmousedown="set(bt,0);" />
+	<action name="bombtimer">
+		set(autorotate.enabled,true);
+		set(bt,%1);
+		add(bt,1);
+		delayedcall(1, bombtimer(get(bt)));
+		copy(bt_1,autorotate.speed);
+		Math.abs(bt_1);
+		div(bt_2,360,bt_1);
+		add(bt_2,autorotate.waittime);
+		if(bt GE bt_2, set(bt,0); nextscene(););
+	</action>
+	<action name="nextscene">
+		set(ns, get(scene[get(xml.scene)].index));
+		set(maxs, get(scene.count));
+		add(ns,1);
+		if(ns == maxs, set(ns,0));
+		loadscene(get(scene[get(ns)].name), null, MERGE, BLEND(1.5));
+	</action>
+
+	<events keep="true" onxmlcomplete="hideButtons()" />
+	<action name="hideButtons">
+		if((webvr.isenabled) AND (jsget($('#buttons').attr('display');) != 'display:none;'),
+	     jscall($('#buttons').hide();)
+			);
+			if((!webvr.isenabled),
+				 jscall($('#buttons').show();)
+				);
+		<!-- if(webvr.isenabled,); -->
+		<!-- if(webvr.isenabled,jscall($('#buttons').hide();),jscall($('#buttons').show();)) -->
+	</action>
+
+
+	
+	<!-- 自定义地图开始， mapcontainer是一个半透明容器container，keep为true，确保了切换场景时地图不会被移除，mapcontainer是其它子layer的父亲，bgcolor以及bgalpha是颜色和透明度的设定，通过改动align以及xy坐标可以确定地图的位置，通过改变width和height确定该矩形的宽度和高度，-->
+	<!-- <layer name="mapcontainer" keep="true" type="container" bgcolor="0x000000" bgalpha="0" align="lefttop" x="0" y="0" width="264" height="264"> -->
+	<!-- map的url属性可以改成我们自己的地图文件，align一定是lefttop，这是为了确定热点位置，其坐标系以左上角为0点，也是为了方便我们通过ps等方法来获取热点的值。-->
+		<!-- <layer name="map" url="skin/b1map.png" align="top" x="4" y="4" width="prop" height="256" handcursor="false" scalechildren="true"> -->
+			<!-- 雷达遮罩部分，确保了雷达的扇形不会超出范围，这里也就是地图map的范围。注意这里也应该是对齐左上角，下面的各种layer通通都是对齐左上角，不然坐标系不统一的话，就很难确定热点的位置 -->
+			<!-- <layer name="radarmask" type="container" align="lefttop" width="100%" height="100%" maskchildren="true"> -->
+
+				<!-- 雷达插件 zoder=1 在开始时为隐藏，只有激活activetespot这个action时才会显示 zorder为叠放次序 数字越大越靠前 -->
+				<!-- <layer name="radar" visible="false"
+				       url="%SWFPATH%/plugins/radar.swf" alturl="%SWFPATH%/plugins/radar.js"
+				       align="lefttop" edge="center" zorder="1"
+				       scale="1.5"
+				       fillcolor="0xFFFFFF" fillalpha="0.8"
+				       linecolor="0xFF0000" linewidth="0.5" linealpha="0.5"
+				       headingoffset="0"
+				       /> -->
+
+				<!-- 热点 zorder=2，用style来统一处理 所有layer都载入了一个名为spot的style，注意这里spot是由0开始，而不是由1开始的，因此在一般情况下，地图点与场景一一对应，而场景的index是从0开始的，所以我们可以利用这一点提高代码的可读性-->
+				<!-- <layer name="spot0" style="spot" x="518" y="495"  />
+				<layer name="spot1" style="spot" x="179" y="655"  />
+				<layer name="spot2" style="spot" x="687"  y="320"   />
+				<layer name="spot3" style="spot" x="343" y="699"  /> -->
+
+				<!-- 激活的热点 zorder=3 开始时候隐藏，在这里是一个绿色的地图点， 表示当前的场景-->
+				<!-- <layer name="activespot" url="skin/vtourskin_mapspotactive.png" scale="2.0" oy="-17" align="lefttop" edge="center" zorder="3" visible="false"/>
+			</layer>
+		</layer>
+	</layer> -->
+
+	<!-- 地图点中相同的代码，都写在了style里面，修改的时候只需要修改style里面的代码，提高了效率。在onclick里，先是用subtxt得出spot后面的数字，也就是index，然后检查是否点击的热点就是当前场景，因为没有必要点击当前场景的热点又载入一遍，如果是点击其他的热点，则载入其他场景，载入场景的loadscene中利用了之前得到的spotid，这样就不用每次都写场景的名字了。-->
+     <!-- <style name="spot" url="skin/vtourskin_mapspot.png" scale="1.5" oy="-17" align="lefttop" edge="center" zorder="2" onclick="subtxt(spotid,get(name),4,2);if(spotid != scene[get(xml.scene)].index,  
+  loadscene(get(scene[get(spotid)].name),null,MERGE,BLEND(1)); );" />   -->
+
+	<!-- 激活热点 - %1 = 当前雷达的方向值heading -->
+	<!-- <action name="activatespot">   -->
+    <!-- 因此绿色地图点会在每次激活时替换蓝色普通地图点，因此每次激活之前，首先保证所有蓝色地图点是可见的，如果没有下面这个代码，则会使得上一个场景的蓝色地图点消失，这里用的是一个循环语句-->  
+    <!-- for(set(i,0),i LT scene.count,inc(i),  
+    txtadd(spotname,'spot',get(i));  
+    set(layer[get(spotname)].visible, true);  
+    );   -->
+    <!-- 将当前热点的坐标复制到雷达和激活点的坐标，直接利用当前场景的index，反过来得到layer的名字，这样就使得这个activetespot的参数只要一个就可以了-->  
+    <!-- txtadd(spotidnow,'spot',get(scene[get(xml.scene)].index));  
+    copy(layer[radar].x, layer[get(spotidnow)].x);  
+    copy(layer[radar].y, layer[get(spotidnow)].y);  
+    copy(layer[activespot].x, layer[get(spotidnow)].x);  
+    copy(layer[activespot].y, layer[get(spotidnow)].y);   -->
+  
+    <!-- 将第二个参数赋值到雷达的heading -->  
+    <!-- set(layer[radar].heading, %1);   -->
+  
+        <!-- 显示雷达和绿色激活热点，以及隐藏当前场景的地图点 -->  
+    <!-- set(layer[radar].visible, true);  
+    set(layer[activespot].visible, true);  
+    set(layer[get(spotidnow)].visible, false);  
+    </action>   -->
+
+	<action name="do_crop_animation">
+		<!-- 为热点注册属性 -->
+		registerattribute(xframes, calc((imagewidth / %1) BOR 0));
+		registerattribute(yframes, calc((imageheight / %2) BOR 0));
+		registerattribute(frames, calc(xframes * yframes));
+		registerattribute(frame, 0);
+ 
+		set(crop, '0|0|%1|%2');
+ 
+		setinterval(calc('crop_anim_' + name), calc(1.0 / %3),
+		if(loaded,
+			inc(frame);
+			if(frame GE frames, if(onlastframe !== null, onlastframe() ); set(frame,0); );
+			mod(xpos, frame, xframes);
+			div(ypos, frame, xframes);
+			Math.floor(ypos);
+			mul(xpos, %1);
+			mul(ypos, %2);
+			calc(crop, xpos + '|' + ypos + '|%1|%2');
+		  ,
+			clearinterval(calc('crop_anim_' + name));
+		  	);
+	  	);
+	</action>
+
+	<scene name="scene_caojunzhen(k1)" title="操军镇(空1)" onstart="activatespot(190)" havevrimage="true" thumburl="panos/caojunzhen(k1).tiles/thumb.jpg" lat="29.45565833" lng="112.44799556" heading="0.0">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/caojunzhen(k1).tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled">
+			<level tiledimagewidth="2176" tiledimageheight="2176">
+				<cube url="panos/caojunzhen(k1).tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="1152" tiledimageheight="1152">
+				<cube url="panos/caojunzhen(k1).tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+		</image>
+
+		<image if="webvr.isenabled">
+			<cube url="panos/caojunzhen(k1).tiles/vr/pano_%s.jpg" />
+		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle" url="new_spotd11_gif.png" ath="36.562" atv="-45.557"  linkedscene="scene_caojunzhen(k2)" />
+		<hotspot name="spot2" style="skin_hotspotstyle_1" url="dimian.png" ath="-125.018" atv="35.866"  linkedscene="scene_caojunzhen(d1)" />
+		<hotspot name="spot3" style="skin_hotspotstyle_1" url="dimian.png" ath="42.063" atv="7.871"  linkedscene="scene_caojunzhen(d2)" />	
+
+	</scene>
+
+	<scene name="scene_caojunzhen(k2)" title="操军镇(空2)" onstart="activatespot(190)" havevrimage="true" thumburl="panos/caojunzhen(k2).tiles/thumb.jpg" lat="29.44884667" lng="112.44699056" heading="0.0">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/caojunzhen(k2).tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled">
+			<level tiledimagewidth="2176" tiledimageheight="2176">
+				<cube url="panos/caojunzhen(k2).tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="1152" tiledimageheight="1152">
+				<cube url="panos/caojunzhen(k2).tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+		</image>
+
+		<image if="webvr.isenabled">
+			<cube url="panos/caojunzhen(k2).tiles/vr/pano_%s.jpg" />
+		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle" url="new_spotd11_gif.png" ath="-161.266" atv="-33.909"  linkedscene="scene_caojunzhen(k1)" />
+		<hotspot name="spot2" style="skin_hotspotstyle_1" url="dimian.png" ath="-164.993" atv="5.848"  linkedscene="scene_caojunzhen(d1)" />
+		<hotspot name="spot3" style="skin_hotspotstyle_1" url="dimian.png" ath="41.041" atv="55.592"  linkedscene="scene_caojunzhen(d2)" />	
+
+	</scene>
+	
+	<scene name="scene_caojunzhen(d1)" title="操军镇(地1)" onstart="activatespot(190)" havevrimage="true" thumburl="panos/caojunzhen(d1).tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/caojunzhen(d1).tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled">
+			<level tiledimagewidth="1792" tiledimageheight="1792">
+				<cube url="panos/caojunzhen(d1).tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="1024" tiledimageheight="1024">
+				<cube url="panos/caojunzhen(d1).tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+		</image>
+
+		<image if="webvr.isenabled">
+			<cube url="panos/caojunzhen(d1).tiles/vr/pano_%s.jpg" />
+		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle" url="new_spotd11_gif.png" ath="-65.704" atv="-61.623"  linkedscene="scene_caojunzhen(k1)" />
+
+	</scene>
+
+	<scene name="scene_caojunzhen(d2)" title="操军镇(地2)" onstart="activatespot(190)" havevrimage="true" thumburl="panos/caojunzhen(d2).tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/caojunzhen(d2).tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled">
+			<level tiledimagewidth="1792" tiledimageheight="1792">
+				<cube url="panos/caojunzhen(d2).tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="768" tiledimageheight="768">
+				<cube url="panos/caojunzhen(d2).tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+		</image>
+
+		<image if="webvr.isenabled">
+			<cube url="panos/caojunzhen(d2).tiles/vr/pano_%s.jpg" />
+		</image>
+
+		<!-- place your scene hotspots here -->
+		<hotspot name="spot1" style="skin_hotspotstyle" url="new_spotd11_gif.png" ath="-139.290" atv="-64.475"  linkedscene="scene_caojunzhen(k2)" />
+
+	</scene>
+
+</krpano>

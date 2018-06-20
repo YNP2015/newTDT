@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>krpano - hrguotuju(k)</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="x-ua-compatible" content="IE=edge" />
+	<link rel="stylesheet" href="css/style.css">
+	<script src="tour.js"></script>
+	<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+	<script src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+	<script src="js/main.js"></script>
+
+	
+</head>
+<body onload="init()">
+
+<script src="tour.js"></script>
+
+
+
+<div id="pano" style="width:100%;height:100%;">
+	<noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;"><td><div style="text-align:center;">ERROR:<br/><br/>Javascript not activated<br/><br/></div></td></tr></table></noscript>
+	<script>
+		embedpano({swf:"tour.swf", xml:"tour.xml", target:"pano", html5:"auto", mobilescale:1.0, passQueryParameters:true});
+	</script>
+</div>
+
+	<!-- 地图 -->
+	<!-- <div id="map">
+		<div class="LayerControl">
+			<div class="item on">矢量</div>
+			<div class="item">影像</div>
+		</div>
+	</div> -->
+
+	<!-- logo展示 -->
+	<div class="logo">
+		<img src="images/logo2.png" alt="">
+	</div>
+	<!-- 二维码弹框展示 -->
+	<div class="fullMa">
+		<div class="showArea">
+			<h3>用微信扫面二维码，分享给好友</h3>
+			<div class="areaMain" id="qrcode"></div>
+		</div>
+	</div>
+	<!-- 详情弹框展示 -->
+	<div class="fullInfo">
+		<div class="showArea">
+			<h3>简      介</h3>
+			<div class="areaMain">
+				<div id="info">
+					华容县国土资源局坐落在章华镇杏花村东路，该局成立于1987年6月，现有干部职工212人，其中在职在岗178人，离退休34人。主要工作职责是负责贯彻执行国家、省、市有关土地、矿产资源及测绘管理的方针、政策和法规，代表县政府统一管理全县国土资源，隶属市国土资源局和县政府双重管理，系财政全额预算行政事业单位。
+				</div>
+				<div class="infoClose">
+					<img src="images/close.png" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 说一说弹框 -->
+	<div class="fullMeeting">
+		<h5>说一说</h5>
+		<textarea type="text" id="sayText" placeholder="随便说点儿吧!(广告及恶意留言将封号)"></textarea>
+		<a id="subSay">发 表</a>
+		<a id="removeSay">取 消</a>
+	</div>
+
+	<!-- 按钮区域 -->
+	<div id="buttons">
+		<div class="buttonItem contact">
+			<img src="images/contact.png" alt="">
+			<div class="num">TEL: 156-7314-9672</div>
+		</div>
+		<div class="buttonItem share">
+			<img src="images/share.png" alt="">
+		</div>
+		<div class="buttonItem notice">
+			<img src="images/notice.png" alt="">
+		</div>
+		<!-- <div class="buttonItem meeting">
+			<img src="images/meeting.png" alt="">
+		</div> -->
+	</div>
+
+
+</body>
+</html>
