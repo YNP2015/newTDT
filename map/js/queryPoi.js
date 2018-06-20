@@ -70,6 +70,16 @@ function queryByCategories(typename1) {
     queryPOI(sql, 0);
 }
 
+function queryByDetailCategories(typename2) {
+    isSkyPanoQuery = false;
+    $(".menuPane").hide();
+    isAllSearching = false;
+    globalCurBounds = map.getExtent();
+    var sql = "TYPENAME2='" + typename2 + "'";
+    currentPage = 0;
+    queryPOI(sql, 0);
+}
+
 
 
 function queryPOI(sql, start) {
