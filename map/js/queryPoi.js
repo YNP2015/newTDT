@@ -9,6 +9,16 @@ $(".poiSearch").keydown(function (event) {
     }
 })
 
+/* 视野内搜索按钮事件 */
+$("#seePoi").click(function () {
+    poiAroundClick();
+});
+$("#seeInput").keydown(function (event) {
+    if (event.keyCode == 13) {
+        poiAroundClick();
+    }
+})
+
 /* 点击搜索按钮之后的功能 */
 function poiClick() {
     isSkyPanoQuery = false;
@@ -25,6 +35,25 @@ function poiClick() {
         isAllSearching = true; //标识为全局搜索
         currentPage = 0;
         var keyword = $(".poiSearch").val();
+        var sql = "RNAME like '%" + keyword + "%'";
+        queryPOI(sql, 0);
+    }
+}
+
+function poiAroundClick() {
+    $(".poiMsg").hide();
+    $(".resultPane").hide();
+    if ($("#seeInput").val() == "") {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("请输入搜索内容！");
+        return;
+    } else if ($("#seeInput").val() == "天地图湖南") {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("欢迎使用新版湖南天地图在线地图！");
+    } else {
+        isAllSearching = false; //标识为视野内搜索
+        currentPage = 0;
+        var keyword = $("#seeInput").val();
         var sql = "RNAME like '%" + keyword + "%'";
         queryPOI(sql, 0);
     }
@@ -73,14 +102,12 @@ function queryPOI(sql, start) {
                 "processFailed": processFailedPOI
             }
         });
-        //当前视域查询
     } else {
         //当前视域查询&&普通查询
         globalCurBounds = map.getExtent();
-        var curBounds = globalCurBounds;
         queryParams = new SuperMap.REST.QueryByBoundsParameters({
             queryParams: [queryParam],
-            bounds: curBounds
+            bounds: globalCurBounds
         });
         queryService = new SuperMap.REST.QueryByBoundsService(urlHNPOI, {
             eventListeners: {

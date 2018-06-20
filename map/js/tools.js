@@ -27,6 +27,7 @@ function clearElements() {
     clearAllMeasureDistanceResult();
     clearAllMeasureCircleResult();
     $(".poiSearch").val("");
+    $("#seeInput").val("");
     $(".startP").val("");
     $(".endP").val("");
     $("#dragButton").hide();
@@ -228,7 +229,7 @@ function drag(e) {
 
 /* 空地一体 */
 function showSkyPano() {
-        currentPage = 0;
+    currentPage = 0;
     startRecord = 0;
     isSkyPanoQuery = true;
     var queryParam, queryParams, queryService;
