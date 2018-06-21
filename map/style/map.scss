@@ -52,7 +52,32 @@ body {
     position: relative;
 }
 
+#pano {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100000;
+    border: none;
+    display: none;
+}
 
+.panoReturn {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 100001;
+    background-color: #fff;
+    border-radius:35px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    line-height: 40px;
+    display: none;
+}
 
 #map {
     width: 100%;
@@ -86,7 +111,7 @@ body {
             background-repeat: no-repeat;
         }
     }
-    #dragButton{
+    #dragButton {
         position: absolute;
         width: 70px;
         height: 18px;
@@ -97,7 +122,7 @@ body {
             width: 25px;
             height: 16px;
             border-radius: 5px;
-            outline:none;
+            outline: none;
         }
         #distance {
             position: absolute;
@@ -106,8 +131,8 @@ body {
             line-height: 20px;
             font-size: 12px;
             box-sizing: border-box;
-            border:1px solid #ccc;
-            outline:none;
+            border: 1px solid #ccc;
+            outline: none;
         }
     }
 }
@@ -878,7 +903,7 @@ $mapPotR:330px;
             }
         }
     }
-    .juanlianed{
+    .juanlianed {
         background-color: #0182cb;
         color: #ffffff;
     }

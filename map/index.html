@@ -11,6 +11,12 @@
 </head>
 
 <body onLoad="init()">
+    <!-- 全景展示 覆盖在所有之上 -->
+    <div id="pano"></div>
+    <!-- 返回 -->
+    <div class="panoReturn">
+        <i class="fa fa-chevron-left"></i>
+    </div>
     <!-- 地图 -->
     <div id="map">
         <!--卷帘-->
@@ -448,6 +454,8 @@
     <!-- 关于量算的函数 -->
     <script src="js/hashMap.js"></script>
     <script src="js/measure.js"></script>
+    <!-- 全景 -->
+    <script src="SkyPano/tour.js"></script>
 </body>
 
 </html>

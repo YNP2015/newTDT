@@ -295,10 +295,28 @@ function poiPointSelect(selectFeature) {
             $(".poiMsg .phone span").text(poiNum);
         });
     } else {
-        $(".errorPane").fadeIn();
-        $(".errorPane .bottom").text("查无资料！");
+        $("#pano").html("");
+        var placeName = biaozhuTitle = selectFeature.attributes["NAME"];
+        embedpano({
+            swf: "SkyPano/" + placeName + "/tour.swf",
+            xml: "SkyPano/" + placeName + "/tour.xml",
+            target: "pano",
+            html5: "prefer",
+            initvars: {
+                design: "flat"
+            },
+            passQueryParameters: true
+        });
+        $("#pano").show();
+        $(".panoReturn").show();
     }
 }
+
+$(".panoReturn").click(function () {
+    $("#pano").html("");
+    $(".panoReturn").hide();
+    $("#pano").hide();
+});
 
 
 function closeInfoPoi() {
