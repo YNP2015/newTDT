@@ -294,7 +294,7 @@ function poiPointSelect(selectFeature) {
             $(".poiMsg .addr span").text(poiAddress);
             $(".poiMsg .phone span").text(poiNum);
         });
-    } else {
+    } else { //全景
         $("#pano").html("");
         var placeName = biaozhuTitle = selectFeature.attributes["NAME"];
         embedpano({

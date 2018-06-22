@@ -231,6 +231,7 @@ function drag(e) {
 function showSkyPano() {
     currentPage = 0;
     startRecord = 0;
+    tenFeatursList = [];
     isSkyPanoQuery = true;
     var queryParam, queryParams, queryService;
     queryParam = new SuperMap.REST.FilterParameter({
@@ -246,6 +247,12 @@ function showSkyPano() {
             "processFailed": processFailedPOI
         }
     });
-
     queryService.processAsync(queryParams);
+}
+
+
+
+/* 书签 */
+function showBookMark(){
+    
 }

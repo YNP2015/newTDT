@@ -277,13 +277,9 @@
             <i class="fa fa-plane"></i>
             <div class="tip">空地一体</div>
         </div>
-        <div class="tools">
+        <div class="tools" onclick="showBookMark()">
             <i class="fa fa-envira"></i>
             <div class="tip">书签</div>
-        </div>
-        <div class="tools">
-            <i class="fa fa-dot-circle-o"></i>
-            <div class="tip">商圈查看</div>
         </div>
         <div class="tools" onclick="showSeeSearch()">
             <i class="fa fa-eye"></i>
@@ -305,13 +301,17 @@
             <i class="fa fa-picture-o"></i>
             <div class="tip">全 图</div>
         </div>
+        <div class="tools">
+            <i class="fa fa-clock-o"></i>
+            <div class="tip">多时相对比</div>
+        </div>
         <div class="tools" onclick="clearElements()">
             <i class="fa fa-trash-o"></i>
             <div class="tip">清 空</div>
         </div>
         <div class="tools">
-            <i class="fa fa-clock-o"></i>
-            <div class="tip">多时相对比</div>
+            <i class="fa fa-home"></i>
+            <div class="tip">返回首页</div>
         </div>
     </div>
 
@@ -381,6 +381,20 @@
                     搜索
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- 书签弹出框 -->
+    <div class="bookmarkPane">
+        <h6>点击书签名跳转到对应范围
+            <i class="fa fa-close close"></i>
+        </h6>
+        <div class="adds">
+            <input type="text" class="bookMarkName" placeholder="请输入要添加的书签名">
+            <button id="addBookMark">添加</button>
+        </div>
+        <div class="BookMarks">
+
         </div>
     </div>
 
