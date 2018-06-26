@@ -256,3 +256,9 @@ function showSkyPano() {
 function showBookMark(){
     
 }
+
+
+/* 返回首页 */
+function returnToHome(){
+    window.location.href = "../index.html";
+}
