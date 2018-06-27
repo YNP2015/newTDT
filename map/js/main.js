@@ -3,6 +3,7 @@ function showVec() {
     if (isRollingScreenOpen) { //当卷帘打开的时候，点击切换底图功能失效
         return;
     } else {
+        $(".elementWrap").fadeOut();
         curType = "vec";
         getZoomNum(); //该方法写在 map.js  中
     }
@@ -72,6 +73,9 @@ function showPoiSearch() {
         $(".searchPane").fadeIn();
     });
 }
+
+
+
 
 /* 與地圖無關的功能 */
 $(function () {

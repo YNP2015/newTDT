@@ -23,9 +23,9 @@ function clearElements() {
     Pend.onclick = function () { //恢复终点被再次点击的功能
         chooseStart("end");
     }
-    clearAllMeasureAreaResult();
-    clearAllMeasureDistanceResult();
-    clearAllMeasureCircleResult();
+    if (measureMapDistance != 0) clearAllMeasureDistanceResult();
+    if (measureMapArea != 0) clearAllMeasureAreaResult();
+    if (measureMapCircle != 0) clearAllMeasureCircleResult();
     $(".poiSearch").val("");
     $("#seeInput").val("");
     $(".startP").val("");
@@ -36,8 +36,9 @@ function clearElements() {
 
 /* 量算 */
 function measuresAll() {
+    $(".bookmarkPane").hide();
     if (seeSearchShow) { //根据实际情况调整具体位置
-        $(".tool_measure").css("top", "340px");
+        $(".tool_measure").css("top", "320px");
     } else {
         $(".tool_measure").css("top", "60px");
     }
@@ -59,13 +60,22 @@ $(".tool_measure .top ul li").click(function () {
         $(".tool_measure").hide();
         $(".tool_measure .top ul li").removeClass("selT");
         $(".tool_measure .content ul li").removeClass("selC");
-        clearAllMeasureAreaResult();
-        clearAllMeasureDistanceResult();
-        clearAllMeasureCircleResult();
         $(".tool_measure").css("top", "60px");
         if (seeSearchShow) {
             $(".seeSearch").css("top", "60px");
         }
+        //移除鼠标监听移动事件
+        map.events.un({
+            "mousemove": tipMeasureCircle
+        });
+        //移除鼠标监听移动事件
+        map.events.un({
+            "mousemove": tipMeasure
+        });
+        $("#measureTipDiv").hide();
+        if (measureMapDistance != 0) clearAllMeasureDistanceResult();
+        if (measureMapArea != 0) clearAllMeasureAreaResult();
+        if (measureMapCircle != 0) clearAllMeasureCircleResult();
         measureShow = false;
     }
 });
@@ -78,6 +88,7 @@ function gotoMultidate() {
 
 /* 视野内查询显示和隐藏 */
 function showSeeSearch() {
+    $(".bookmarkPane").hide();
     isSkyPanoQuery = false;
     if (measureShow) { //根据实际情况调整具体位置
         $(".seeSearch").css("top", "160px");
@@ -253,12 +264,78 @@ function showSkyPano() {
 
 
 /* 书签 */
-function showBookMark(){
-    
+function showBookMark() {
+    $(".tool_measure").hide();
+    seeSearchShow = false;
+    $(".seeSearch").hide();
+    measureShow = false;
+    $(".bookmarkPane").fadeIn();
 }
+$(".bookmarkPane h6 i").click(function () {
+    $(".bookmarkPane").fadeOut();
+});
+/* 添加书签 */
+$("#addBookMark").click(function () {
+    var key = $(".bookMarkName").val();
+    if (key == '') {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("请输入有效书签名！");
+    } else {
+        /* 这里写添加书签的具体方法 */
+    }
+});
+/* 删除书签 */
 
 
 /* 返回首页 */
-function returnToHome(){
+function returnToHome() {
     window.location.href = "../index.html";
+}
+
+
+/* 多时相显示进度条 */
+function showTimelineSlider() {
+    if (curType == "vec") {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("请切换至影像图层！");
+        return;
+    }
+    $(".bookmarkPane").hide();
+    $(".tool_measure").hide();
+    $(".seeSearch").hide();
+    measureShow = false;
+    seeSearchShow = false;
+    $(".elementWrap").fadeIn();
+    /* 启动滑块功能 */
+    var $document = $(document);
+    var selector = '[data-rangeslider]';
+    var $inputRange = $(selector);
+
+    function valueOutput(element) {
+        var value = element.value;
+        var output = element.parentNode.getElementsByTagName('output')[0];
+
+        if (value == 1) {
+            output.innerHTML = 2012;
+        } else if (value == 2) {
+            output.innerHTML = 2014;
+        } else if (value == 3) {
+            output.innerHTML = 2016;
+        } else if (value == 4) {
+            output.innerHTML = 2017;
+        } else {
+            return;
+        }
+    }
+    $document.on('input', selector, function (e) {
+        valueOutput(e.target);
+    });
+    $inputRange.rangeslider({
+        polyfill: false
+    });
+    $document.on('click', '#js-example-destroy button[data-behaviour="initialize"]', function (e) {
+        $('input[type="range"]', e.target.parentNode).rangeslider({
+            polyfill: false
+        });
+    });
 }

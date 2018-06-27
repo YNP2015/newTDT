@@ -135,6 +135,51 @@ body {
             outline: none;
         }
     }
+    .elementWrap {
+        width: 296px;
+        height: 95px;
+        position: absolute;
+        right: 15px;
+        top: 60px;
+        z-index: 2000;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        .elementClose {
+            color: #666666;
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            z-index: 2000;
+        }
+        .elementFresh{
+            color: #666666;
+            position: absolute;
+            top: 22px;
+            right: 6px;
+            z-index: 2000;
+            font-size: 14px;
+        }
+        #js-example-change-attributes {
+            margin-top: 22px;
+            box-sizing: border-box;
+            padding: 0 10px;
+            .rangeslider {
+                float: left;
+            }
+            output {
+                width: 20%;
+                float: left;
+                text-align: center;
+            }
+        }
+        p {
+            box-sizing: border-box;
+            padding: 0 10px;
+            font-size: 12px;
+        }
+    }
 }
 
 .bottomNum {
@@ -1120,6 +1165,7 @@ $mapPotR:330px;
 }
 
 .bookmarkPane {
+    display: none;
     position: absolute;
     top: 60px;
     right: 15px;
@@ -1171,6 +1217,23 @@ $mapPotR:330px;
             cursor: pointer;
             font-size: 12px;
             color: #ffffff;
+            outline: none;
+        }
+    }
+    .BookMarks {
+        a {
+            font-size: 12px;
+            background-color: $tipC;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-right: 10px;
+            display: inline-block;
+            i {
+                margin-left: 5px;
+            }
         }
     }
 }

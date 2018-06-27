@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>在线地图</title>
     <link href="../public/images/favicon.ico" type=image/x-icon rel="Shortcut Icon">
+    <link rel="stylesheet" href="../public/style/rangeslider.css">
     <link rel="stylesheet" href="style/map.css">
 </head>
 
@@ -19,6 +20,23 @@
     </div>
     <!-- 地图 -->
     <div id="map">
+        <!-- 时间滑动条 -->
+        <div class="elementWrap" style="display:none;">
+            <a href="javascript:void(0)" class="elementClose">
+                <i class="fa fa-close"></i> 
+            </a>
+            <a href="javascript:void(0)" class="elementFresh">
+                <i class="fa fa-refresh"></i>
+            </a>
+            <div id="js-example-change-attributes">
+                <input type="range" min="1" max="4" step="1" data-rangeslider>
+                <output>2016</output>
+                <div style="clear:both;"></div>
+            </div>
+            <p>
+                为保证效率，每次移动地图，再次拖动滑块之前请点击右侧刷新按钮
+            </p>
+        </div>
         <!--卷帘-->
         <div id="handle" title="通过拖动查看图层" onMouseDown="drag(event)" style="display:none;">
             <div id="handleCenter"></div>
@@ -301,7 +319,7 @@
             <i class="fa fa-picture-o"></i>
             <div class="tip">全 图</div>
         </div>
-        <div class="tools">
+        <div class="tools" onclick="showTimelineSlider()">
             <i class="fa fa-clock-o"></i>
             <div class="tip">多时相对比</div>
         </div>
@@ -394,7 +412,15 @@
             <button id="addBookMark">添加</button>
         </div>
         <div class="BookMarks">
-
+            <a href="#">书签一
+                <i class="fa fa-close"></i>
+            </a>
+            <a href="#">这块区域
+                <i class="fa fa-close"></i>
+            </a>
+            <a href="#">有问题的区域
+                <i class="fa fa-close"></i>
+            </a>
         </div>
     </div>
 
@@ -455,6 +481,9 @@
     <!-- 分页插件 -->
     <script src="../public/lib/jquery.pagination.js"></script>
     <script src="../public/superJs/libs/SuperMap.Include.js"></script>
+    <!-- 滑动条插件 -->
+    <script src="../public/lib/rangeslider.min.js"></script>
+    <!-- 引入国家图层 -->
     <script src="js/AllTDTLayer18.js"></script>
     <!-- 定义全局变量 -->
     <script src="js/globalVar.js"></script>
@@ -465,6 +494,7 @@
     <script src="js/findPathByInput.js"></script>
     <script src="js/queryPoi.js"></script>
     <script src="js/queryAround.js"></script>
+    <script src="js/timeLayers.js"></script>
     <!-- 关于量算的函数 -->
     <script src="js/hashMap.js"></script>
     <script src="js/measure.js"></script>

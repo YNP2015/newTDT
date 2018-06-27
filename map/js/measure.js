@@ -418,16 +418,16 @@ function handleMeasureArea(event) {
     var geometry = event.geometry;
     var endMeasurePoint = new SuperMap.Geometry.Point(geometry.components[0].components[geometry.components[0].components.length - 1].x, geometry.components[0].components[geometry.components[0].components.length - 1].y);
 
-    var endPointGeo = geometry.components[0].components[geometry.components[0].components.length - 2];; //yaocs
+    var endPointGeo = geometry.components[0].components[geometry.components[0].components.length - 2];
     var measureArea = new SuperMap.Geometry.Polygon(geometry.components[0].components);
     var mousePositionGeo = geometry.components[0].components[geometry.components[0].components.length - 1];
     var mousePositionPix = map.getPixelFromLonLat(new SuperMap.LonLat(mousePositionGeo.x, mousePositionGeo.y));
 
-    //添加量算的面  yaocs
+    //添加量算的面
     var areaFeature = new SuperMap.Feature.Vector(geometry, null, styleArea);
     //将添加的线要素的id保存起来，用于后面的清除
     featuresAreaId.push(areaFeature.id);
-    measureVL.addFeatures(areaFeature); //画完后添加在地图中的多边形 yaocs
+    measureVL.addFeatures(areaFeature); //画完后添加在地图中的多边形 
     measureMapArea.put(measureAreaIndex, featuresAreaId);
 
 
