@@ -62,6 +62,7 @@ function init() {
         "layerInitialized": addLayerVec
     });
     map.events.register("mousedown");
+    getMultidateUrls(); // 关于多时相初始化相关信息获取，该方法在文件 timeLayers.js  中
 }
 
 

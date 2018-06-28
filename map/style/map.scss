@@ -137,7 +137,6 @@ body {
     }
     .elementWrap {
         width: 296px;
-        height: 95px;
         position: absolute;
         right: 15px;
         top: 60px;
@@ -150,8 +149,9 @@ body {
             color: #666666;
             position: absolute;
             top: 2px;
-            right: 5px;
+            right: 6px;
             z-index: 2000;
+            font-size: 15px;
         }
         .elementFresh{
             color: #666666;
@@ -159,7 +159,7 @@ body {
             top: 22px;
             right: 6px;
             z-index: 2000;
-            font-size: 14px;
+            font-size: 15px;
         }
         #js-example-change-attributes {
             margin-top: 22px;

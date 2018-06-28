@@ -292,14 +292,27 @@ function returnToHome() {
     window.location.href = "../index.html";
 }
 
-
+var dynamicLayersArr = [];
 /* 多时相显示进度条 */
 function showTimelineSlider() {
     if (curType == "vec") {
         $(".errorPane").fadeIn();
         $(".errorPane .bottom").text("请切换至影像图层！");
         return;
+    } else {
+        if (dynamicLayersArr.length == 0) {
+            $(".errorPane").fadeIn();
+            $(".errorPane .top .fa").hide();
+            $(".errorPane .bottom").text("初次点击，正在获取数据，请稍后!");
+            queryDynamicTileExtentBySQL(); //该方法在文件 timeLayers.js 中
+        } else {
+            startTimelineSlider();
+        }
     }
+}
+
+/* 启动滑块功能 */
+function startTimelineSlider() {
     $(".bookmarkPane").hide();
     $(".tool_measure").hide();
     $(".seeSearch").hide();
@@ -314,7 +327,6 @@ function showTimelineSlider() {
     function valueOutput(element) {
         var value = element.value;
         var output = element.parentNode.getElementsByTagName('output')[0];
-
         if (value == 1) {
             output.innerHTML = 2012;
         } else if (value == 2) {
@@ -338,4 +350,7 @@ function showTimelineSlider() {
             polyfill: false
         });
     });
+    var startYear = $("output").text();
+    console.log(startYear);
+    getCurrentSlider(); //该方法在文件  timeLayers.js 中
 }
