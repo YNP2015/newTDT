@@ -74,7 +74,8 @@ var map,
     tenFeatursList = [],
     measureShow = false, //量算框是否显示
     seeSearchShow = false, //视野内搜索框是否显示
-    expectCount = 100;
+    expectCount = 100,
+    citiesConnected = false; //市县直通是否打开
 //保存量算结果，方便换单位是显示数据
 var distanceMeasureValueArray = {
     centimeter: 0.0,
