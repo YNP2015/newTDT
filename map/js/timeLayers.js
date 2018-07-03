@@ -9,10 +9,10 @@ var yearsAsc = [];
 
 
 function getMultidateUrls() {
+    var url = "../public/timeLayer.json"
     $.ajax({
-        type: 'POST',
-        "contentType": "application/json; charset=utf-8",
-        url: ajaxhost + "/TDTHN/services/multidate/list.json?start=0&size=100",
+        type: 'get',
+        url: url,
         success: function (data) {
             for (i = 0; i < data.datas.length; i++) {
                 var dataobj = {};
@@ -22,6 +22,9 @@ function getMultidateUrls() {
                 dataobj.url = data.datas[i].url.trim();
                 if (data.datas[i].year != 9999) {
                     urlObjects.push(dataobj);
+                    if (multidateYears.indexOf(dataobj.year) == -1) {
+                        multidateYears.push(dataobj.year);
+                    }
                 }
             }
         }
@@ -54,10 +57,8 @@ function processCompletedDynamicTileExtent(queryEventArgs) {
     var format = new SuperMap.Format.GeoJSON();
     for (var i = 0; i < features.length; i++) {
         var multiPolygonGeojson = JSON.parse(format.write(features[i], false));
-        // console.log(multiPolygonGeojson);
         var multiPolygonProperties = multiPolygonGeojson.properties;
         var multiPolygonGeom = multiPolygonGeojson.geometry;
-
         if (multiPolygonGeom.type === 'MultiPolygon') {
             for (var j = 0; j < multiPolygonGeom.coordinates.length; j++) {
                 var polygonGeojson = {
@@ -83,11 +84,12 @@ function processFailedDynamicTileExtent(e) {
 
 
 
-var currentA = [];
-var currentAZoomLevel = [];
+var currentA = [];   //获取有哪些年份的影像图层
+var currentAZoomLevel = [];  //每个年份影像图到的级别
 
 function getCurrentSlider() {
     currentA = [];
+    currentAZoomLevel = [];
     for (var i = 0; i < dynamicLayersArr.length; i++) {
         var centerpoint = turf.point([map.getCenter().lon, map.getCenter().lat]);
         var isContain = turf.booleanContains(dynamicLayersArr[i], centerpoint);
@@ -96,8 +98,60 @@ function getCurrentSlider() {
             currentAZoomLevel.push(dynamicLayersArr[i].properties["层级"].trim());
         }
     }
-    fillDivSlider();
+    console.log(currentA);
+    console.log(currentAZoomLevel);
+    /* 启动滑块功能 */
+    var selector = '[data-rangeslider]';
+    $(document).on('input', selector, function (e) {
+        valueOutput(e.target);
+    });
+    $(selector).rangeslider({
+        polyfill: false
+    });
+    $(document).on('click', '#js-example-destroy button[data-behaviour="initialize"]', function (e) {
+        $('input[type="range"]', e.target.parentNode).rangeslider({
+            polyfill: false
+        });
+    });
+    var startYear = $("output").text();
+    //fillDivSlider();
 }
+
+function valueOutput(element) {
+    var value = element.value;
+    var output = element.parentNode.getElementsByTagName('output')[0];
+    if (value == 1) {
+        output.innerHTML = 2012;
+    } else if (value == 2) {
+        output.innerHTML = 2014;
+    } else if (value == 3) {
+        output.innerHTML = 2016;
+    } else if (value == 4) {
+        output.innerHTML = 2017;
+    } else {
+        return;
+    }
+}
+
+
+var sortBy = function (filed, rev, primer) {
+    rev = (rev) ? -1 : 1;
+    return function (a, b) {
+        a = a[filed];
+        b = b[filed];
+        if (typeof (primer) != 'undefined') {
+            a = primer(a);
+            b = primer(b);
+        }
+        if (a < b) {
+            return rev * -1;
+        }
+        if (a > b) {
+            return rev * 1;
+        }
+        return 1;
+    }
+};
 
 function fillDivSlider() {
     urlObjectsTemp = [];

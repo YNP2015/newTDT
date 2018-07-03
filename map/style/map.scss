@@ -153,14 +153,6 @@ body {
             z-index: 2000;
             font-size: 15px;
         }
-        .elementFresh{
-            color: #666666;
-            position: absolute;
-            top: 22px;
-            right: 6px;
-            z-index: 2000;
-            font-size: 15px;
-        }
         #js-example-change-attributes {
             margin-top: 22px;
             box-sizing: border-box;
@@ -172,12 +164,35 @@ body {
                 width: 20%;
                 float: left;
                 text-align: center;
+                user-select: none;
             }
         }
         p {
             box-sizing: border-box;
             padding: 0 10px;
             font-size: 12px;
+            button{
+                border: 1px solid #2486ff;
+                background-color: #2486ff;
+                color: #fff;
+                display: inline-block;
+                line-height: 20px;
+                font-size: 12px;
+                text-align: center;
+                border-radius: 4px;
+                padding: 0 3px;
+                margin:0 5px;
+                transition: border-color .15s,
+                background-color .15s,
+                opacity .15s;
+                cursor: pointer;
+                overflow: visible;
+                outline: none;
+                &:hover{
+                    background-color: $mainC;
+                    ;
+                }
+            }
         }
     }
 }

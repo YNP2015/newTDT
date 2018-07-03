@@ -319,38 +319,6 @@ function startTimelineSlider() {
     measureShow = false;
     seeSearchShow = false;
     $(".elementWrap").fadeIn();
-    /* 启动滑块功能 */
-    var $document = $(document);
-    var selector = '[data-rangeslider]';
-    var $inputRange = $(selector);
-
-    function valueOutput(element) {
-        var value = element.value;
-        var output = element.parentNode.getElementsByTagName('output')[0];
-        if (value == 1) {
-            output.innerHTML = 2012;
-        } else if (value == 2) {
-            output.innerHTML = 2014;
-        } else if (value == 3) {
-            output.innerHTML = 2016;
-        } else if (value == 4) {
-            output.innerHTML = 2017;
-        } else {
-            return;
-        }
-    }
-    $document.on('input', selector, function (e) {
-        valueOutput(e.target);
-    });
-    $inputRange.rangeslider({
-        polyfill: false
-    });
-    $document.on('click', '#js-example-destroy button[data-behaviour="initialize"]', function (e) {
-        $('input[type="range"]', e.target.parentNode).rangeslider({
-            polyfill: false
-        });
-    });
-    var startYear = $("output").text();
-    console.log(startYear);
+    
     getCurrentSlider(); //该方法在文件  timeLayers.js 中
 }

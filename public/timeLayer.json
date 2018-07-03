@@ -1,0 +1,92 @@
+/* http://222.247.40.204:8081/TDTHN/services/multidate/list.json?start=0&size=100 */
+{
+    "totalCount": 12,
+    "currentCount": 12,
+    "username": null,
+    "datas": [
+        {
+            "id": 61,
+            "name": "2017年2米影像",
+            "year": "2017",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/jc_2017_200",
+            "remark": null
+        },
+        {
+            "id": 62,
+            "name": "2017年0.5米影像",
+            "year": "2017",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/ythyy_2017_50",
+            "remark": null
+        },
+        {
+            "id": 1,
+            "name": "2008-2012年影像",
+            "year": "2012",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/QQ_0812_80",
+            "remark": null
+        },
+        {
+            "id": 2,
+            "name": "2012-2014年影像",
+            "year": "2014",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/img_gq2012-2014",
+            "remark": null
+        },
+        {
+            "id": 22,
+            "name": "2013年0.5米影像",
+            "year": "2013",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2013_50",
+            "remark": null
+        },
+        {
+            "id": 24,
+            "name": "2015年0.5米影像",
+            "year": "2015",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2015_50",
+            "remark": null
+        },
+        {
+            "id": 23,
+            "name": "2014年0.5米影像",
+            "year": "2014",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2014_50",
+            "remark": null
+        },
+        {
+            "id": 25,
+            "name": "2015年1米影像",
+            "year": "2015",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/jc_2015_100",
+            "remark": null
+        },
+        {
+            "id": 26,
+            "name": "2015年2米影像",
+            "year": "2015",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/jc_2015_200",
+            "remark": null
+        },
+        {
+            "id": 27,
+            "name": "2016年0.5米影像",
+            "year": "2016",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2016_50",
+            "remark": null
+        },
+        {
+            "id": 28,
+            "name": "2016年2米影像",
+            "year": "2016",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/jc_2016_200",
+            "remark": null
+        },
+        {
+            "id": 41,
+            "name": "2016年0.5米影像2",
+            "year": "2016",
+            "url": "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/ythcs_2016_50",
+            "remark": null
+        }
+    ]
+}

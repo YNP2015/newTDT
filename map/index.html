@@ -23,10 +23,7 @@
         <!-- 时间滑动条 -->
         <div class="elementWrap" style="display:none;">
             <a href="javascript:void(0)" class="elementClose">
-                <i class="fa fa-close"></i> 
-            </a>
-            <a href="javascript:void(0)" class="elementFresh">
-                <i class="fa fa-refresh"></i>
+                <i class="fa fa-close"></i>
             </a>
             <div id="js-example-change-attributes">
                 <input type="range" min="1" max="4" step="1" data-rangeslider>
@@ -34,7 +31,8 @@
                 <div style="clear:both;"></div>
             </div>
             <p>
-                为保证系统效率，每次移动地图，再次拖动滑块之前请点击右侧刷新按钮
+                为保证系统效率，每次移动地图，再次拖动滑块之前请点击
+                <button id="layerFresh" onclick="showTimelineSlider()">刷新</button>按钮
             </p>
         </div>
         <!--卷帘-->
