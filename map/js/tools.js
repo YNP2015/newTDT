@@ -247,7 +247,7 @@ function showSkyPano() {
     var queryParam, queryParams, queryService;
     queryParam = new SuperMap.REST.FilterParameter({
         name: skyPanoDatasetAtDatasource,
-        attributeFilter: "SMID > -1"
+        attributeFilter: "SMID < 20"
     });
     queryParams = new SuperMap.REST.QueryBySQLParameters({
         queryParams: [queryParam]
@@ -319,6 +319,5 @@ function startTimelineSlider() {
     measureShow = false;
     seeSearchShow = false;
     $(".elementWrap").fadeIn();
-    
     getCurrentSlider(); //该方法在文件  timeLayers.js 中
 }

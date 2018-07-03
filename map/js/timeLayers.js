@@ -6,16 +6,20 @@ var urlObjectsTemp = [];
 var urlObjectsMap = new HashMapSlider();
 var urlObjectsUnique = [];
 var yearsAsc = [];
+var multidateYears = [];
+var multidateYearsUrl = [];
 
 
 function getMultidateUrls() {
+    multidateYears = [];
+    multidateYearsUrl = [];
     var url = "../public/timeLayer.json"
     $.ajax({
         type: 'get',
         url: url,
         success: function (data) {
             for (i = 0; i < data.datas.length; i++) {
-                var dataobj = {};
+                var dataobj = {}; // 获得json中图层的详细信息
                 dataobj.name = data.datas[i].name.trim();
                 dataobj.layername = "layername" + i;
                 dataobj.year = data.datas[i].year.trim();
@@ -24,6 +28,7 @@ function getMultidateUrls() {
                     urlObjects.push(dataobj);
                     if (multidateYears.indexOf(dataobj.year) == -1) {
                         multidateYears.push(dataobj.year);
+                        multidateYearsUrl.push(dataobj.url);
                     }
                 }
             }
@@ -84,8 +89,11 @@ function processFailedDynamicTileExtent(e) {
 
 
 
-var currentA = [];   //获取有哪些年份的影像图层
-var currentAZoomLevel = [];  //每个年份影像图到的级别
+var currentA = []; //获取有哪些年份的影像图层
+var currentB = [];
+var currentC = [];
+var currentD = [];
+var currentAZoomLevel = []; //每个年份影像图到的级别
 
 function getCurrentSlider() {
     currentA = [];
@@ -95,11 +103,31 @@ function getCurrentSlider() {
         var isContain = turf.booleanContains(dynamicLayersArr[i], centerpoint);
         if (isContain) {
             currentA.push(dynamicLayersArr[i].properties["NAME"].trim());
-            currentAZoomLevel.push(dynamicLayersArr[i].properties["层级"].trim());
+            //currentAZoomLevel.push(dynamicLayersArr[i].properties["层级"].trim());
         }
     }
-    console.log(currentA);
-    console.log(currentAZoomLevel);
+    for (var y = 0; y < currentA.length; y++) {
+        if (currentA[y].indexOf("0.5") == -1 && currentA[y].indexOf("1米") == -1) {
+            currentB.push(currentA[y]);
+        }
+    }
+    for (var x = 0; x < currentB.length; x++) {
+        var val = currentB[x].split("年")[0];
+        if (val == "2008-2012") {
+            val = "2012";
+        }
+        if (val == "2012-2014") {
+            val = "2014";
+        }
+        currentC.push(val);
+    }
+    for (var z = 0; z < currentC.length; z++) {
+        var val = parseInt(currentC[z]);
+        currentD.push(val);
+    }
+    currentD = currentD.sort();
+    alert(currentD.length);
+    $("#js-example-change-attributes input").attr("max", currentD.length);
     /* 启动滑块功能 */
     var selector = '[data-rangeslider]';
     $(document).on('input', selector, function (e) {
@@ -114,85 +142,21 @@ function getCurrentSlider() {
         });
     });
     var startYear = $("output").text();
-    //fillDivSlider();
 }
 
 function valueOutput(element) {
     var value = element.value;
     var output = element.parentNode.getElementsByTagName('output')[0];
     if (value == 1) {
-        output.innerHTML = 2012;
-    } else if (value == 2) {
-        output.innerHTML = 2014;
-    } else if (value == 3) {
-        output.innerHTML = 2016;
-    } else if (value == 4) {
-        output.innerHTML = 2017;
-    } else {
-        return;
+        output.innerHTML == 2014;
     }
-}
-
-
-var sortBy = function (filed, rev, primer) {
-    rev = (rev) ? -1 : 1;
-    return function (a, b) {
-        a = a[filed];
-        b = b[filed];
-        if (typeof (primer) != 'undefined') {
-            a = primer(a);
-            b = primer(b);
-        }
-        if (a < b) {
-            return rev * -1;
-        }
-        if (a > b) {
-            return rev * 1;
-        }
-        return 1;
+    if (value == 2) {
+        output.innerHTML == 2015;
     }
-};
-
-function fillDivSlider() {
-    urlObjectsTemp = [];
-    urlObjectsMap = new HashMapSlider();
-    urlObjectsUnique = [];
-    yearsAsc = [];
-
-    for (var i = 0; i < urlObjects.length; i++) {
-        if (currentA.indexOf(urlObjects[i].name) > -1) {
-            var index = currentA.indexOf(urlObjects[i].name);
-            var zoomlevel = currentAZoomLevel[index];
-            urlObjects[i].zoomlevel = zoomlevel;
-            urlObjectsTemp.push(urlObjects[i]);
-        }
+    if (value == 3) {
+        output.innerHTML == 2016;
     }
-
-    urlObjectsTemp.sort(sortBy('year', false, parseInt));
-
-    urlObjectsTemp.forEach(function (o) {
-        if (urlObjectsMap.containsKey(o.year) &&
-            o.name.toString().indexOf("0.5") > 0) { //已经有了，如果有0.5米分辨率的那就过滤替换掉
-            urlObjectsMap.set(o.year, o.url);
-        } else { //直接加
-            urlObjectsMap.put(o.year, o.url);
-        }
-    })
-
-    for (var i = 0; i < urlObjectsTemp.length; i++) {
-        if (urlObjectsTemp[i].url == urlObjectsMap.get(urlObjectsTemp[i].year)) {
-            urlObjectsUnique.push(urlObjectsTemp[i]);
-        }
-    }
-    urlObjectsUnique.sort(sortBy('year', false, parseInt));
-
-    //获取年份
-    yearsAsc = urlObjectsMap.keySet().sort(function (a, b) {
-        return a - b;
-    });
-
-    //填充slider
-    if (yearsAsc.length > 0) {
-        equipSlider();
+    if (value == 4) {
+        output.innerHTML == 2017;
     }
 }
