@@ -97,6 +97,9 @@ var currentAZoomLevel = []; //每个年份影像图到的级别
 
 function getCurrentSlider() {
     currentA = [];
+    currentB = [];
+    currentC = [];
+    currentD = [];
     currentAZoomLevel = [];
     for (var i = 0; i < dynamicLayersArr.length; i++) {
         var centerpoint = turf.point([map.getCenter().lon, map.getCenter().lat]);
@@ -126,9 +129,16 @@ function getCurrentSlider() {
         currentD.push(val);
     }
     currentD = currentD.sort();
-    alert(currentD.length);
-    $("#js-example-change-attributes input").attr("max", currentD.length);
-    /* 启动滑块功能 */
+    var Dlength = currentD.length - 1;
+    console.log(currentD.length);
+    $("output").html(currentD[Dlength]);
+    console.log(currentD);
+    startSlider();
+}
+
+
+/* 启动滑块功能 */
+function startSlider() {
     var selector = '[data-rangeslider]';
     $(document).on('input', selector, function (e) {
         valueOutput(e.target);
@@ -136,27 +146,15 @@ function getCurrentSlider() {
     $(selector).rangeslider({
         polyfill: false
     });
-    $(document).on('click', '#js-example-destroy button[data-behaviour="initialize"]', function (e) {
-        $('input[type="range"]', e.target.parentNode).rangeslider({
-            polyfill: false
-        });
-    });
-    var startYear = $("output").text();
+     var attributes = {
+         max: currentD.length
+     };
+     $("#js-example-change-attributes input").attr(attributes).rangeslider('update', true);
 }
 
 function valueOutput(element) {
     var value = element.value;
     var output = element.parentNode.getElementsByTagName('output')[0];
-    if (value == 1) {
-        output.innerHTML == 2014;
-    }
-    if (value == 2) {
-        output.innerHTML == 2015;
-    }
-    if (value == 3) {
-        output.innerHTML == 2016;
-    }
-    if (value == 4) {
-        output.innerHTML == 2017;
-    }
+    var a = value - 1;
+    output.innerHTML = currentD[a];
 }
