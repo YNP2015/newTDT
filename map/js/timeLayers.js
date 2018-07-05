@@ -163,23 +163,54 @@ function valueOutput(element) {
 }
 
 function showYearLayers(a) {
-    var yearsUrl = '';
+    var x = map.getCenter().lat;
+    var y = map.getCenter().lon;
+    map.setCenter(new SuperMap.LonLat(y, x), 15);
     if (a == 2012) {
-        yearsUrl = multidateYearsUrl[1];
+        layer2012.setVisibility(1);
+        layer2013.setVisibility(0);
+        layer2014.setVisibility(0);
+        layer2015.setVisibility(0);
+        layer2016.setVisibility(0);
+        layer2017.setVisibility(0);
     } else if (a == 2013) {
-        yearsUrl = multidateYearsUrl[3];
+        layer2012.setVisibility(0);
+        layer2013.setVisibility(1);
+        layer2014.setVisibility(0);
+        layer2015.setVisibility(0);
+        layer2016.setVisibility(0);
+        layer2017.setVisibility(0);
     } else if (a == 2014) {
-        yearsUrl = multidateYearsUrl[2];
+        layer2012.setVisibility(0);
+        layer2013.setVisibility(0);
+        layer2014.setVisibility(1);
+        layer2015.setVisibility(0);
+        layer2016.setVisibility(0);
+        layer2017.setVisibility(0);
     } else if (a == 2015) {
-        yearsUrl = multidateYearsUrl[4];
+        layer2012.setVisibility(0);
+        layer2013.setVisibility(0);
+        layer2014.setVisibility(0);
+        layer2015.setVisibility(1);
+        layer2016.setVisibility(0);
+        layer2017.setVisibility(0);
     } else if (a == 2016) {
-        yearsUrl = multidateYearsUrl[5];
+        layer2012.setVisibility(0);
+        layer2013.setVisibility(0);
+        layer2014.setVisibility(0);
+        layer2015.setVisibility(0);
+        layer2016.setVisibility(1);
+        layer2017.setVisibility(0);
     } else if (a == 2017) {
-        yearsUrl = multidateYearsUrl[0];
+        layer2012.setVisibility(0);
+        layer2013.setVisibility(0);
+        layer2014.setVisibility(0);
+        layer2015.setVisibility(0);
+        layer2016.setVisibility(0);
+        layer2017.setVisibility(1);
     } else {
         $(".errorPane").fadeIn();
         $(".errorPane .bottom").text("数据出错！");
         return;
     }
-    console.log(yearsUrl);
 }

@@ -34,6 +34,12 @@ var map,
     urlRoudNet = "http://222.247.40.204:8091/iserver/services/transportationAnalyst-HNNET/rest/networkanalyst/HNNET@HNNET", //路网
     urlHNPOI = "http://222.247.40.204:8091/iserver/services/map-HNPOI/rest/maps/HNPOI", //poi
     skyPanoUrl = "http://222.247.40.204:8091/iserver/services/map-pano/rest/maps/CloudPano", //全景
+    url2012 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/QQ_0812_80",
+    url2013 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2013_50",
+    url2014 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/img_gq2012-2014",
+    url2015 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2015_50",
+    url2016 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2016_50",
+    url2017 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/jc_2017_200",
     skyPanoDatasetAtDatasource = "CloudPano@pano",
     restLayerResolutions = [
         0.703125, //0    

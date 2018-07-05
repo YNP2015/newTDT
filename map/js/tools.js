@@ -295,21 +295,17 @@ function returnToHome() {
 var dynamicLayersArr = [];
 /* 多时相显示进度条 */
 function showTimelineSlider() {
-    if (curType == "vec") {
+    showImg();
+    if (dynamicLayersArr.length == 0) {
         $(".errorPane").fadeIn();
-        $(".errorPane .bottom").text("请切换至影像图层！");
-        return;
+        $(".errorPane .top .fa").hide();
+        $(".errorPane .bottom").text("初次点击，正在获取数据，请稍后!");
+        queryDynamicTileExtentBySQL(); //该方法在文件 timeLayers.js 中
     } else {
-        if (dynamicLayersArr.length == 0) {
-            $(".errorPane").fadeIn();
-            $(".errorPane .top .fa").hide();
-            $(".errorPane .bottom").text("初次点击，正在获取数据，请稍后!");
-            queryDynamicTileExtentBySQL(); //该方法在文件 timeLayers.js 中
-        } else {
-            startTimelineSlider();
-        }
+        startTimelineSlider();
     }
 }
+
 
 /* 启动滑块功能 */
 function startTimelineSlider() {
@@ -321,3 +317,15 @@ function startTimelineSlider() {
     $(".elementWrap").fadeIn();
     getCurrentSlider(); //该方法在文件  timeLayers.js 中
 }
+
+/* 关闭多时相滑块框 */
+$(".elementWrap .elementClose").click(function(){
+    $(".elementWrap").fadeOut();
+    /* 关闭所有多时相图层 */
+    layer2012.setVisibility(0);
+    layer2013.setVisibility(0);
+    layer2014.setVisibility(0);
+    layer2015.setVisibility(0);
+    layer2016.setVisibility(0);
+    layer2017.setVisibility(0);
+});

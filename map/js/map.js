@@ -58,6 +58,42 @@ function init() {
     }, {
         resolutions: restLayerResolutions
     });
+    layer2012 = new SuperMap.Layer.TiledDynamicRESTLayer("2012年影像", url2012, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    });
+    layer2013 = new SuperMap.Layer.TiledDynamicRESTLayer("2013年影像", url2013, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    });
+    layer2014 = new SuperMap.Layer.TiledDynamicRESTLayer("2014年影像", url2014, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    });
+    layer2015 = new SuperMap.Layer.TiledDynamicRESTLayer("2015年影像", url2015, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    });
+    layer2016 = new SuperMap.Layer.TiledDynamicRESTLayer("2016年影像", url2016, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    });
+    layer2017 = new SuperMap.Layer.TiledDynamicRESTLayer("2017年影像", url2017, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    });
     layerVec.events.on({
         "layerInitialized": addLayerVec
     });
@@ -75,9 +111,16 @@ function addLayerVec() {
 
 //添加图层函数
 function addLayer() {
-    map.addLayers([layerImg, layerCia, markerLayer, measureVL, dragCircleLayer, vectorLayer]);
+    map.addLayers([layerImg, layerCia, markerLayer, measureVL, dragCircleLayer, vectorLayer, layer2012, layer2013, layer2014, layer2015, layer2016, layer2017]);
     layerImg.setVisibility(false);
     map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 10);
+    /* 关闭所有多时相图层 */
+    layer2012.setVisibility(0);
+    layer2013.setVisibility(0);
+    layer2014.setVisibility(0);
+    layer2015.setVisibility(0);
+    layer2016.setVisibility(0);
+    layer2017.setVisibility(0);
     /* 初始化获取地图级别 */
     getZoomNum();
     /* 当地图级别变化时 */
