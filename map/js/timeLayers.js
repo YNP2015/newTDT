@@ -75,6 +75,7 @@ function processCompletedDynamicTileExtent(queryEventArgs) {
             }
         }
     }
+    $(".errorPane .top .fa").show();
     $(".errorPane").hide();
     startTimelineSlider(); //该方法在文件 tools.js 中
 }
@@ -130,15 +131,14 @@ function getCurrentSlider() {
     }
     currentD = currentD.sort();
     var Dlength = currentD.length - 1;
-    console.log(currentD.length);
-    $("output").html(currentD[Dlength]);
-    console.log(currentD);
-    startSlider();
+    $("output").html(currentD[Dlength])
+    showYearLayers(currentD[Dlength]);
+    startSlider(currentD);
 }
 
 
 /* 启动滑块功能 */
-function startSlider() {
+function startSlider(current) {
     var selector = '[data-rangeslider]';
     $(document).on('input', selector, function (e) {
         valueOutput(e.target);
@@ -146,10 +146,12 @@ function startSlider() {
     $(selector).rangeslider({
         polyfill: false
     });
-     var attributes = {
-         max: currentD.length
-     };
-     $("#js-example-change-attributes input").attr(attributes).rangeslider('update', true);
+    var attributes = {
+        max: current.length,
+    };
+    $(selector).attr(attributes).rangeslider('update', true);
+    var value = current.length;
+    $(selector).val(value).change();
 }
 
 function valueOutput(element) {
@@ -157,4 +159,27 @@ function valueOutput(element) {
     var output = element.parentNode.getElementsByTagName('output')[0];
     var a = value - 1;
     output.innerHTML = currentD[a];
+    showYearLayers(currentD[a]);
+}
+
+function showYearLayers(a) {
+    var yearsUrl = '';
+    if (a == 2012) {
+        yearsUrl = multidateYearsUrl[1];
+    } else if (a == 2013) {
+        yearsUrl = multidateYearsUrl[3];
+    } else if (a == 2014) {
+        yearsUrl = multidateYearsUrl[2];
+    } else if (a == 2015) {
+        yearsUrl = multidateYearsUrl[4];
+    } else if (a == 2016) {
+        yearsUrl = multidateYearsUrl[5];
+    } else if (a == 2017) {
+        yearsUrl = multidateYearsUrl[0];
+    } else {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("数据出错！");
+        return;
+    }
+    console.log(yearsUrl);
 }
