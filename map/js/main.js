@@ -4,6 +4,8 @@ function showVec() {
         return;
     } else {
         $(".elementWrap").fadeOut();
+        /* 关闭所有多时相图层 */
+        closeAllTimeLayers();
         curType = "vec";
         getZoomNum(); //该方法写在 map.js  中
     }

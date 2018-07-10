@@ -33,6 +33,7 @@ function poiClick() {
         $(".errorPane .bottom").text("欢迎使用新版湖南天地图在线地图！");
     } else {
         isAllSearching = true; //标识为全局搜索
+        isQueryES = true;
         currentPage = 0;
         var keyword = $(".poiSearch").val();
         var sql = "RNAME like '%" + keyword + "%'";
@@ -352,3 +353,5 @@ function bindqueryAroundSearch(x, y, feature) {
         $(".poiMsg").fadeOut();
     });
 }
+
+

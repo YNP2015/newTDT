@@ -292,7 +292,7 @@ function returnToHome() {
     window.location.href = "../index.html";
 }
 
-var dynamicLayersArr = [];
+var dynamicLayersArr = [1, 2, 3];
 /* 多时相显示进度条 */
 function showTimelineSlider() {
     showImg();
@@ -315,17 +315,24 @@ function startTimelineSlider() {
     measureShow = false;
     seeSearchShow = false;
     $(".elementWrap").fadeIn();
-    getCurrentSlider(); //该方法在文件  timeLayers.js 中
+    // getCurrentSlider(); //该方法在文件  timeLayers.js 中
+    getImgResult();
+    map.events.register("moveend", null, getImgResult); //该方法在文件  timeNewLayers.js 中
+
 }
 
 /* 关闭多时相滑块框 */
-$(".elementWrap .elementClose").click(function(){
-    $(".elementWrap").fadeOut();
+$(".elementWrap .elementClose").click(function () {
     /* 关闭所有多时相图层 */
+    closeAllTimeLayers();
+});
+
+function closeAllTimeLayers() {
+    $(".elementWrap").fadeOut();
     layer2012.setVisibility(0);
     layer2013.setVisibility(0);
     layer2014.setVisibility(0);
     layer2015.setVisibility(0);
     layer2016.setVisibility(0);
     layer2017.setVisibility(0);
-});
+}
