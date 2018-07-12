@@ -2,6 +2,7 @@
 function allMap() {
     $(".downtown").fadeOut();
     $(".citySel .county").fadeOut();
+    $(".citySel .close").fadeOut();
     $(".mapPot span").text("湖南省");
     var bounds = new SuperMap.Bounds(111.01830338208, 27.45066750293, 113.65502213208, 28.785506370118);
     map.zoomToExtent(bounds, true);
@@ -81,9 +82,9 @@ $(".tool_measure .top ul li").click(function () {
 });
 
 /* 多时相跳转 */
-function gotoMultidate() {
-    window.open('http://222.247.40.204:8081/TDTHN/portal/map/multidatefilter.html');
-}
+// function gotoMultidate() {
+//     window.open('http://222.247.40.204:8081/TDTHN/portal/map/multidatefilter.html');
+// }
 
 
 /* 视野内查询显示和隐藏 */
@@ -328,6 +329,7 @@ $(".elementWrap .elementClose").click(function () {
 });
 
 function closeAllTimeLayers() {
+    map.events.unregister("moveend", null, getImgResult);
     $(".elementWrap").fadeOut();
     layer2012.setVisibility(0);
     layer2013.setVisibility(0);

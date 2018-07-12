@@ -106,10 +106,18 @@ $(function () {
             $(".downtown").fadeOut();
             $(".county").fadeOut();
             downtownShow = false;
+            $(".citySel .close").fadeOut();
         } else {
             $(".downtown").fadeIn();
+            $(".citySel .close").fadeIn();
             downtownShow = true;
         }
+    });
+    $(".citySel .close").click(function () {
+        $(".downtown").fadeOut();
+        $(".county").fadeOut();
+        downtownShow = false;
+        $(".citySel .close").fadeOut();
     });
     $(".downtown>li").click(function () {
         $(".citySel .county").fadeIn();

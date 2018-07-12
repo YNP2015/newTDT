@@ -136,7 +136,7 @@ body {
         }
     }
     .elementWrap {
-        width: 296px;
+        width: 267px;
         position: absolute;
         right: 15px;
         top: 60px;
@@ -170,28 +170,31 @@ body {
         p {
             box-sizing: border-box;
             padding: 0 10px;
-            font-size: 12px;
-            button{
-                border: 1px solid #2486ff;
-                background-color: #2486ff;
-                color: #fff;
-                display: inline-block;
-                line-height: 20px;
-                font-size: 12px;
-                text-align: center;
-                border-radius: 4px;
-                padding: 0 3px;
-                margin:0 5px;
-                transition: border-color .15s,
-                background-color .15s,
-                opacity .15s;
-                cursor: pointer;
-                overflow: visible;
-                outline: none;
-                &:hover{
-                    background-color: $mainC;
-                    ;
-                }
+            font-size: 12px; // button{
+            //     border: 1px solid #2486ff;
+            //     background-color: #2486ff;
+            //     color: #fff;
+            //     display: inline-block;
+            //     line-height: 20px;
+            //     font-size: 12px;
+            //     text-align: center;
+            //     border-radius: 4px;
+            //     padding: 0 3px;
+            //     margin:0 5px;
+            //     transition: border-color .15s,
+            //     background-color .15s,
+            //     opacity .15s;
+            //     cursor: pointer;
+            //     overflow: visible;
+            //     outline: none;
+            //     &:hover{
+            //         background-color: $mainC;
+            //         ;
+            //     }
+            // }
+            span {
+                font-size: 13px;
+                color: $tipC;
             }
         }
     }
@@ -859,7 +862,7 @@ body {
     }
 }
 
-$mapPotR:330px;
+$mapPotR:300px;
 .mapPot {
     line-height: 30px;
     background: #fff;
@@ -895,7 +898,23 @@ $mapPotR:330px;
     top: 50px;
     right: $mapPotR;
     z-index: 2;
-    overflow: hidden;
+    .close {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        line-height: 16px;
+        top: -5px;
+        right: -5px;
+        z-index: 30;
+        text-align: center;
+        background-color: #fff;
+        border-radius:24px;
+        font-size: 12px;
+        color: #424242;
+        box-sizing: border-box;
+        border:1px solid #424242;
+        display: none;
+    }
     .downtown,
     .county {
         display: none;
@@ -975,7 +994,7 @@ $mapPotR:330px;
     top: 60px;
     right: 15px;
     z-index: 2;
-    width: 296px;
+    width: 267px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
@@ -1107,7 +1126,7 @@ $mapPotR:330px;
     top: 60px;
     right: 15px;
     z-index: 2;
-    width: 296px;
+    width: 267px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
@@ -1185,7 +1204,7 @@ $mapPotR:330px;
     top: 60px;
     right: 15px;
     z-index: 2;
-    width: 296px;
+    width: 267px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);

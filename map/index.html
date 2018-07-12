@@ -27,13 +27,12 @@
             </a>
             <div id="js-example-change-attributes">
                 <input type="range" min="1" max="" step="1" data-rangeslider>
-                <output>*</output>
+                <output>2017</output>
                 <div style="clear:both;"></div>
             </div>
-            <!-- <p>
-                为保证系统效率，每次移动地图，再次拖动滑块之前请点击
-                <button id="layerFresh" onclick="showTimelineSlider()">刷新</button>按钮
-            </p> -->
+            <p>
+                地区域包含 <span></span> 年影像数据
+            </p>
         </div>
         <!--卷帘-->
         <div id="handle" title="通过拖动查看图层" onMouseDown="drag(event)" style="display:none;">
@@ -264,6 +263,9 @@
     </div>
     <!-- 地图范围详细内容 选择市区 -->
     <div class="citySel">
+        <div class="close">
+            <i class="fa fa-close"></i>
+        </div>
         <ul class="downtown">
             <!-- 该方法写在  main.js 中 以下城市顺序不要改变-->
             <li onclick="zoomToProvincesCities(112.877818, 28.016027, 113.077818, 28.216027,'长沙市')">长沙市</li>
@@ -305,10 +307,10 @@
             <i class="fa fa-gg"></i>
             <div class="tip">查看卷帘</div>
         </div>
-        <div class="tools" onclick="gotoMultidate()">
+        <!-- <div class="tools" onclick="gotoMultidate()">
             <i class="fa fa-history"></i>
             <div class="tip">历史影像</div>
-        </div>
+        </div> -->
         <div class="tools" onclick="measuresAll()">
             <i class="fa fa-pencil-square-o"></i>
             <div class="tip">量 算</div>

@@ -227,8 +227,12 @@ function showQueryResult(features) { //显示搜索结果
             "<a href='javascript:void(0);' class='n-blue' data-index='3' data-dd='3' data-stat-code='poisearch.all.title'>" + poiname + "</a></div>" +
             "<div class='Paddr'><span class='n-grey' title='" + addr + "'>" + addr + "</span></div><div class='Ptel'>" + tel + "</div>" +
             "</li>";
+        if (i == 0 && isAroudSearchOpen == false) {//不要影像周边查询时的范围显示
+            map.setCenter(new SuperMap.LonLat(smx, smy), 13);
+        }
     }
     resultContent += "</ul>";
+    console.log(resultContent);
     $("#mCSB_1_container").html(resultContent);
     vectorLayer.addFeatures(features);
 }
@@ -353,5 +357,3 @@ function bindqueryAroundSearch(x, y, feature) {
         $(".poiMsg").fadeOut();
     });
 }
-
-
