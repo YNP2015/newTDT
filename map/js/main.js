@@ -7,7 +7,16 @@ function showVec() {
         /* 关闭所有多时相图层 */
         closeAllTimeLayers();
         curType = "vec";
-        getZoomNum(); //该方法写在 map.js  中
+        //getZoomNum(); //该方法写在 map.js  中
+        layerGJImg.setVisibility(0);
+        layerGJCia.setVisibility(0);
+        layerGJVec.setVisibility(1);
+        layerGJCva.setVisibility(1);
+        layerVec.setVisibility(0);
+        layerCva.setVisibility(0);
+        layerImg.setVisibility(0);
+        layerCia.setVisibility(0);
+
     }
 }
 
@@ -17,9 +26,26 @@ function showImg() {
         return;
     } else {
         curType = "img";
-        getZoomNum();
+        //getZoomNum();
+        layerGJImg.setVisibility(1);
+        layerGJCia.setVisibility(1);
+        layerGJVec.setVisibility(0);
+        layerGJCva.setVisibility(0);
+        layerVec.setVisibility(0);
+        layerCva.setVisibility(0);
+        layerImg.setVisibility(0);
+        layerCia.setVisibility(0);
     }
 }
+
+//点击街景按钮切换
+function showStreet() {
+    $(".errorPane").fadeIn();
+    $(".errorPane .bottom").text("暂无数据！");
+}
+
+
+
 //放大按钮
 function zoomIn() {
     $("#rKey").css("visibility", "hidden");
@@ -30,6 +56,32 @@ function zoomIn() {
 function zoomOut() {
     $("#rKey").css("visibility", "hidden");
     map.zoomOut();
+}
+
+/* 显示湖南底图 */
+function showHNmap() {
+    var zoom = map.getZoom();
+    if (zoom <= 4) {
+        $(".errorPane").fadeIn();
+        $(".errorPane .bottom").text("当前级别无湖南节点底图！");
+    } else {
+        if (curType = "vec") {
+            layerGJVec.setVisibility(0);
+            layerGJCva.setVisibility(0);
+            layerImg.setVisibility(0);
+            layerCia.setVisibility(0);
+            layerVec.setVisibility(1);
+            layerCva.setVisibility(1);
+        }
+        if (curType = "img") {
+            layerVec.setVisibility(0);
+            layerCva.setVisibility(0);
+            layerGJImg.setVisibility(0);
+            layerGJCia.setVisibility(0);
+            layerImg.setVisibility(1);
+            layerCia.setVisibility(1);
+        }
+    }
 }
 
 
@@ -54,7 +106,8 @@ $(".downtown li").click(function () {
             for (var i = 0; i < obj.length; i++) {
                 var citys = obj[i].name;
                 var poi = obj[i].bounds;
-                $(".citySel .county").append(`<li onclick = "zoomToProvincesCities(${poi[0]}, ${poi[1]}, ${poi[2]}, ${poi[3]},'${citys}')">${citys}</li>`);
+                // $(".citySel .county").append(`<li onclick = "zoomToProvincesCities(${poi[0]}, ${poi[1]}, ${poi[2]}, ${poi[3]},'${citys}')">${citys}</li>`);
+                $(".citySel .county").append('<li onclick = "zoomToProvincesCities(' + poi[0] + ' ,  ' + poi[1] + ',' + poi[2] + ',' + poi[3] + ',' + citys + ')">' + citys + '</li>')
             }
         }
     });

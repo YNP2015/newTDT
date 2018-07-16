@@ -3,6 +3,8 @@
 @import '../../public/style/jquery.mCustomScrollbar.min.css';
 $tipC:#ef8200;
 $mainC:#0182cb;
+$mapPotR:330px;
+$paneR:15px;
 @mixin tip {
     background-color: $tipC;
     color: #fff;
@@ -136,7 +138,7 @@ body {
         }
     }
     .elementWrap {
-        width: 267px;
+        width: 296px;
         position: absolute;
         right: 15px;
         top: 60px;
@@ -443,6 +445,7 @@ body {
             z-index: 3;
         }
         .return {
+            cursor: pointer;
             font-size: 18px;
             float: left;
             height: 18px;
@@ -580,6 +583,7 @@ body {
             z-index: 3;
         }
         .close {
+            cursor: pointer;
             font-size: 18px;
             float: right;
             height: 18px;
@@ -797,6 +801,7 @@ body {
             @include tip;
             right: 40px;
             top: 5px;
+            padding: 0 5px;
             &:after {
                 top: 50%;
                 left: 100%;
@@ -808,7 +813,7 @@ body {
         }
     }
     #mapPos {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -862,7 +867,6 @@ body {
     }
 }
 
-$mapPotR:300px;
 .mapPot {
     line-height: 30px;
     background: #fff;
@@ -908,11 +912,11 @@ $mapPotR:300px;
         z-index: 30;
         text-align: center;
         background-color: #fff;
-        border-radius:24px;
+        border-radius: 24px;
         font-size: 12px;
         color: #424242;
         box-sizing: border-box;
-        border:1px solid #424242;
+        border: 1px solid #424242;
         display: none;
     }
     .downtown,
@@ -953,7 +957,7 @@ $mapPotR:300px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
     position: absolute;
     top: 10px;
-    right: 15px;
+    right: $paneR;
     z-index: 3;
     .tools {
         width: 26px;
@@ -992,9 +996,9 @@ $mapPotR:300px;
     display: none;
     position: absolute;
     top: 60px;
-    right: 15px;
+    right: $paneR;
     z-index: 2;
-    width: 267px;
+    width: 296px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
@@ -1124,9 +1128,9 @@ $mapPotR:300px;
     $c: #45a9d8;
     position: absolute;
     top: 60px;
-    right: 15px;
+    right: $paneR;
     z-index: 2;
-    width: 267px;
+    width: 296px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
@@ -1202,9 +1206,9 @@ $mapPotR:300px;
     display: none;
     position: absolute;
     top: 60px;
-    right: 15px;
+    right: $paneR;
     z-index: 2;
-    width: 267px;
+    width: 296px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);

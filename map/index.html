@@ -31,7 +31,8 @@
                 <div style="clear:both;"></div>
             </div>
             <p>
-                地区域包含 <span></span> 年影像数据
+                地区域包含
+                <span></span> 年影像数据
             </p>
         </div>
         <!--卷帘-->
@@ -46,9 +47,9 @@
     </div>
     <!-- 右下角地图组件 -->
     <div class="mapBtn">
-        <div class="mapIcon" id="mapPos">
-            <i class="fa fa-dot-circle-o"></i>
-            <div class="tip">定位</div>
+        <div class="mapIcon" id="mapPos" onclick="showHNmap()">
+            <i class="fa fa-map-o"></i>
+            <div class="tip">湖南底图</div>
         </div>
         <div class="mapIcon" id="mapNum">*</div>
         <div class="mapIcon" id="getOut" onclick="zoomOut()">
@@ -66,7 +67,7 @@
         <div class="mapItem vecMap" onclick="showVec()">
             <span>矢量</span>
         </div>
-        <div class="mapItem steetMap">
+        <div class="mapItem steetMap" onclick="showStreet()">
             <span>街景</span>
         </div>
     </div>
@@ -321,7 +322,7 @@
         </div>
         <div class="tools" onclick="showTimelineSlider()">
             <i class="fa fa-clock-o"></i>
-            <div class="tip">多时相对比</div>
+            <div class="tip">多时相</div>
         </div>
         <div class="tools" onclick="clearElements()">
             <i class="fa fa-trash-o"></i>
@@ -329,7 +330,10 @@
         </div>
         <div class="tools" onclick="returnToHome()">
             <i class="fa fa-home"></i>
-            <div class="tip">返回首页</div>
+            <div class="tip">首 页</div>
+        </div>
+        <div class="tools">
+            <i class="fa fa-user"></i>
         </div>
     </div>
 
