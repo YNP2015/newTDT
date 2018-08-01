@@ -257,7 +257,10 @@ function showSkyPano() {
     queryService.processAsync(queryParams);
 }
 
-
+/* 标记 */
+function setSign(){
+    
+}
 
 /* 书签 */
 function showBookMark() {

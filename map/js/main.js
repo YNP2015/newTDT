@@ -61,19 +61,18 @@ function zoomOut() {
 /* 显示湖南底图 */
 function showHNmap() {
     var zoom = map.getZoom();
-    if (zoom <= 4) {
+    if (zoom <= 5) {
         $(".errorPane").fadeIn();
         $(".errorPane .bottom").text("当前级别无湖南节点底图！");
     } else {
-        if (curType = "vec") {
+        if (curType == "vec") {
             layerGJVec.setVisibility(0);
             layerGJCva.setVisibility(0);
             layerImg.setVisibility(0);
             layerCia.setVisibility(0);
             layerVec.setVisibility(1);
             layerCva.setVisibility(1);
-        }
-        if (curType = "img") {
+        }else if (curType == "img") {
             layerVec.setVisibility(0);
             layerCva.setVisibility(0);
             layerGJImg.setVisibility(0);

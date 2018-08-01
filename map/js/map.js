@@ -103,7 +103,7 @@ function init() {
 
 
 function addLayerVec() {
-    map.addLayers([layerVec, layerCva, layerImg, layerCia, layerGJVec, layerGJCva]);
+    map.addLayers([layerGJVec, layerGJCva]);
     layerImg.events.on({
         "layerInitialized": addLayer
     });
@@ -111,7 +111,7 @@ function addLayerVec() {
 
 //添加图层函数
 function addLayer() {
-    map.addLayers([layerGJImg, layerGJCia, markerLayer, measureVL, dragCircleLayer, vectorLayer, layer2012, layer2013, layer2014, layer2015, layer2016, layer2017]);
+    map.addLayers([layerGJImg, layerGJCia, layerVec, layerCva, layerImg, layerCia, markerLayer, measureVL, dragCircleLayer, vectorLayer, layer2012, layer2013, layer2014, layer2015, layer2016, layer2017]);
     layerImg.setVisibility(false);
     map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 10);
     /* 关闭所有多时相图层 */
