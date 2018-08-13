@@ -133,6 +133,7 @@ function queryPOI(sql, start) {
 }
 
 function processCompletedPOI(queryEventArgs) {
+    console.log(queryEventArgs);
     markerLayer.clearMarkers();
     var result = queryEventArgs.result;
     if (result && result.recordsets) {
@@ -293,7 +294,7 @@ function poiPointSelect(selectFeature) {
         map.addPopup(selectFearturePopup);
         bindqueryAroundSearch(x, y, selectFeature);
         $(".resultPane").fadeOut(300, function () { //隐藏结果面板的同时显示POI点的详细信息
-            $(".poiMsg").fadeIn();
+            $(".poiMsg").fadeIn();  
             $(".poiMsg .name span").text(poiName);
             $(".poiMsg .addr span").text(poiAddress);
             $(".poiMsg .phone span").text(poiNum);
@@ -302,8 +303,8 @@ function poiPointSelect(selectFeature) {
         $("#pano").html("");
         var placeName = biaozhuTitle = selectFeature.attributes["NAME"];
         embedpano({
-            swf: "SkyPano/" + placeName + "/tour.swf",
-            xml: "SkyPano/" + placeName + "/tour.xml",
+            swf: "../map/SkyPano/" + placeName + "/tour.swf",
+            xml: "../map/SkyPano/" + placeName + "/tour.xml",
             target: "pano",
             html5: "prefer",
             initvars: {

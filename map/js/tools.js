@@ -294,7 +294,19 @@ function returnToHome() {
 var dynamicLayersArr = [1, 2, 3];
 /* 多时相显示进度条 */
 function showTimelineSlider() {
-    showImg();
+    if (isRollingScreenOpen) {
+        return;
+    } else {
+        curType = "img";
+        layerGJImg.setVisibility(0);
+        layerGJCia.setVisibility(0);
+        layerGJVec.setVisibility(0);
+        layerGJCva.setVisibility(0);
+        layerVec.setVisibility(0);
+        layerCva.setVisibility(0);
+        layerImg.setVisibility(1);
+        layerCia.setVisibility(1);
+    }
     if (dynamicLayersArr.length == 0) {
         $(".errorPane").fadeIn();
         $(".errorPane .top .fa").hide();

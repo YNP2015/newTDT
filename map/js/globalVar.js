@@ -4,23 +4,23 @@
  */
 
 
-var layerGJVec = new SuperMap.Layer.AllTDTLayer18({
+var layerGJVec = new SuperMap.Layer.AllTDTLayer({
         name: "矢量图",
         layerType: "vec",
         useCanvas: true
     }),
-    layerGJCva = new SuperMap.Layer.AllTDTLayer18({
+    layerGJCva = new SuperMap.Layer.AllTDTLayer({
         name: "矢量标签图",
         layerType: "vec",
         isLabel: true,
         useCanvas: true
     }),
-    layerGJImg = new SuperMap.Layer.AllTDTLayer18({
+    layerGJImg = new SuperMap.Layer.AllTDTLayer({
         name: "影像图",
         layerType: "img",
         useCanvas: true
     }),
-    layerGJCia = new SuperMap.Layer.AllTDTLayer18({
+    layerGJCia = new SuperMap.Layer.AllTDTLayer({
         name: "影像标签图",
         layerType: "img",
         isLabel: true,
@@ -38,7 +38,7 @@ var map,
     url2013 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2013_50",
     url2014 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/img_gq2012-2014",
     url2015 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2015_50",
-    url2016 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2016_50",
+    url2016 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/ythcs_2016_50",
     url2017 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/jc_2017_200",
     skyPanoDatasetAtDatasource = "CloudPano@pano",
     restLayerResolutions = [

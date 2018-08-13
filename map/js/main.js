@@ -103,10 +103,11 @@ $(".downtown li").click(function () {
         success: function (data) {
             obj = data[index];
             for (var i = 0; i < obj.length; i++) {
-                var citys = obj[i].name;
+                var citys = "'"+ obj[i].name+"'";
+                var citysed = obj[i].name;
                 var poi = obj[i].bounds;
                 // $(".citySel .county").append(`<li onclick = "zoomToProvincesCities(${poi[0]}, ${poi[1]}, ${poi[2]}, ${poi[3]},'${citys}')">${citys}</li>`);
-                $(".citySel .county").append('<li onclick = "zoomToProvincesCities(' + poi[0] + ' ,  ' + poi[1] + ',' + poi[2] + ',' + poi[3] + ',' + citys + ')">' + citys + '</li>')
+                $(".citySel .county").append('<li onclick = "zoomToProvincesCities(' + poi[0] + ' ,  ' + poi[1] + ',' + poi[2] + ',' + poi[3] + ',' + citys + ')">' + citysed + '</li>')
             }
         }
     });

@@ -72,7 +72,7 @@ function valueOutput(element) {
 function showYearLayers(a) {
     var x = map.getCenter().lat;
     var y = map.getCenter().lon;
-    map.setCenter(new SuperMap.LonLat(y, x), 15);
+    map.setCenter(new SuperMap.LonLat(y, x), 14);
     if (a == "2012") {
         layer2012.setVisibility(1);
         layer2013.setVisibility(0);

@@ -15,7 +15,7 @@ function init() {
     map = new SuperMap.Map("map", {
         controls: [
             new SuperMap.Control.ScaleLine(),
-            //new SuperMap.Control.LayerSwitcher(),  //图层控制器
+            new SuperMap.Control.LayerSwitcher(),  //图层控制器
             new SuperMap.Control.Navigation({
                 dragPanOptions: {
                     enableKinetic: true
