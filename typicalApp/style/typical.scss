@@ -1,0 +1,59 @@
+@import '../../public/style/normalize.css';
+@import '../../public/style/font-awesome.min.css';
+#footer {
+    width: 100%;
+    height: 300px;
+    background-color: #949494;
+    .mainPane {
+        width: 1350px;
+        height: 100%;
+        margin: 0 auto;
+        overflow: hidden;
+        color: #ffffff;
+        .left,
+        .middle {
+            float: left;
+            width: 400px;
+            line-height: 30px;
+            margin-top: 35px;
+            padding-left: 20px;
+            border-left: 1px solid #ffffff;
+            box-sizing: border-box;
+            h3 {
+                font-weight: 500;
+                font-size: 24px;
+                padding: 0;
+                margin: 0 0 20px 0;
+            }
+            ul {
+                padding: 0;
+                margin: 0;
+                li {
+                    list-style: none;
+                    line-height: 30px;
+                    span {
+                        display: inline-block;
+                        width: 100px;
+                    }
+                }
+            }
+        }
+        .middle {
+            width: 350px;
+            ul {
+                li {
+                    a {
+                        color: #ffffff;
+                        text-decoration: none;
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+        .right {
+            float: left;
+        }
+    }
+}
