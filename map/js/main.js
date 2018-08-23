@@ -253,6 +253,53 @@ $(function () {
     });
 })
 
+// function autocompleteQuery(request, response) {
+//     var url = urlHNPOI + "/queryResults.json?returnPostAction=true&getMethodForm=true&returnContent=true"
+//     var cityName = $(".mapPot span").text();
+//     if (cityName == "湖南省" || cityName == "长沙市" || cityName == "株洲市" || cityName == "湘潭市" || cityName == "衡阳市" || cityName == "邵阳市" || cityName == "岳阳市" || cityName == "常德市" || cityName == "张家界市" || cityName == "益阳市" || cityName == "郴州市" || cityName == "永州市" || cityName == "怀化市" || cityName == "娄底市" || cityName == "湘西州") {
+//         cityname = cityName + "POI@HNPOI";
+//     } else {
+//         cityname = cityName + "@HNPOI";
+//     }
+//     var keyword = request.term;
+//     var sql = "NAME like '%" + keyword + "%'";
+//     var queryParam = new SuperMap.REST.FilterParameter({
+//         name: cityname,
+//         fields: ["NAME"],
+//         attributeFilter: sql
+//     });
+//     var queryBySQLParams = new SuperMap.REST.QueryBySQLParameters({
+//         queryParams: [queryParam],
+//         expectCount: 5,
+//         queryOption: SuperMap.REST.QueryOption.ATTRIBUTE
+//     });
+//     var queryFilter = {
+//         queryMode: "SqlQuery",
+//         queryParameters: queryBySQLParams
+//     }
+
+//     var data = SuperMap.Util.toJSON(queryFilter);
+
+//     $.ajax({
+//         url: url,
+//         type: "POST",
+//         dataType: "json",
+//         data: data,
+//         success: function (data) {
+//             var names = [];
+//             if (data.recordsets && data.recordsets.length > 0) {
+//                 var recordset = data.recordsets[0];
+//                 if (recordset.features && recordset.features.length > 0) {
+//                     for (var i = 0; i < recordset.features.length; i++) {
+//                         names[i] = recordset.features[i].fieldValues[0];
+//                     }
+//                 }
+//             }
+//             response(names);
+//         }
+//     });
+// }
+
 
 var colors = [{
         "hex": "#EFDECD",
