@@ -15,7 +15,12 @@ function init() {
     map = new SuperMap.Map("map", {
         controls: [
             new SuperMap.Control.ScaleLine(),
-            new SuperMap.Control.LayerSwitcher(),  //图层控制器
+            new SuperMap.Control.MousePosition({
+                numDigits: 2,
+                prefix: "经度:",
+                separator: "&nbsp&nbsp&nbsp&nbsp纬度:"
+            }),
+            new SuperMap.Control.LayerSwitcher(), //图层控制器
             new SuperMap.Control.Navigation({
                 dragPanOptions: {
                     enableKinetic: true
@@ -137,6 +142,24 @@ function addLayer() {
     map.events.on({
         "move": mapMove
     });
+    /* 地址栏分析  */
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = encodeURI(window.location.search).substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        } else {
+            return null;
+        }
+    }
+    var keyVal = GetQueryString("key");
+    var key = decodeURI(keyVal);
+    if (key != "null") {
+        $(".poiSearch").val(key);
+        $('#s-poi').trigger('click');
+    } else {
+        return;
+    }
 }
 
 

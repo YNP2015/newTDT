@@ -4,7 +4,7 @@
 $tipC:#ef8200;
 $mainC:#0182cb;
 $mapPotR:360px;
-$paneW:325px;
+$paneW:267px;
 $paneR:15px;
 @mixin tip {
     background-color: $tipC;
@@ -360,11 +360,11 @@ body {
                 color: #444444;
                 font-size: 14px;
                 cursor: pointer;
-                strong{
-                   background: #f9de8f;
-                   text-shadow: 0 1px 0 #ffffff;
+                strong {
+                    background: #f9de8f;
+                    text-shadow: 0 1px 0 #ffffff;
                 }
-                span{
+                span {
                     color: #bbbbbb;
                 }
             }
@@ -379,7 +379,7 @@ body {
             padding: 12px 12px 12px 13px;
             font-size: 24px;
             display: none;
-            span{
+            span {
                 color: transparent;
             }
             .autocompleter-hint-show {
@@ -588,7 +588,7 @@ body {
 
 .resultPane {
     display: none;
-    width: $paneW;
+    width: 325px;
     box-sizing: border-box;
     position: absolute;
     top: 75px;
@@ -849,7 +849,15 @@ body {
 }
 
 .mapStyle {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1999;
+    width: 120px;
+    height: 110px;
     &:hover {
+        width: 340px;
+        height: 120px;
         .imgMap {
             right: 230px;
         }
@@ -859,7 +867,7 @@ body {
     }
     .mapItem {
         position: absolute;
-        bottom: 20px;
+        bottom: 40px;
         right: 30px;
         z-index: 2000;
         width: 86px;
@@ -1435,4 +1443,9 @@ body {
             color: #fff;
         }
     }
+}
+
+.smControlMousePosition {
+    right: 30px !important;
+    bottom: 10px !important;
 }

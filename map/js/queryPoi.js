@@ -229,7 +229,11 @@ function showQueryResult(features) { //显示搜索结果
             "<div class='Paddr'><span class='n-grey' title='" + addr + "'>" + addr + "</span></div><div class='Ptel'>" + tel + "</div>" +
             "</li>";
         if (i == 0 && isAroudSearchOpen == false) { //不要影像周边查询时的范围显示
-            map.setCenter(new SuperMap.LonLat(smx, smy), 13);
+            if (isSkyPanoQuery){
+                map.setCenter(new SuperMap.LonLat(smx, smy), 9);
+            }else{
+                map.setCenter(new SuperMap.LonLat(smx, smy), 11);
+            }  
         }
     }
     resultContent += "</ul>";

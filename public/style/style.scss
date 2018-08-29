@@ -17,7 +17,7 @@ $fzc:#2a8ac6;
         position: relative;
         .logo {
             position: absolute;
-            left: 0;
+            left: 30px;
             top: 145px;
             z-index: 2;
         }
@@ -56,7 +56,7 @@ $fzc:#2a8ac6;
     }
     .nav {
         width: 100%;
-        height: 100px;
+        height: 80px;
         position: absolute;
         top: 0;
         left: 0;
@@ -75,12 +75,12 @@ $fzc:#2a8ac6;
                     list-style: none;
                     width: 110px;
                     float: left;
-                    line-height: 100px;
+                    line-height: 80px;
                     text-align: center;
                     a {
                         color: #fff;
                         text-decoration: none;
-                        padding: 5px 16px;
+                        padding: 4px 18px;
                         &:hover {
                             border: 1px solid #fff;
                             border-radius: 50px;
@@ -96,7 +96,7 @@ $fzc:#2a8ac6;
             }
             .login {
                 width: 150px;
-                line-height: 100px;
+                line-height: 80px;
                 float: right;
                 color: #fdc223;
                 a {
@@ -107,17 +107,22 @@ $fzc:#2a8ac6;
             }
             .logined {
                 width: 200px;
-                line-height: 100px;
+                line-height: 80px;
                 float: right;
                 color: #ffffff;
                 text-align: right;
                 position: relative;
+                a {
+                    text-decoration: none;
+                    color: #fdc223;
+                    margin: 0 10px
+                }
                 span {
                     color: #fdc223;
                     cursor: pointer;
                 }
-                &:hover{
-                    .loginItem{
+                &:hover {
+                    .loginItem {
                         display: block;
                     }
                 }
@@ -125,8 +130,10 @@ $fzc:#2a8ac6;
                     display: none;
                     padding: 0;
                     margin: 0;
+                    position: absolute;
                     width: 120px;
-                    float: right;
+                    right: 0;
+                    z-index: 3;
                     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
                     background: #fff;
                     border-radius: 5px;
@@ -156,7 +163,7 @@ $fzc:#2a8ac6;
 
 #iconPart {
     width: 100%;
-    height: 680px;
+    height: 600px;
     background-color: #fff;
     .partM {
         width: 1250px;
@@ -172,7 +179,7 @@ $fzc:#2a8ac6;
                 list-style: none;
                 float: left;
                 width: 250px;
-                height: 340px;
+                height: 300px;
                 a {
                     display: block;
                     width: 100%;
@@ -183,7 +190,7 @@ $fzc:#2a8ac6;
                     .icon {
                         width: 150px;
                         height: 150px;
-                        margin: 50px auto;
+                        margin: 30px auto;
                         border-radius: 150px;
                         -moz-box-shadow: 5px -3px 10px #A1A1A1;
                         -webkit-box-shadow: 5px -3px 10px #A1A1A1;

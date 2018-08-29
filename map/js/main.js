@@ -234,7 +234,7 @@ $(function () {
         limit: 5,
         callback: function (value, index, selected) {
             if (selected) {
-               
+
             }
         }
     });
@@ -247,7 +247,7 @@ $(function () {
         limit: 5,
         callback: function (value, index, selected) {
             if (selected) {
-               
+
             }
         }
     });
