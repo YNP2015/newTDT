@@ -51,11 +51,21 @@ $(".tool_measure .top ul li").click(function () {
     var index = $(this).index();
     $(this).addClass("selT").siblings().removeClass("selT");
     $(".tool_measure .content ul li").eq(index).addClass("selC").siblings().removeClass("selC");
+
     if (index == 0) {
+        if(lineMeasureState){
+            $(this).removeClass("selT");
+        }
         lineMeasure(); //线  该方法在文件measure.js中
     } else if (index == 1) {
+        if(polygonMeasureState){
+            $(this).removeClass("selT");
+        }
         polygonMeasure(); //多边形 该方法在文件measure.js中
     } else if (index == 2) {
+        if(circleMeasureState){
+            $(this).removeClass("selT");
+        }
         circleMeasure(); //圆 该方法在文件measure.js中
     } else { //关闭量算框
         $(".tool_measure").hide();
@@ -74,9 +84,14 @@ $(".tool_measure .top ul li").click(function () {
             "mousemove": tipMeasure
         });
         $("#measureTipDiv").hide();
+        //先释放控件,在清除绘画结果,不然会报错
+        if (measureDistanceControl) measureDistanceControl.deactivate();
+        if (measureAreaControl) measureAreaControl.deactivate();
+        if (measureCircleControl) measureCircleControl.deactivate();
         if (measureMapDistance != 0) clearAllMeasureDistanceResult();
         if (measureMapArea != 0) clearAllMeasureAreaResult();
         if (measureMapCircle != 0) clearAllMeasureCircleResult();
+
         measureShow = false;
     }
 });
@@ -258,9 +273,75 @@ function showSkyPano() {
 }
 
 /* 标记 */
-function setSign(){
-    
+var size = new SuperMap.Size(25, 25);
+var offset = new SuperMap.Pixel(-30, -30);
+var icon = new SuperMap.Icon("images/icon10.png", size);
+//记录标记使用的状态
+var signState = false;
+//地图标注的提示框跟随鼠标移动
+$(document).mousemove(function (e) {
+    $('#tip')[0].style.left = e.clientX + 'px';
+    $('#tip')[0].style.top = e.clientY + 'px';
+})
+
+function setSign() {
+    if (!signState) {
+        signState = true
+        $('#tip').show()
+        map.events.register('click', map, eventLinstener)
+    } else {
+        map.events.unregister('click', map, eventLinstener)
+        $('#tip').hide()
+    }
 }
+
+function eventLinstener(e) {
+    var pixel = new SuperMap.Pixel(e.clientX, e.clientY)
+    var lonlat = map.getLonLatFromPixel(pixel)
+    var marker = new SuperMap.Marker(lonlat, icon);
+    markerLayer.addMarker(marker)
+    map.events.unregister('click', map, eventLinstener)
+    $('#tip').hide()
+    signState = false
+}
+//定位
+function locate() {
+    var x = $('#cLng').val()
+    var y = $('#cLat').val()
+    var marker = new SuperMap.Marker(new SuperMap.LonLat(x, y), icon);
+    map.setCenter(new SuperMap.LonLat(x, y), 11);
+    markerLayer.addMarker(marker)
+}
+
+
+//载入标记
+(function () {
+    var bookmarks = localStorage.getItem("MapBookmarks")
+    var signs = localStorage.getItem("SignMarkers")
+    if (bookmarks) {
+        var bookmarksJSON = JSON.parse(bookmarks)
+        for (let index = 0; index < bookmarksJSON.length; index++) {
+            var bookmark = bookmarksJSON[index];
+            var booksDiv = '<a onclick="bookmarksClick(\'' + bookmark.name + '\')">' + bookmark.name + '<i class="fa fa-close" onclick="removeBookmark(\'' + bookmark.name + '\')"></i></a>';
+            $('#bookmarksList').append(booksDiv);
+        }
+    }
+    if (signs) {
+        var signsJSON = JSON.parse(signs)
+        signsJSON.forEach(sign => {
+            var marker = new SuperMap.Marker(new SuperMap.LonLat(sign.x, sign.y))
+            marker.events.on({
+                "click": function (e) {
+                    console.log(e)
+                    $('#signName').attr('value', sign.title)
+                    $('#signContent').attr('value', sign.content)
+                    $('#setSign').show()
+                }
+            })
+            signMarkerLayer.addMarker(marker)
+        });
+    }
+})()
 
 /* 书签 */
 function showBookMark() {
@@ -281,19 +362,94 @@ $("#addBookMark").click(function () {
         $(".errorPane .bottom").text("请输入有效书签名！");
     } else {
         /* 这里写添加书签的具体方法 */
+        bookmarks(key)
     }
 });
-/* 删除书签 */                                                                            
 
+//新增书签
+//书签保存到本地的localStorage
+function bookmarks(name) {
+    var center = map.getCenter()
+    var zoom = map.getZoom()
+    var bookmarksName = name
+    var data = {
+        center: center,
+        zoom: zoom
+    }
+    var bookmarks = localStorage.getItem("MapBookmarks")
+
+    if (bookmarks) {
+        var bookmarksJSON = JSON.parse(bookmarks)
+        //不增加重复的书签
+        for (let index = 0; index < bookmarksJSON.length; index++) {
+            var b = bookmarksJSON[index];
+            if (b.name === bookmarksName) {
+                bookmarksJSON[index].data = data
+                localStorage.setItem('MapBookmarks', JSON.stringify(bookmarksJSON))
+                return
+            }
+        }
+        bookmarksJSON.push({
+            name: bookmarksName,
+            data: data
+        })
+        localStorage.setItem('MapBookmarks', JSON.stringify(bookmarksJSON))
+    } else {
+        localStorage.setItem('MapBookmarks', JSON.stringify([{
+            name: bookmarksName,
+            data: data
+        }]))
+    }
+    $('#bookmarksList').append('<a onclick="bookmarksClick(\'' + name + '\')">' + name + '<i class="fa fa-close" onclick="removeBookmark(\'' + name + '\')"></i></a>')
+}
+
+/* 删除书签 */
+//删除书签
+function removeBookmark(bookmarkName) {
+    var marks = JSON.parse(localStorage.getItem('MapBookmarks'))
+    $('#bookmarksList').html("") //清除已有的书签span
+    for (let index = 0; index < marks.length; index++) {
+        const mark = marks[index];
+        if (mark.name == bookmarkName) {
+            marks.splice(index, 1);
+            localStorage.setItem('MapBookmarks', JSON.stringify(marks))
+        } else {
+            //将没有删除的书签span重新加入
+            $('#bookmarksList').append('<a onclick="bookmarksClick(\'' + mark.name + '\')">' + mark.name + '<i onclick="removeBookmark(\'' + mark.name + '\')"></i></a>')
+        }
+    }
+}
+
+//点击书签
+function bookmarksClick(bookmarksName) {
+    if (localStorage.getItem('MapBookmarks')) {
+        var marks = JSON.parse(localStorage.getItem('MapBookmarks'))
+        for (let index = 0; index < marks.length; index++) {
+            const mark = marks[index];
+            if (mark.name == bookmarksName) {
+                map.setCenter(new SuperMap.LonLat(mark.data.center.lon, mark.data.center.lat), mark.data.zoom)
+                return;
+            }
+        }
+    }
+}
 
 /* 返回首页 */
 function returnToHome() {
     window.location.href = "../index.html";
 }
+/* 虚拟现实 */
+function hrefToVR() {
+    window.location.href = "../VR/index.html";
+}
 
 var dynamicLayersArr = [1, 2, 3];
 /* 多时相显示进度条 */
 function showTimelineSlider() {
+	var zoom = map.getZoom();
+	if(zoom<=13){
+		map.zoomTo(14);
+	}
     if (isRollingScreenOpen) {
         return;
     } else {
@@ -340,11 +496,24 @@ $(".elementWrap .elementClose").click(function () {
 
 function closeAllTimeLayers() {
     map.events.unregister("moveend", null, getImgResult);
-    $(".elementWrap").fadeOut();
-    layer2012.setVisibility(0);
-    layer2013.setVisibility(0);
-    layer2014.setVisibility(0);
-    layer2015.setVisibility(0);
-    layer2016.setVisibility(0);
-    layer2017.setVisibility(0);
+    $(".elementWrap").hide();
+	//关闭多时相回复注记图层,恢复check状态
+	layerCia.setVisibility(1);
+    $("#switch").prop("checked", true);
+    var slayer = map.getLayersByName("多时相")
+    if (slayer && slayer.length > 0) {
+        slayer.forEach(layer => {
+            map.removeLayer(layer)
+            layer.destroy()
+        });
+    }
 }
+
+//多时相里的注记开关
+$('#switch').on('change',function(e){
+    if(this.checked){
+        layerCia.setVisibility(1)
+    }else{
+        layerCia.setVisibility(0)
+    }
+})

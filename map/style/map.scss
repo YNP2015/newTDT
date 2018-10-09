@@ -3,8 +3,8 @@
 @import '../../public/style/jquery.mCustomScrollbar.min.css';
 $tipC:#ef8200;
 $mainC:#0182cb;
-$mapPotR:360px;
-$paneW:267px;
+$mapPotR:330px;
+$paneW:296px;
 $paneR:15px;
 @mixin tip {
     background-color: $tipC;
@@ -139,7 +139,7 @@ body {
         }
     }
     .elementWrap {
-        width: $paneW;
+        width: 346px;
         position: absolute;
         right: 15px;
         top: 60px;
@@ -157,9 +157,9 @@ body {
             font-size: 15px;
         }
         #js-example-change-attributes {
-            margin: 15px 0;
+            margin: 20px 0 0px 0px;
             box-sizing: border-box;
-            padding: 0 10px;
+            padding: 0 30px;
             .rangeslider {
                 float: left;
             }
@@ -366,6 +366,7 @@ body {
                 }
                 span {
                     color: #bbbbbb;
+                    margin-left: 8px;
                 }
             }
         }
@@ -1448,4 +1449,32 @@ body {
 .smControlMousePosition {
     right: 30px !important;
     bottom: 10px !important;
+}
+
+#changeMsg {
+    line-height: 35px;
+    padding: 0 10px;
+    position: absolute;
+    right: 70px;
+    bottom: 215px;
+    z-index: 4;
+    background-color: $tipC;
+    color: #FFF;
+    font-size: 12px;
+    border-radius: 5px;
+    &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        line-height: 0px;
+        z-index: 4;
+        top: 50%;
+        left: 100%;
+        border-width: 6px 0 6px 8px;
+        margin-top: -8px;
+        margin-left: 0;
+        border-color: transparent transparent transparent $tipC;
+    }
 }

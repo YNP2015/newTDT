@@ -9,11 +9,11 @@ var measureDistanceControl, measureDistanceCounts = 0,
     measureCircleControl, measureCircleCounts = 0,
     measureAreaControl, measureAreaCounts = 0,
     measureMapDistance = new HashMap(),
-    featuresDistanceId,
+    featuresDistanceId = [],
     measureMapCircle = new HashMap(),
-    featuresCircleId,
+    featuresCircleId = [],
     measureMapArea = new HashMap(),
-    featuresAreaId,
+    featuresAreaId = [],
     popupDistanceMap = new HashMap(),
     popupCircleMap = new HashMap(),
     popupAreaMap = new HashMap(),
@@ -87,15 +87,35 @@ style.addRules([
 var styleMap = new SuperMap.StyleMap({
     "default": style
 });
-
+var lineMeasureState = false
+var polygonMeasureState = false
+var circleMeasureState = false
 
 function lineMeasure() {
-     if (measureDistanceControl) measureDistanceControl.deactivate();
-     if (measureAreaControl) measureAreaControl.deactivate();
-     if (measureCircleControl) measureCircleControl.deactivate();
-    //每次量算时清空上次结果
-    featuresDistanceId = [];
+
+    if (measureDistanceControl) measureDistanceControl.deactivate();
+    if (measureAreaControl) measureAreaControl.deactivate();
+    if (measureCircleControl) measureCircleControl.deactivate();
+    polygonMeasureState = false
+    circleMeasureState = false
+    if (lineMeasureState) {
+        if ($("#measureTipDiv")) {
+            $("#measureTipDiv").remove();
+        }
+        map.events.un({
+            "mousemove": tipMeasure
+        });
+        map.events.un({
+            "mousemove": tipMeasureCircle
+        });
+        //移除鼠标样式
+        $("#map").removeClass('sm_measure');
+        lineMeasureState = false
+        return
+    }
+
     popups = [];
+
     //设置标注时鼠标样式
     $("#map").addClass('sm_measure');
     measureDistanceControl = new SuperMap.Control.Measure(
@@ -129,15 +149,32 @@ function lineMeasure() {
     map.events.on({
         "mousemove": tipMeasure
     });
-    measureDistanceIndex = measureDistanceCounts++;
+    lineMeasureState = true
 }
 
 function circleMeasure() {
-     if (measureDistanceControl) measureDistanceControl.deactivate();
-     if (measureAreaControl) measureAreaControl.deactivate();
-     if (measureCircleControl) measureCircleControl.deactivate();
-    //每次量算时清空上次结果
-    featuresCircleId = [];
+    if (measureDistanceControl) measureDistanceControl.deactivate();
+    if (measureAreaControl) measureAreaControl.deactivate();
+    if (measureCircleControl) measureCircleControl.deactivate();
+    polygonMeasureState = false
+    lineMeasureState = false
+
+    if (circleMeasureState) {
+        if ($("#measureTipDiv")) {
+            $("#measureTipDiv").remove();
+        }
+        map.events.un({
+            "mousemove": tipMeasureCircle
+        });
+        map.events.un({
+            "mousemove": tipMeasure
+        });
+        //移除鼠标样式
+        $("#map").removeClass('sm_measure');
+        circleMeasureState = false
+        return
+    }
+
     popups = [];
     //设置标注时鼠标样式
     $("#map").addClass('sm_measure');
@@ -173,15 +210,31 @@ function circleMeasure() {
     map.events.on({
         "mousemove": tipMeasureCircle
     });
-    measureCircleIndex = measureCircleCounts++;
+    circleMeasureState = true
 }
 
 function polygonMeasure() {
-     if (measureDistanceControl) measureDistanceControl.deactivate();
-     if (measureAreaControl) measureAreaControl.deactivate();
-     if (measureCircleControl) measureCircleControl.deactivate();
-    //每次量算时清空上次结果
-    featuresAreaId = [];
+    if (measureDistanceControl) measureDistanceControl.deactivate();
+    if (measureAreaControl) measureAreaControl.deactivate();
+    if (measureCircleControl) measureCircleControl.deactivate();
+    lineMeasureState = false
+    circleMeasureState = false
+    if (polygonMeasureState) {
+        if ($("#measureTipDiv")) {
+            $("#measureTipDiv").remove();
+        }
+        map.events.un({
+            "mousemove": tipMeasure
+        });
+        map.events.un({
+            "mousemove": tipMeasureCircle
+        });
+        //移除鼠标样式
+        $("#map").removeClass('sm_measure');
+        polygonMeasureState = false
+        return
+    }
+
     popups = [];
     //设置标注时鼠标样式
     $("#map").addClass('sm_measure');
@@ -215,7 +268,7 @@ function polygonMeasure() {
     map.events.on({
         "mousemove": tipMeasure
     });
-    measureAreaIndex = measureAreaCounts++;
+    polygonMeasureState = true
 }
 
 
@@ -245,6 +298,7 @@ function tipMeasure(event) {
             left: event.xy.x + 24,
             top: event.xy.y - 16
         });
+        $("#measureTipDiv").html('左键单击确定起点');
     }
 }
 //提示“左键单击增加点，双击结束”
@@ -272,12 +326,17 @@ function tipMeasureCircle(event) {
             left: event.xy.x + 24,
             top: event.xy.y - 16
         });
+        $("#measureTipDiv").html('左键按下确定圆中心点并移动鼠标');
+
     }
 }
 
 //定义 handleMeasurements 函数，触发 measure 事件会调用此函数
 //事件参数 event 包含了测量要素 geometry 信息
 function handleDistanceMeasure(event) {
+
+    measureDistanceIndex = measureDistanceCounts++;
+
     //获取传入参数 event 的 geometry 信息
     var geometry = event.geometry;
     var endMeasurePoint = new SuperMap.Geometry.Point(geometry.components[geometry.components.length - 1].x, geometry.components[geometry.components.length - 1].y);
@@ -293,19 +352,19 @@ function handleDistanceMeasure(event) {
     featuresDistanceId.push(lineFeature.id);
     measureVL.addFeatures(lineFeature);
     measureMapDistance.put(measureDistanceIndex, featuresDistanceId);
-    var startDiv = "<div style='position: absolute; z-index: 2100; border: 1px solid rgb(86, 156, 241); background-color: rgb(255, 255, 255); white-space: nowrap; font-size: 13px; padding: 2px; font-family: Arial;'>" +
+    var startDiv = "<div style='user-select:none;position: absolute; z-index: 2100; border: 1px solid rgb(86, 156, 241); background-color: rgb(255, 255, 255); white-space: nowrap; font-size: 13px; padding: 2px; font-family: Arial;'>" +
         "<span style='margin: 0px 4px; float: left;'>" +
-        "总长：<strong>" + event.measure.toFixed(6) + "</strong>" + " " + event.units + "</span>" +
+        "总长：<strong>" + event.measure.toFixed(4) + "</strong>" + " " + event.units + "</span>" +
         "<img id=measureResultClose_" + measureDistanceIndex + " hspace='0' src='./images/measureDis_p_close.png' style='width: 14px; height: 14px; cursor: pointer; position: relative; margin: 2px 2px -2px; display: inline-block;' onclick='clearMeasureDistanceResult(event);'>" +
         "</div>";
     if (event.units == "km") {
-        distanceMeasureValueArray.kilometer = event.measure.toFixed(6);
-        distanceMeasureValueArray.meter = (event.measure * 1000).toFixed(6);
-        distanceMeasureValueArray.centimeter = (event.measure * 100000).toFixed(6);
+        distanceMeasureValueArray.kilometer = event.measure.toFixed(4);
+        distanceMeasureValueArray.meter = (event.measure * 1000).toFixed(4);
+        distanceMeasureValueArray.centimeter = (event.measure * 100000).toFixed(4);
     } else if (event.units == "m") {
-        distanceMeasureValueArray.meter = event.measure.toFixed(6);
-        distanceMeasureValueArray.kilometer = (event.measure / 1000).toFixed(6);
-        distanceMeasureValueArray.centimeter = (event.measure * 100).toFixed(6);
+        distanceMeasureValueArray.meter = event.measure.toFixed(4);
+        distanceMeasureValueArray.kilometer = (event.measure / 1000).toFixed(4);
+        distanceMeasureValueArray.centimeter = (event.measure * 100).toFixed(4);
     }
 
 
@@ -325,14 +384,23 @@ function handleDistanceMeasure(event) {
         $("#measureTipDiv").remove();
     }
     //注销控件
-    measureDistanceControl.deactivate();
+    // measureDistanceControl.deactivate();
     //移除鼠标样式
     $("#map").removeClass('sm_measure');
+
+    //每次量算时清空上次结果
+    featuresDistanceId = [];
+    popups = []
 }
 
 //定义 handleMeasurements 函数，触发 measure 事件会调用此函数
 //事件参数 event 包含了测量要素 geometry 信息
 function handleMeasureCircle(event) {
+    //每次量算时清空上次结果
+    featuresCircleId = [];
+    popups = []
+    measureCircleIndex = measureCircleCounts++;
+
     //获取传入参数 event 的 geometry 信息
     var geometry = event.geometry;
     var endMeasurePoint = new SuperMap.Geometry.Point(geometry.components[0].components[geometry.components[0].components.length - 1].x, geometry.components[0].components[geometry.components[0].components.length - 1].y);
@@ -351,7 +419,7 @@ function handleMeasureCircle(event) {
     measureMapCircle.put(measureCircleIndex, featuresCircleId);
 
 
-    var startDiv = "<div style='position: absolute; z-index: 2100; border: 1px solid rgb(86, 156, 241); background-color: rgb(255, 255, 255); white-space: nowrap; font-size: 13px; padding: 2px; font-family: Arial;'>" +
+    var startDiv = "<div style='user-select:none;position: absolute; z-index: 2100; border: 1px solid rgb(86, 156, 241); background-color: rgb(255, 255, 255); white-space: nowrap; font-size: 13px; padding: 2px; font-family: Arial;'>" +
         "<span style='margin: 0px 4px; float: left;'>" +
         "总面积：<strong>" + event.measure.toFixed(2) + "</strong>" + " " + event.units + "<sup>2</sup></span>" +
         "<img id=measureResultClose_" + measureCircleIndex + " hspace='0' src='./images/measureDis_p_close.png' style='width: 14px; height: 14px; cursor: pointer; position: relative; margin: 2px 2px -2px; display: inline-block;' onclick='clearMeasureCircleResult(event);'>" +
@@ -363,32 +431,32 @@ function handleMeasureCircle(event) {
         // var C = 2*Math.PI*r;
         var C = geometry.getGeodesicLength(); //这样就不要自己计算了。
         // 周长
-        circleMeasureValueArray.kilometer = (C / 1000).toFixed(6);
-        circleMeasureValueArray.meter = C.toFixed(6);
-        circleMeasureValueArray.centimeter = (C * 100).toFixed(6);
+        circleMeasureValueArray.kilometer = (C / 1000).toFixed(4);
+        circleMeasureValueArray.meter = C.toFixed(4);
+        circleMeasureValueArray.centimeter = (C * 100).toFixed(4);
         //面积
-        circleMeasureValueArray.squarekilometer = event.measure.toFixed(6);
-        circleMeasureValueArray.squaremeter = (event.measure * 1000000).toFixed(6);
-        circleMeasureValueArray.squarecentimeter = (event.measure * 10000000000).toFixed(6);
+        circleMeasureValueArray.squarekilometer = event.measure.toFixed(4);
+        circleMeasureValueArray.squaremeter = (event.measure * 1000000).toFixed(4);
+        circleMeasureValueArray.squarecentimeter = (event.measure * 10000000000).toFixed(4);
 
     } else if (event.units == "m") {
         // var r = Math.sqrt(event.measure/Math.PI);
         // var C = 2*Math.PI*r;
         var C = geometry.getGeodesicLength();
         // 周长
-        circleMeasureValueArray.kilometer = (C / 1000).toFixed(6);
-        circleMeasureValueArray.meter = C.toFixed(6);
-        circleMeasureValueArray.centimeter = (C * 100).toFixed(6);
+        circleMeasureValueArray.kilometer = (C / 1000).toFixed(3);
+        circleMeasureValueArray.meter = C.toFixed(4);
+        circleMeasureValueArray.centimeter = (C * 100).toFixed(3);
         //面积
-        circleMeasureValueArray.squarekilometer = (event.measure / 1000000).toFixed(6);
-        circleMeasureValueArray.squaremeter = (event.measure).toFixed(6);
-        circleMeasureValueArray.squarecentimeter = (event.measure * 10000).toFixed(6);
+        circleMeasureValueArray.squarekilometer = (event.measure / 1000000).toFixed(3);
+        circleMeasureValueArray.squaremeter = (event.measure).toFixed(3);
+        circleMeasureValueArray.squarecentimeter = (event.measure * 10000).toFixed(3);
     }
 
     var popup = new SuperMap.Popup(
         'measureResultPopup',
         new SuperMap.LonLat(endPointGeo.x, endPointGeo.y),
-        new SuperMap.Size(230, 24), 
+        new SuperMap.Size(230, 24),
         startDiv,
         false
     );
@@ -401,19 +469,17 @@ function handleMeasureCircle(event) {
         $("#measureTipDiv").remove();
     }
     //注销控件
-    measureCircleControl.deactivate();
+    // measureCircleControl.deactivate();
     //移除鼠标样式
     $("#map").removeClass('sm_measure');
-
-    map.events.un({
-        "mousemove": tipMeasureCircle
-    });
 }
 
 
 //定义 handleMeasurements 函数，触发 measure 事件会调用此函数
 //事件参数 event 包含了测量要素 geometry 信息
 function handleMeasureArea(event) {
+
+    measureAreaIndex = measureAreaCounts++;
     //获取传入参数 event 的 geometry 信息
     var geometry = event.geometry;
     var endMeasurePoint = new SuperMap.Geometry.Point(geometry.components[0].components[geometry.components[0].components.length - 1].x, geometry.components[0].components[geometry.components[0].components.length - 1].y);
@@ -432,7 +498,7 @@ function handleMeasureArea(event) {
 
 
 
-    var startDiv = "<div style='position: absolute; z-index: 2100; border: 1px solid rgb(86, 156, 241); background-color: rgb(255, 255, 255); white-space: nowrap; font-size: 13px; padding: 2px; font-family: Arial;'>" +
+    var startDiv = "<div style='user-select:none;position: absolute; z-index: 2100; border: 1px solid rgb(86, 156, 241); background-color: rgb(255, 255, 255); white-space: nowrap; font-size: 13px; padding: 2px; font-family: Arial;'>" +
         "<span style='margin: 0px 4px; float: left;'>" +
         "总面积：<strong>" + event.measure.toFixed(2) + "</strong>" + " " + event.units + "<sup>2</sup></span>" +
         "<img id=measureResultClose_" + measureAreaIndex + " hspace='0' src='./images/measureDis_p_close.png' style='width: 14px; height: 14px; cursor: pointer; position: relative; margin: 2px 2px -2px; display: inline-block;' onclick='clearMeasureAreaResult(event);'>" +
@@ -443,26 +509,26 @@ function handleMeasureArea(event) {
         var r = Math.sqrt(event.measure / Math.PI);
         var C = 2 * Math.PI * r;
         // 周长
-        areaMeasureValueArray.kilometer = (lengthUnitMeter / 1000).toFixed(6);
+        areaMeasureValueArray.kilometer = (lengthUnitMeter / 1000).toFixed(4);
         areaMeasureValueArray.meter = lengthUnitMeter;
-        areaMeasureValueArray.centimeter = (lengthUnitMeter * 100).toFixed(6);
+        areaMeasureValueArray.centimeter = (lengthUnitMeter * 100).toFixed(4);
         //面积
-        areaMeasureValueArray.squarekilometer = event.measure.toFixed(6);
-        areaMeasureValueArray.squaremeter = (event.measure * 1000000).toFixed(6);
-        areaMeasureValueArray.squarecentimeter = (event.measure * 10000000000).toFixed(6);
+        areaMeasureValueArray.squarekilometer = event.measure.toFixed(4);
+        areaMeasureValueArray.squaremeter = (event.measure * 1000000).toFixed(4);
+        areaMeasureValueArray.squarecentimeter = (event.measure * 10000000000).toFixed(4);
 
     } else if (event.units == "m") {
         var r = Math.sqrt(event.measure / Math.PI);
         var C = 2 * Math.PI * r;
         // 周长
-        areaMeasureValueArray.kiometer = (C / 1000).toFixed(6);
-        areaMeasureValueArray.meter = C.toFixed(6);
-        areaMeasureValueArray.centimeter = (C * 100).toFixed(6);
+        areaMeasureValueArray.kiometer = (C / 1000).toFixed(4);
+        areaMeasureValueArray.meter = C.toFixed(4);
+        areaMeasureValueArray.centimeter = (C * 100).toFixed(4);
         $(".tool_measure .content ul li").eq(2).find(".getKm").text(areaMeasureValueArray.meter);
         //面积
-        areaMeasureValueArray.squarekilometer = (event.measure / 1000000).toFixed(6);
-        areaMeasureValueArray.squaremeter = (event.measure).toFixed(6);
-        areaMeasureValueArray.squarecentimeter = (event.measure * 10000).toFixed(6);
+        areaMeasureValueArray.squarekilometer = (event.measure / 1000000).toFixed(4);
+        areaMeasureValueArray.squaremeter = (event.measure).toFixed(4);
+        areaMeasureValueArray.squarecentimeter = (event.measure * 10000).toFixed(4);
     }
 
     var popup = new SuperMap.Popup(
@@ -481,9 +547,13 @@ function handleMeasureArea(event) {
         $("#measureTipDiv").remove();
     }
     //注销控件
-    measureAreaControl.deactivate();
+    // measureAreaControl.deactivate();
     //移除鼠标样式
     $("#map").removeClass('sm_measure');
+
+    //每次量算结束后清空上次结果
+    featuresAreaId = [];
+    popups = []
 }
 
 
@@ -492,10 +562,11 @@ function handleMeasureArea(event) {
 var preGeoLen = 0;
 
 function handleDistanceMeasurepartial(event) {
+
     //移除鼠标监听移动事件
-    map.events.un({
-        "mousemove": tipMeasure
-    });
+    // map.events.un({
+    //     "mousemove": tipMeasure
+    // });
     //获取传入参数 event 的 geometry 信息
     var geometry = event.geometry;
     var measurePoint = new SuperMap.Geometry.Point(geometry.components[geometry.components.length - 1].x, geometry.components[geometry.components.length - 1].y);
@@ -534,7 +605,7 @@ function handleDistanceMeasurepartial(event) {
         //将添加的点要素的id保存起来，用于后面的清除
         featuresDistanceId.push(measureFeature.id);
         measureVL.addFeatures(measureFeature);
-        var startDiv = "<div style='position: absolute;font-size: 12px; font-family: Arial; white-space: nowrap; height: 17px; background-image: url(./images/measureDis_box_bg.gif);'>" +
+        var startDiv = "<div style='user-select:none;position: absolute;font-size: 12px; font-family: Arial; white-space: nowrap; height: 17px; background-image: url(./images/measureDis_box_bg.gif);'>" +
             "<div style='position: relative; display: inline; height: 17px; line-height: 140%; padding: 0px 2px; white-space: nowrap;'>起点</div>" +
             "<div style='position: absolute; top: 0px; left: -2px; background-image: url(./images/measureDis_box_l.gif); width: 2px; height: 17px;'></div>" +
             "<div style='position: absolute; top: 0px; right: -2px; background-image: url(./images/measureDis_box_r.gif); width: 2px; height: 17px;'></div>" +
@@ -580,10 +651,11 @@ function handleDistanceMeasurepartial(event) {
 }
 
 function handleMeasureCirclePartial(event) {
+
     //移除鼠标监听移动事件
-    map.events.un({
-        "mousemove": tipMeasureCircle
-    });
+    // map.events.un({
+    //     "mousemove": tipMeasureCircle
+    // });
     //获取传入参数 event 的 geometry 信息
     var geometry = event.geometry;
     var measureCircle = new SuperMap.Geometry.Polygon(geometry.components);
@@ -631,10 +703,11 @@ function handleMeasureCirclePartial(event) {
 
 
 function handleMeasureAreaPartial(event) {
+
     //移除鼠标监听移动事件
-    map.events.un({
-        "mousemove": tipMeasure
-    });
+    // map.events.un({
+    //     "mousemove": tipMeasure
+    // });
     //获取传入参数 event 的 geometry 信息
     var geometry = event.geometry;
     var measureArea = new SuperMap.Geometry.Polygon(geometry.components);
@@ -690,11 +763,13 @@ function handleMeasureAreaPartial(event) {
 function clearMeasureDistanceResult(event) {
     //获取要清除的是哪次量算结果
     var clearIndex = event.target.id.substring(19);
+    console.log(event)
     //根据feature的id获取该次量算绘制的点和线
     var measurefeatures = [];
     for (var i = 0; i < measureMapDistance.get(clearIndex).length; i++) {
         measurefeatures.push(measureVL.getFeatureById(measureMapDistance.get(clearIndex)[i]));
     }
+
     measureVL.removeFeatures(measurefeatures);
     //清除该次量算添加的popup
     for (var i = 0; i < popupDistanceMap.get(clearIndex).length; i++) {
@@ -755,6 +830,7 @@ function clearAllMeasureCircleResult() {
     }
     measureCircleCounts = 0;
 }
+
 function clearAllMeasureDistanceResult() {
     for (var k = 0; k < measureDistanceCounts; k++) {
         var measurefeatures = [];
@@ -770,6 +846,7 @@ function clearAllMeasureDistanceResult() {
     }
     measureDistanceCounts = 0;
 }
+
 function clearAllMeasureAreaResult() {
     for (var k = 0; k < measureAreaCounts; k++) {
         var measurefeatures = [];

@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>在线地图</title>
     <link href="../public/images/favicon.ico" type=image/x-icon rel="Shortcut Icon">
-    <link rel="stylesheet" href="../public/style/rangeslider.css">
+    <link rel="stylesheet" href="../public/lib/ion-rangeSlider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="../public/lib/ion-rangeSlider/css/ion.rangeSlider.skinHTML5.css">
     <link rel="stylesheet" href="style/map.css">
 </head>
 
@@ -26,14 +27,13 @@
                 <i class="fa fa-close"></i>
             </a>
             <div id="js-example-change-attributes">
-                <input type="range" min="1" max="" step="1" data-rangeslider>
-                <output>2017</output>
+                <input type="text" id="yearSilder" name="example_name" value="" />
                 <div style="clear:both;"></div>
             </div>
-            <p>
-                地区域包含
-                <span></span> 年影像数据
-            </p>
+            <div style="padding:5px 5px 15px 5px;float: right;margin-right: 25px;">
+                <input type="checkbox" name="switch" id="switch" checked>
+                <label for="switch">影像注记</label>
+            </div>
         </div>
         <!--卷帘-->
         <div id="handle" title="通过拖动查看图层" onMouseDown="drag(event)" style="display:none;">
@@ -102,6 +102,11 @@
         <div class="middle">
             <i class="fa fa-exchange"></i>
         </div>
+        <div class="autocompleter autocompleter-closed" id="autocompleter">
+            <div class="autocompleter-hint autocompleter-hint-show"></div>
+            <ul class="autocompleter-list">
+            </ul>
+        </div>
         <input class="endP" type="text" placeholder="请输入终点">
         <button id="s-road">
             <i class="fa fa-search"></i>
@@ -110,91 +115,91 @@
     <!-- 搜索块下方菜单块 -->
     <div class="menuPane">
         <ul>
-            <li id="restaurantPoi" onclick='queryByCategories("01");'>
+            <li id="restaurantPoi" onclick='queryByCategories("110");'>
                 <span>
                     <img src="images/icon1.png" alt="餐饮美食">
                 </span>
                 <p>餐饮美食</p>
             </li>
-            <li id="hotelPoi" onclick='queryByCategories("08");'>
+            <li id="hotelPoi" onclick='queryByCategories("120");'>
                 <span>
                     <img src="images/icon2.png" alt="宾馆酒店">
                 </span>
                 <p>宾馆酒店</p>
             </li>
-            <li id="shoppingPoi" onclick='queryByCategories("05");'>
+            <li id="shoppingPoi" onclick='queryByCategories("130");'>
                 <span>
                     <img src="images/icon3.png" alt="购物">
                 </span>
                 <p>购物</p>
             </li>
-            <li id="governmentPoi" onclick='queryByCategories("10");'>
+            <li id="governmentPoi" onclick='queryByCategories("190");'>
                 <span>
                     <img src="images/icon4.png" alt="政府机构">
                 </span>
                 <p>政府机构</p>
             </li>
-            <li id="culturePoi" onclick='queryByCategories("11");'>
+            <li id="culturePoi" onclick='queryByCategories("160");'>
                 <span>
                     <img src="images/icon5.png" alt="文化教育">
                 </span>
                 <p>文化教育</p>
             </li>
-            <li id="medicalPoi" onclick='queryByCategories("07");'>
+            <li id="medicalPoi" onclick='queryByCategories("170");'>
                 <span>
                     <img src="images/icon6.png" alt="医疗服务">
                 </span>
                 <p>医疗服务</p>
             </li>
-            <li id="spotPoi" onclick='queryByCategories("09");'>
+            <li id="spotPoi" onclick='queryByCategories("180");'>
                 <span>
                     <img src="images/icon7.png" alt="景点">
                 </span>
                 <p>景点</p>
             </li>
-            <li id="lifePoi" onclick='queryByCategories("06");'>
+            <li id="lifePoi" onclick='queryByCategories("210");'>
                 <span>
                     <img src="images/icon8.png" alt="生活服务">
                 </span>
                 <p>生活服务</p>
             </li>
-            <li id="trafficPoi" onclick='queryByCategories("12");'>
+            <li id="trafficPoi" onclick='queryByCategories("230");'>
                 <span>
                     <img src="images/icon9.png" alt="交通设施">
                 </span>
                 <p>交通设施</p>
             </li>
-            <li id="financePoi" onclick='queryByCategories("13");'>
+            <li id="financePoi" onclick='queryByCategories("150");'>
                 <span>
                     <img src="images/icon10.png" alt="金融">
                 </span>
                 <p>金融</p>
             </li>
-            <li id="placePoi" onclick='queryByCategories("14");'>
+            <li id="placePoi" onclick='queryByCategories("260");'>
                 <span>
                     <img src="images/icon11.png" alt="地名">
                 </span>
                 <p>地名</p>
             </li>
-            <li id="companyPoi" onclick='queryByCategories("15");'>
+            <li id="companyPoi" onclick='queryByCategories("220");'>
                 <span>
                     <img src="images/icon12.png" alt="公司企业">
                 </span>
                 <p>公司企业</p>
             </li>
-            <li id="sportPoi" onclick='queryByCategories("03");'>
+            <li id="sportPoi" onclick='queryByCategories("180");'>
                 <span>
                     <img src="images/icon13.png" alt="运动休闲">
                 </span>
                 <p>运动休闲</p>
             </li>
-            <li id="quartersPoi" onclick='queryByCategories("04");'>
+            <li id="quartersPoi" onclick='queryByCategories("200103");'>
                 <span>
                     <img src="images/icon14.png" alt="地产小区">
                 </span>
                 <p>地产小区</p>
             </li>
-            <li id="carPoi" onclick='queryByCategories("02");'>
+            <li id="carPoi" onclick='queryByCategories("140");'>
                 <span>
                     <img src="images/icon15.png" alt="汽车服务">
                 </span>
@@ -296,6 +301,10 @@
             <i class="fa fa-plane"></i>
             <div class="tip">空地一体</div>
         </div>
+        <div class="tools" onclick="hrefToVR()">
+            <i class="fa fa-support"></i>
+            <div class="tip">虚拟现实</div>
+        </div>
         <div class="tools" onclick="showBookMark()">
             <i class="fa fa-envira"></i>
             <div class="tip">书签</div>
@@ -308,18 +317,18 @@
             <i class="fa fa-gg"></i>
             <div class="tip">查看卷帘</div>
         </div>
-        <div class="tools" onclick="setSign()">
+        <!-- <div class="tools" onclick="setSign()">
             <i class="fa fa-map-pin"></i>
             <div class="tip">标注</div>
-        </div>
+        </div> -->
         <div class="tools" onclick="measuresAll()">
             <i class="fa fa-pencil-square-o"></i>
             <div class="tip">量 算</div>
         </div>
-        <div class="tools" onclick="allMap()">
+        <!-- <div class="tools" onclick="allMap()">
             <i class="fa fa-picture-o"></i>
             <div class="tip">全 图</div>
-        </div>
+        </div>-->
         <div class="tools" onclick="showTimelineSlider()">
             <i class="fa fa-clock-o"></i>
             <div class="tip">多时相</div>
@@ -338,17 +347,12 @@
             <div class="personMsg">
                 <ul>
                     <li>
-                        <a href="#">我的信息</a>
+                        <a id="login" href="#">登录</a>
                     </li>
                     <li>
-                        <a href="#">后台管理</a>
+                        <a id="sign" href="#">注册</a>
                     </li>
-                    <li>
-                        <a href="#">修改密码</a>
-                    </li>
-                    <li>
-                        <a href="#">注销</a>
-                    </li>
+                </ul>
                 </ul>
             </div>
         </div>
@@ -389,30 +393,30 @@
         <div class="content">
             <p>
                 <i class="fa fa-star"></i>
-                <a href="#" onclick='queryByDetailCategories("0801")'>星级宾馆</a>
-                <a href="#" onclick='queryByDetailCategories("0802")'>旅店</a>
+                <a href="#" onclick='queryByDetailCategories("120101")'>星级宾馆</a>
+                <a href="#" onclick='queryByDetailCategories("120102")'>旅店</a>
             </p>
             <p>
                 <i class="fa fa-star"></i>
-                <a href="#" onclick='queryByDetailCategories("0101")'>中餐</a>
-                <a href="#" onclick='queryByDetailCategories("0102")'>西餐</a>
-                <a href="#" onclick='queryByDetailCategories("0105")'>茶艺馆</a>
-                <a href="#" onclick='queryByDetailCategories("0103")'>快餐</a>
-                <a href="#" onclick='queryByDetailCategories("0110")'>自助餐厅</a>
-                <a href="#" onclick='queryByDetailCategories("0104")'>咖啡厅</a>
+                <a href="#" onclick='queryByDetailCategories("110101")'>中餐</a>
+                <a href="#" onclick='queryByDetailCategories("110102")'>异国风味</a>
+                <a href="#" onclick='queryByDetailCategories("110103")'>地方风味</a>
+                <a href="#" onclick='queryByDetailCategories("110304")'>茶艺馆</a>
+                <a href="#" onclick='queryByDetailCategories("110200")'>快餐</a>
+                <a href="#" onclick='queryByDetailCategories("110303")'>咖啡厅</a>
+                <a href="#" onclick='queryByDetailCategories("110302")'>冷饮店</a>
             </p>
             <p>
                 <i class="fa fa-star"></i>
-                <a href="#" onclick='queryByDetailCategories("1301")'>银行</a>
-                <a href="#" onclick='queryByDetailCategories("0701")'>医院</a>
-                <a href="#" onclick='queryByDetailCategories("0502")'>超市</a>
-                <a href="#" onclick='queryByDetailCategories("1303")'>ATM</a>
-                <a href="#" onclick='queryByDetailCategories("0208")'>停车场</a>
+                <a href="#" onclick='queryByDetailCategories("150102")'>ATM</a>
+                <a href="#" onclick='queryByDetailCategories("170100")'>医院</a>
+                <a href="#" onclick='queryByDetailCategories("130105")'>超市</a>
+                <a href="#" onclick='queryByDetailCategories("230209")'>停车场</a>
             </p>
             <p>
                 <i class="fa fa-star"></i>
-                <a href="#" onclick='queryByDetailCategories("0305")'>影剧院</a>
-                <a href="#" onclick='queryByDetailCategories("0301")'>娱乐场所</a>
+                <a href="#" onclick='queryByDetailCategories("180209")'>影剧院</a>
+                <a href="#" onclick='queryByDetailCategories("180307")'>游乐园</a>
             </p>
             <div class="search">
                 <input type="text" id="seeInput" placeholder="湖南省国土资源厅">
@@ -432,16 +436,7 @@
             <input type="text" class="bookMarkName" placeholder="请输入要添加的书签名">
             <button id="addBookMark">添加</button>
         </div>
-        <div class="BookMarks">
-            <a href="#">书签一
-                <i class="fa fa-close"></i>
-            </a>
-            <a href="#">这块区域
-                <i class="fa fa-close"></i>
-            </a>
-            <a href="#">有问题的区域
-                <i class="fa fa-close"></i>
-            </a>
+        <div class="BookMarks" id="bookmarksList">
         </div>
     </div>
 
@@ -465,10 +460,10 @@
                 <img src="../public/images/mark/zoom-out.png">
                 <span>缩 小</span>
             </li>
-            <li onclick="allMap()">
+            <!--<li onclick="allMap()">
                 <img src="../public/images/map-icon.png">
                 <span>全 图</span>
-            </li>
+            </li>-->
         </ul>
     </div>
 
@@ -487,17 +482,25 @@
     </div>
 
     <!-- 标记内容框 -->
-    <div id="setSign">
+    <!-- <div id="setSign">
         <label for="signName">标题</label>
         <input id="signName" type="text" placeholder="请填写标题">
         <label for="">内容</label>
-        <textarea name="" id="" rows="3" placeholder="请填写标记出备注"></textarea>
+        <textarea name="" id="signContent" rows="3" placeholder="请填写标记出备注"></textarea>
         <div class="btnGroup">
             <a class="btn" id="sccussSign" href="#">标记</a>
             <a class="btn" id="delSign" href="#">删除</a>
         </div>
+    </div> -->
+    <!--标记弹出框-->
+    <div class="tool-tip" id="tip">
+        <p></p>
     </div>
 
+    <!-- 底图切换提示框 -->
+    <div id="changeMsg">
+        点击此处切换底图
+    </div>
 
     <script src="../public/lib/jquery.js"></script>
     <!-- 自動補全插件 -->
@@ -517,7 +520,7 @@
     <script src="../public/lib/jquery.pagination.js"></script>
     <script src="../public/superJs/libs/SuperMap.Include.js"></script>
     <!-- 滑动条插件 -->
-    <script src="../public/lib/rangeslider.min.js"></script>
+    <script src="../public/lib/ion-rangeSlider/js/ion.rangeSlider.min.js"></script>
     <!-- 引入国家图层 -->
     <script src="js/Tianditu.js"></script>
     <!-- 关于多时相 -->

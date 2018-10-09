@@ -3,7 +3,7 @@
 这个文件放全局变量 
  */
 
-
+var mapHost = "http://hn.dzmap.cn"
 var layerGJVec = new SuperMap.Layer.AllTDTLayer({
         name: "矢量图",
         layerType: "vec",
@@ -27,19 +27,19 @@ var layerGJVec = new SuperMap.Layer.AllTDTLayer({
         useCanvas: true
     });
 var map,
-    urlVec = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/vec", //矢量服务
-    urlImg = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/img", //影像服务
-    urlCva = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/cva", //矢量注记服务
-    urlCia = "http://222.247.40.204:8091/iserver/services/map-tdt/rest/maps/cia", //影像注记服务
-    urlRoudNet = "http://222.247.40.204:8091/iserver/services/transportationAnalyst-HNNET/rest/networkanalyst/HNNET@HNNET", //路网
-    urlHNPOI = "http://222.247.40.204:8091/iserver/services/map-HNPOI/rest/maps/HNPOI", //poi
-    skyPanoUrl = "http://222.247.40.204:8091/iserver/services/map-pano/rest/maps/CloudPano", //全景
-    url2012 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/QQ_0812_80",
-    url2013 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2013_50",
-    url2014 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/img_gq2012-2014",
-    url2015 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/bdc_2015_50",
-    url2016 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/ythcs_2016_50",
-    url2017 = "http://222.247.40.204:8091/iserver/services/map-tdtnd/rest/maps/jc_2017_200",
+    urlVec = mapHost+"/iserver/services/map-tdt/rest/maps/vec", //矢量服务
+    urlImg = mapHost+"/iserver/services/map-tdt/rest/maps/img", //影像服务
+    urlCva = mapHost+"/iserver/services/map-tdt/rest/maps/cva", //矢量注记服务
+    urlCia = mapHost+"/iserver/services/map-tdt/rest/maps/cia", //影像注记服务
+    urlRoudNet = mapHost+"/iserver/services/transportationAnalyst-HNNET/rest/networkanalyst/HNNET@HNNET", //路网
+    urlHNPOI = mapHost+"/iserver/services/map-HNPOI/rest/maps/HNPOI", //poi
+    skyPanoUrl = mapHost+"/iserver/services/map-pano/rest/maps/CloudPano", //全景
+    url2012 = mapHost+"/iserver/services/map-tdtnd/rest/maps/QQ_0812_80",
+    url2013 = mapHost+"/iserver/services/map-tdtnd/rest/maps/bdc_2013_50",
+    url2014 = mapHost+"/iserver/services/map-tdtnd/rest/maps/img_gq2012-2014",
+    url2015 = mapHost+"/iserver/services/map-tdtnd/rest/maps/bdc_2015_50",
+    url2016 = mapHost+"/iserver/services/map-tdtnd/rest/maps/ythcs_2016_50",
+    url2017 = mapHost+"/iserver/services/map-tdtnd/rest/maps/jc_2017_200",
     skyPanoDatasetAtDatasource = "CloudPano@pano",
     restLayerResolutions = [
         0.703125, //0    
@@ -63,7 +63,7 @@ var map,
         0.000002682209014892578125 //18
         //0.0000013411045074462890625
     ],
-    vectorLayer, drawPoint, markerLayer, measureVL,
+    vectorLayer, drawPoint, markerLayer, measureVL,signMarkerLayer,
     curType = "vec", //当前地图类型
     cityName = "湖南省", //当前城市名
     currentSQl, currentPage = 0,

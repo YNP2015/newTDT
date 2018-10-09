@@ -1,14 +1,17 @@
 var startPointName, destPointName;
 $("#s-road").click(function () {
+    $('.autocompleter-list').html("")
     roadClick();
 });
 $(".startP").keydown(function (event) {
     if (event.keyCode == 13) {
+        $('.autocompleter-list').html("")
         roadClick();
     }
 });
 $(".endP").keydown(function (event) {
     if (event.keyCode == 13) {
+        $('.autocompleter-list').html("")
         roadClick();
     }
 });

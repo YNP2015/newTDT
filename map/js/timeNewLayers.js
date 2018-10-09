@@ -1,36 +1,56 @@
-var timeLayerName = [];
-var timeLayerYear = [];
-var timeLayerUrl = [];
+var yearSets = {}
+var years = []
 var timeNum = 2017;
 
+var currentYear = '2017年';
+var lastYear = '2017'
+$("#yearSilder").ionRangeSlider({
+    "type": "single",
+    "grid": true,
+    grid_snap: true,
+    "values": ['2017年'],
+    onFinish: function (data) {
+        currentYear = data.from_value.toString()
+        valueOutput(data.from_value)
+    }
+});
 
 function getImgResult() {
-
-    var lon = map.getExtent();
+    var lon = map.getCenter();
+    var zoom = map.getZoom()
     $.ajax({
-        url: "http://222.247.40.204:5656/Jk/services/yx/getyx",
+        url: "http://222.247.40.204:5656/Jk/services/yx/getyxbypoint",
         type: "post",
         data: {
-            "top": lon.top,
-            "bottom": lon.bottom,
-            "left": lon.left,
-            "right": lon.right
+            "lon": lon.lon,
+            "lat": lon.lat,
+            "lev": zoom + 1
         },
         dataType: "json",
         success: function (result) {
-            timeLayerName = [];
-            timeLayerYear = [];
-            timeLayerUrl = [];
-            for (var i = 0; i < result.length; i++) {
-                if (result[i].name.search("0.5米") == -1 && result[i].name.search("1米") == -1) {
-                    timeLayerName.push(result[i].name);
-                    timeLayerYear.push(result[i].year);
-                    timeLayerUrl.push(result[i].url);
-                }
+            yearSets = {}
+            years = []
+            if (result.length <= 0) {
+                startSlider(['2017年']);
             }
-            // console.log(timeLayerYear);
-            startSlider(timeLayerYear);
-            $(".elementWrap p span").text(timeLayerYear);
+            for (var i = 0; i < result.length; i++) {
+                var year = result[i].year
+                if (result[i].name.indexOf("0.5米") != -1) {
+                    year += "年(0.5米)"
+                } else if (result[i].name.indexOf("1米") != -1) {
+                    year += "年(1米)"
+                } else {
+                    year += "年"
+                }
+                years.push(year)
+                yearSets[year] = {
+                    name: result[i].name,
+                    year: year,
+                    url: result[i].url
+                }
+                console.log(yearSets)
+            }
+            startSlider(years);
         }
     })
 }
@@ -38,86 +58,63 @@ function getImgResult() {
 
 /* 启动滑块功能 */
 function startSlider(current) {
-    var selector = '[data-rangeslider]';
-    $(document).on('input', selector, function (e) {
-        valueOutput(e.target);
-    });
-    $(selector).rangeslider({
-        polyfill: false
-    });
-    var attributes = {
-        max: current.length,
-    };
-    $(selector).attr(attributes).rangeslider('update', true);
-    var value = current.length;
-    for (var a = 0; a < value; a++) {
-        if (timeLayerYear[a] == timeNum) {
-            value = a + 1;
-        }else{
-            value = current.length;
-        }
-    }
-    $(selector).val(value).change();
-}
 
-function valueOutput(element) {
-    var value = element.value; //当前滑动条的位置 从1开始计数
-    var output = element.parentNode.getElementsByTagName('output')[0];
-    var a = value - 1; //滑动条对应数组位置
-    output.innerHTML = timeLayerYear[a];
-    showYearLayers(timeLayerYear[a]);
-    timeNum = output.innerHTML;
-}
-
-function showYearLayers(a) {
-    var x = map.getCenter().lat;
-    var y = map.getCenter().lon;
-    map.setCenter(new SuperMap.LonLat(y, x), 14);
-    if (a == "2012") {
-        layer2012.setVisibility(1);
-        layer2013.setVisibility(0);
-        layer2014.setVisibility(0);
-        layer2015.setVisibility(0);
-        layer2016.setVisibility(0);
-        layer2017.setVisibility(0);
-    } else if (a == "2013") {
-        layer2012.setVisibility(0);
-        layer2013.setVisibility(1);
-        layer2014.setVisibility(0);
-        layer2015.setVisibility(0);
-        layer2016.setVisibility(0);
-        layer2017.setVisibility(0);
-    } else if (a == "2014") {
-        layer2012.setVisibility(0);
-        layer2013.setVisibility(0);
-        layer2014.setVisibility(1);
-        layer2015.setVisibility(0);
-        layer2016.setVisibility(0);
-        layer2017.setVisibility(0);
-    } else if (a == "2015") {
-        layer2012.setVisibility(0);
-        layer2013.setVisibility(0);
-        layer2014.setVisibility(0);
-        layer2015.setVisibility(1);
-        layer2016.setVisibility(0);
-        layer2017.setVisibility(0);
-    } else if (a == "2016") {
-        layer2012.setVisibility(0);
-        layer2013.setVisibility(0);
-        layer2014.setVisibility(0);
-        layer2015.setVisibility(0);
-        layer2016.setVisibility(1);
-        layer2017.setVisibility(0);
-    } else if (a == "2017") {
-        layer2012.setVisibility(0);
-        layer2013.setVisibility(0);
-        layer2014.setVisibility(0);
-        layer2015.setVisibility(0);
-        layer2016.setVisibility(0);
-        layer2017.setVisibility(1);
+    var slider = $("#yearSilder").data("ionRangeSlider");
+    if (current.length == 1) {
+        slider.update({
+            values: [current[0], current[0]],
+            from: current.length,
+            disable: true
+        });
+        currentYear = slider.result.from_value.toString()
+        valueOutput(slider.result.from_value)
     } else {
-        $(".errorPane").fadeIn();
-        $(".errorPane .bottom").text("数据出错！");
-        return;
+        var fromValue = current.length
+        if (current.indexOf(currentYear) != -1) {
+            fromValue = current.indexOf(currentYear)
+        } else {
+
+            valueOutput(current[current.length - 1])
+        }
+        slider.update({
+            values: current,
+            from: fromValue,
+            disable: false
+        });
     }
+    // Call sliders update method with any params
+}
+
+function valueOutput(year) {
+    showYearLayers(year);
+    timeNum = year;
+}
+
+function showYearLayers(year) {
+    var slayer = map.getLayersByName("多时相")
+    if (slayer && slayer.length > 0) {
+        slayer.forEach(function (layer) {
+            map.removeLayer(layer)
+            layer.destroy()
+        });
+    }
+    if (year == '2017年') {
+        return
+    }
+    if (yearSets.length <= 0) {
+        return
+    }
+    console.log(year)
+    var Ylayer = new SuperMap.Layer.TiledDynamicRESTLayer("多时相", yearSets[year].url, {
+        transparent: true,
+        cacheEnabled: true
+    }, {
+        resolutions: restLayerResolutions
+    })
+    Ylayer.events.on({
+        "layerInitialized": function (layer) {
+            map.addLayer(layer)
+            map.setLayerIndex(layerCia, 99) //影像注记设置高得多显示index    
+        }
+    });
 }

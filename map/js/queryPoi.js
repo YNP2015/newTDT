@@ -66,7 +66,7 @@ function queryByCategories(typename1) {
     $(".menuPane").hide();
     isAllSearching = true;
     currentPage = 0;
-    var sql = "TYPENAME1='" + typename1 + "'";
+    var sql = "CLASID LIKE '" + typename1 + "%'";
     isQueryByCatagoriesNotByES = true;
     queryPOI(sql, 0);
 }
@@ -76,7 +76,7 @@ function queryByDetailCategories(typename2) {
     $(".menuPane").hide();
     isAllSearching = false;
     globalCurBounds = map.getExtent();
-    var sql = "TYPENAME2='" + typename2 + "'";
+    var sql = "CLASID LIKE '" + typename2 + "%'";
     currentPage = 0;
     queryPOI(sql, 0);
 }
@@ -97,7 +97,7 @@ function queryPOI(sql, start) {
     var queryParam, queryParams, queryService;
     queryParam = new SuperMap.REST.FilterParameter({
         name: queryDatasetName,
-        fields: ["SmID", "SmX", "SmY", "RNAME", "ADDRESS", "TYPENAME1", "TELEPHONE"],
+        fields: ["SmID", "SmX", "SmY", "RNAME", "ADDRESS", "CLASID", "TELEPHONE"],
         orderBy: "IMPORTANCE DESC",
         queryOption: SuperMap.REST.QueryOption.ATTRIBUTE,
         attributeFilter: sql
@@ -133,7 +133,6 @@ function queryPOI(sql, start) {
 }
 
 function processCompletedPOI(queryEventArgs) {
-    console.log(queryEventArgs);
     markerLayer.clearMarkers();
     var result = queryEventArgs.result;
     if (result && result.recordsets) {
@@ -154,8 +153,14 @@ function processCompletedPOI(queryEventArgs) {
         showQueryResult(showFeatures); //列表结果以及地图结果
     }
     if (totalNumb == 0 && !isAroudSearchOpen) {
-        $(".errorPane").fadeIn();
-        $(".errorPane .bottom").text("无查询结果！");
+        var city = $(".mapPot span").html();
+        if (city == "湖南省") {
+            $(".errorPane").fadeIn();
+            $(".errorPane .bottom").text("无查询结果！");
+        } else {
+            $(".errorPane").fadeIn();
+            $(".errorPane .bottom").text("请调至更大范围搜索！");
+        }
         return;
     }
     $(".resultPane").fadeIn();
@@ -229,11 +234,11 @@ function showQueryResult(features) { //显示搜索结果
             "<div class='Paddr'><span class='n-grey' title='" + addr + "'>" + addr + "</span></div><div class='Ptel'>" + tel + "</div>" +
             "</li>";
         if (i == 0 && isAroudSearchOpen == false) { //不要影像周边查询时的范围显示
-            if (isSkyPanoQuery){
+            if (isSkyPanoQuery) {
                 map.setCenter(new SuperMap.LonLat(smx, smy), 9);
-            }else{
+            } else {
                 map.setCenter(new SuperMap.LonLat(smx, smy), 11);
-            }  
+            }
         }
     }
     resultContent += "</ul>";
@@ -271,7 +276,7 @@ function clickSearchResultPanel(smx, smy, num) {
 
 function poiPointSelect(selectFeature) {
     var poiName, poiAddress, poiNum, poiContent;
-    if ((selectFeature.attributes["TYPENAME1"] || selectFeature.attributes["TYPENAME1"] == "") && selectFeature.attributes["SkyPanoID"] == undefined) {
+    if (!isSkyPanoQuery) {
         poiName = selectFeature.attributes["RNAME"];
         poiAddress = selectFeature.attributes["ADDRESS"];
         poiNum = selectFeature.attributes["TELEPHONE"];
@@ -298,7 +303,7 @@ function poiPointSelect(selectFeature) {
         map.addPopup(selectFearturePopup);
         bindqueryAroundSearch(x, y, selectFeature);
         $(".resultPane").fadeOut(300, function () { //隐藏结果面板的同时显示POI点的详细信息
-            $(".poiMsg").fadeIn();  
+            $(".poiMsg").fadeIn();
             $(".poiMsg .name span").text(poiName);
             $(".poiMsg .addr span").text(poiAddress);
             $(".poiMsg .phone span").text(poiNum);

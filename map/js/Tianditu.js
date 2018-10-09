@@ -17,10 +17,10 @@ SuperMap.Layer.AllTDTLayer = SuperMap.Class(SuperMap.CanvasLayer, {
 
     //定义URL模板
     url: {
-        "tdt_vec": "http://t0.tianditu.com/DataServer?T=vec_c&x=${x}&y=${y}&l=${z}",
-        "tdt_cva": "http://t0.tianditu.com/DataServer?T=cva_c&x=${x}&y=${y}&l=${z}",
-        "tdt_img": "http://t0.tianditu.com/DataServer?T=img_c&x=${x}&y=${y}&l=${z}",
-        "tdt_cia": "http://t0.tianditu.com/DataServer?T=cia_c&x=${x}&y=${y}&l=${z}",
+        "tdt_vec": "http://t0.tianditu.com/DataServer?T=vec_c&x=${x}&y=${y}&l=${z}&token=28b495e4df789d971d2ae77b01a55a55",
+        "tdt_cva": "http://t0.tianditu.com/DataServer?T=cva_c&x=${x}&y=${y}&l=${z}&token=28b495e4df789d971d2ae77b01a55a55",
+        "tdt_img": "http://t0.tianditu.com/DataServer?T=img_c&x=${x}&y=${y}&l=${z}&token=28b495e4df789d971d2ae77b01a55a55",
+        "tdt_cia": "http://t0.tianditu.com/DataServer?T=cia_c&x=${x}&y=${y}&l=${z}&token=28b495e4df789d971d2ae77b01a55a55",
 
         "sheng_vec": "http://222.247.40.204:8091/iserver/services/map-vec/wmts/vec/default/Custom_vec/${z}/${y}/${x}.png",
         "sheng_cva": "http://222.247.40.204:8091/iserver/services/map-cva/wmts/cva/default/Custom_cva/${z}/${y}/${x}.png",

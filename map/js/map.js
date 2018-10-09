@@ -8,6 +8,7 @@ function init() {
     vectorLayer = new SuperMap.Layer.Vector("Vector Layer");
     measureVL = new SuperMap.Layer.Vector("measureVectorlayer"); //量算图层
     markerLayer = new SuperMap.Layer.Markers("Markers");
+    signMarkerLayer = new SuperMap.Layer.Markers("书签标记图层");
     drawPoint = new SuperMap.Control.DrawFeature(vectorLayer, SuperMap.Handler.Point);
     drawPoint.events.on({
         "featureadded": drawCompleted
@@ -15,12 +16,12 @@ function init() {
     map = new SuperMap.Map("map", {
         controls: [
             new SuperMap.Control.ScaleLine(),
-            new SuperMap.Control.MousePosition({
+			new SuperMap.Control.MousePosition({
                 numDigits: 2,
                 prefix: "经度:",
                 separator: "&nbsp&nbsp&nbsp&nbsp纬度:"
             }),
-            new SuperMap.Control.LayerSwitcher(), //图层控制器
+            //new SuperMap.Control.LayerSwitcher(),  //图层控制器
             new SuperMap.Control.Navigation({
                 dragPanOptions: {
                     enableKinetic: true
@@ -63,42 +64,7 @@ function init() {
     }, {
         resolutions: restLayerResolutions
     });
-    layer2012 = new SuperMap.Layer.TiledDynamicRESTLayer("2012年影像", url2012, {
-        transparent: true,
-        cacheEnabled: true
-    }, {
-        resolutions: restLayerResolutions
-    });
-    layer2013 = new SuperMap.Layer.TiledDynamicRESTLayer("2013年影像", url2013, {
-        transparent: true,
-        cacheEnabled: true
-    }, {
-        resolutions: restLayerResolutions
-    });
-    layer2014 = new SuperMap.Layer.TiledDynamicRESTLayer("2014年影像", url2014, {
-        transparent: true,
-        cacheEnabled: true
-    }, {
-        resolutions: restLayerResolutions
-    });
-    layer2015 = new SuperMap.Layer.TiledDynamicRESTLayer("2015年影像", url2015, {
-        transparent: true,
-        cacheEnabled: true
-    }, {
-        resolutions: restLayerResolutions
-    });
-    layer2016 = new SuperMap.Layer.TiledDynamicRESTLayer("2016年影像", url2016, {
-        transparent: true,
-        cacheEnabled: true
-    }, {
-        resolutions: restLayerResolutions
-    });
-    layer2017 = new SuperMap.Layer.TiledDynamicRESTLayer("2017年影像", url2017, {
-        transparent: true,
-        cacheEnabled: true
-    }, {
-        resolutions: restLayerResolutions
-    });
+
     layerVec.events.on({
         "layerInitialized": addLayerVec
     });
@@ -116,16 +82,9 @@ function addLayerVec() {
 
 //添加图层函数
 function addLayer() {
-    map.addLayers([layerGJImg, layerGJCia, layerVec, layerCva, layerImg, layerCia, markerLayer, measureVL, dragCircleLayer, vectorLayer, layer2012, layer2013, layer2014, layer2015, layer2016, layer2017]);
-    layerImg.setVisibility(false);
+    map.addLayers([layerGJImg, layerGJCia, layerVec, layerCva, layerImg, layerCia, markerLayer, measureVL, dragCircleLayer, vectorLayer]);
     map.setCenter(new SuperMap.LonLat(112.977818, 28.116027), 10);
     /* 关闭所有多时相图层 */
-    layer2012.setVisibility(0);
-    layer2013.setVisibility(0);
-    layer2014.setVisibility(0);
-    layer2015.setVisibility(0);
-    layer2016.setVisibility(0);
-    layer2017.setVisibility(0);
     layerGJImg.setVisibility(0);
     layerGJCia.setVisibility(0);
     layerVec.setVisibility(0);
@@ -142,7 +101,7 @@ function addLayer() {
     map.events.on({
         "move": mapMove
     });
-    /* 地址栏分析  */
+		/* 地址栏分析  */
     function GetQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = encodeURI(window.location.search).substr(1).match(reg);
@@ -166,6 +125,7 @@ function addLayer() {
 
 function mapClick() {
     $(".menuPane").fadeOut(); //菜单块消失
+    $('.autocompleter-list').html("") //搜索提示框清空
 }
 
 //获取地图级别以及切换底图
@@ -173,76 +133,7 @@ function getZoomNum() {
     var startExtent = map.getZoom() + 1,
         zoom = map.getZoom();
     $("#mapNum").text(startExtent);
-    /* 底图控制 */
-    // if (!isRollingScreenOpen) { //卷帘关闭
-    //     map.setLayerIndex(layerVec, 4);
-    //     map.setLayerIndex(layerCva, 5);
-    //     map.setLayerIndex(layerImg, 6);
-    //     map.setLayerIndex(layerCia, 7);
-    //     if (curType == "vec") { //当底图为矢量时候
-    //         layerGJVec.setVisibility(1);
-    //         layerGJCva.setVisibility(1);
-    //         layerGJImg.setVisibility(0);
-    //         layerGJCia.setVisibility(0);
-    //         layerImg.setVisibility(0);
-    //         layerCia.setVisibility(0);
-    //         if (zoom <= 6) {
-    //             if (zoom >= 5 && zoom <= 6) {
-    //                 layerVec.setVisibility(1);
-    //                 layerCva.setVisibility(1);
-    //             } else {
-    //                 layerVec.setVisibility(0);
-    //                 layerCva.setVisibility(0);
-    //             }
-    //         } else {
-    //             layerGJVec.setVisibility(0);
-    //             layerGJCva.setVisibility(0);
-    //             layerVec.setVisibility(1);
-    //             layerCva.setVisibility(1);
-    //         }
-    //     } else { //当底图不是矢量的时候
-    //         layerGJVec.setVisibility(0);
-    //         layerGJCva.setVisibility(0);
-    //         layerVec.setVisibility(0);
-    //         layerCva.setVisibility(0);
-    //         layerGJImg.setVisibility(1);
-    //         layerGJCia.setVisibility(1);
-    //         if (zoom <= 6) {
-    //             if (zoom >= 5 && zoom <= 6) {
-    //                 layerImg.setVisibility(1);
-    //                 layerCia.setVisibility(1);
-    //             } else {
-    //                 layerImg.setVisibility(0);
-    //                 layerCia.setVisibility(0);
-    //             }
-    //         } else {
-    //             layerGJImg.setVisibility(0);
-    //             layerGJCia.setVisibility(0);
-    //             layerImg.setVisibility(1);
-    //             layerCia.setVisibility(1);
-    //         }
-    //     }
-    // } else { //卷帘开启
-    //     if (zoom <= 6) {
-    //         layerGJVec.setVisibility(1);
-    //         layerGJCva.setVisibility(1);
-    //         layerGJImg.setVisibility(1);
-    //         layerGJCia.setVisibility(1);
-    //         layerVec.setVisibility(0);
-    //         layerCva.setVisibility(0);
-    //         layerImg.setVisibility(0);
-    //         layerCia.setVisibility(0);
-    //     } else {
-    //         layerGJVec.setVisibility(0);
-    //         layerGJCva.setVisibility(0);
-    //         layerGJImg.setVisibility(0);
-    //         layerGJCia.setVisibility(0);
-    //         layerVec.setVisibility(1);
-    //         layerCva.setVisibility(1);
-    //         layerImg.setVisibility(1);
-    //         layerCia.setVisibility(1);
-    //     }
-    // }
+
 }
 
 /* 鼠标右键 */
